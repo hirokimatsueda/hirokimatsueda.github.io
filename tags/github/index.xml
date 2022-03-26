@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GitHub on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/github/</link>
+    <description>Recent content in GitHub on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Sat, 26 Mar 2022 14:41:42 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Static Web Appsの連携先GitHubリポジトリを変更する方法</title>
+      <link>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</link>
+      <pubDate>Sat, 26 Mar 2022 14:41:42 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</guid>
+      <description>Static Web Apps (静的 Web アプリ) って便利ですよね！ 単品のリソース構築で、CDN、Web サーバー、API サーバー、カスタムドメイン with HTTPS、アプリの自動デプロイが一気に実現できるので、これからどんどん活用したいです。
+ただ私はまだ慣れていないので、アプリを検証用の GitHub リポジトリで用意してインフラを作り、後から参照する GitHub リポジトリを差し替えたくなりました。 その手順が簡単に分からなかったので、本記事で整理したいと思います。
+概要 az staticwebapp disconnect してから az staticwebapp update しましょう。
+手順 Azure CLI で対応できました。 まずはいつも通り、Azure CLI で Azure にログインします。
+az login -t tenant-id az account set -s subscription-id 続いて、az staticwebapp disconnect を使用して Static Web Apps を GitHub リポジトリから切断します。
+az staticwebapp disconnect --name static-web-app-name この状態で Azure ポータルから Static Web Apps の概要画面を眺めると、確かに GitHub リポジトリとの関連が無くなっていることが分かります。
+最後に az staticwebapp update を実行して、目的の GitHub リポジトリと接続してあげましょう。 GitHub の Personal Access Token が必要です。 (記事執筆時点では –login-with-github のオプションは指定できませんでした)</description>
+    </item>
+    
+  </channel>
+</rss>
