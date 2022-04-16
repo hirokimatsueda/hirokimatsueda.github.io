@@ -7,11 +7,11 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 26 Mar 2022 14:41:42 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Mar 2022 14:41:42 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Static Web Appsの連携先GitHubリポジトリを変更する方法</title>
       <link>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</link>
-      <pubDate>Sat, 26 Mar 2022 14:41:42 +0900</pubDate>
+      <pubDate>Tue, 22 Mar 2022 14:41:42 +0900</pubDate>
       
       <guid>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</guid>
       <description>Static Web Apps (静的 Web アプリ) って便利ですよね！ 単品のリソース構築で、CDN、Web サーバー、API サーバー、カスタムドメイン with HTTPS、アプリの自動デプロイが一気に実現できるので、これからどんどん活用したいです。

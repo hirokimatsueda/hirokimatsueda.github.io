@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Static Web AppsのAPIでマネージドIDを使う方法 | 備忘録</title>
+<meta name="keywords" content="Static Web Apps, 静的Webサイト, API" />
+<meta name="description" content="Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
+API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
+API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
+Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
+このため、 独自の関数の使用 を選択する必要があります。
+・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
+https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
+独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
+ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Static Web AppsのAPIでマネージドIDを使う方法" />
+<meta property="og:description" content="Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
+API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
+API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
+Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
+このため、 独自の関数の使用 を選択する必要があります。
+・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
+https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
+独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
+ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-04-12T11:34:24&#43;09:00" />
+<meta property="article:modified_time" content="2022-04-12T11:34:24&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Static Web AppsのAPIでマネージドIDを使う方法"/>
+<meta name="twitter:description" content="Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
+API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
+API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
+Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
+このため、 独自の関数の使用 を選択する必要があります。
+・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
+https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
+独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
+ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Static Web AppsのAPIでマネージドIDを使う方法",
+      "item": "https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Static Web AppsのAPIでマネージドIDを使う方法",
+  "name": "Static Web AppsのAPIでマネージドIDを使う方法",
+  "description": "Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。\nAPI をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。\nAPI から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。\nStatic Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。\nhttps://docs.microsoft.com/ja-jp/azure/static-web-apps/apis\nこのため、 独自の関数の使用 を選択する必要があります。\n・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。\nhttps://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token\n独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。\nhttps://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own\nドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。",
+  "keywords": [
+    "Static Web Apps", "静的Webサイト", "API"
+  ],
+  "articleBody": "Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。\nAPI をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。\nAPI から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。\nStatic Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。\nhttps://docs.microsoft.com/ja-jp/azure/static-web-apps/apis\nこのため、 独自の関数の使用 を選択する必要があります。\n・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。\nhttps://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token\n独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。\nhttps://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own\nドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。\n注意点としては、GitHub Actions で CI/CD を既にマネージド関数仕様で組んでいる場合、api_location のパスを空文字にしておく必要があります。\nちなみに Azure ポータル以外にも REST API を叩いても設定できますので、自動構築もできちゃいますね。\nhttps://docs.microsoft.com/en-us/rest/api/appservice/static-sites/register-user-provided-function-app-with-static-site\nまとめ Static Web Apps の API でマネージド ID を使用したい場合はマネージド ID が有効な Functions を用意し、独自の関数の使用 の設定を行いリンクしましょう。\n",
+  "wordCount" : "103",
+  "inLanguage": "en",
+  "datePublished": "2022-04-12T11:34:24+09:00",
+  "dateModified": "2022-04-12T11:34:24+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Static Web AppsのAPIでマネージドIDを使う方法
+    </h1>
+    <div class="post-meta"><span title='2022-04-12 11:34:24 +0900 JST'>April 12, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。</p>
+<p>API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。</p>
+<p>API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。</p>
+<h2 id="static-web-apps-の-api-は-2-種類">Static Web Apps の API は 2 種類<a hidden class="anchor" aria-hidden="true" href="#static-web-apps-の-api-は-2-種類">#</a></h2>
+<p>Static Web Apps の API は <strong>マネージド関数</strong> と <strong>独自の関数</strong> の使用という 2 つの構成が存在します。
+マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。</p>
+<p><a href="https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis">https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis</a></p>
+<p>このため、 <strong>独自の関数の使用</strong> を選択する必要があります。</p>
+<p>・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。
+マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。
+上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。</p>
+<p><a href="https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token">https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token</a></p>
+<h2 id="独自の関数の使用">独自の関数の使用<a hidden class="anchor" aria-hidden="true" href="#独自の関数の使用">#</a></h2>
+<p>下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。</p>
+<p><a href="https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own">https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own</a></p>
+<p>ドキュメントを見なくてもできちゃうくらい簡単です。
+まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。</p>
+<p>注意点としては、GitHub Actions で CI/CD を既にマネージド関数仕様で組んでいる場合、api_location のパスを空文字にしておく必要があります。</p>
+<p>ちなみに Azure ポータル以外にも REST API を叩いても設定できますので、自動構築もできちゃいますね。</p>
+<p><a href="https://docs.microsoft.com/en-us/rest/api/appservice/static-sites/register-user-provided-function-app-with-static-site">https://docs.microsoft.com/en-us/rest/api/appservice/static-sites/register-user-provided-function-app-with-static-site</a></p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>Static Web Apps の API でマネージド ID を使用したい場合はマネージド ID が有効な Functions を用意し、<strong>独自の関数の使用</strong> の設定を行いリンクしましょう。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/static-web-apps/">Static Web Apps</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/">静的Webサイト</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/api/">API</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Tags | 備忘録</title>
+<title>API | 備忘録</title>
 <meta name="keywords" content="" />
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://hirokimatsueda.github.io/tags/" />
+<link rel="canonical" href="https://hirokimatsueda.github.io/tags/api/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://hirokimatsueda.github.io/tags/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://hirokimatsueda.github.io/tags/api/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,13 +55,13 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Tags" />
+</noscript><meta property="og:title" content="API" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://hirokimatsueda.github.io/tags/" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/tags/api/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
+<meta name="twitter:title" content="API"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -109,25 +109,32 @@
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"> 
 <header class="page-header">
-    <h1>Tags</h1>
+  <h1>API</h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://hirokimatsueda.github.io/tags/api/">API <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://hirokimatsueda.github.io/tags/github/">GitHub <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://hirokimatsueda.github.io/tags/static-web-apps/">Static Web Apps <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://hirokimatsueda.github.io/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/">静的Webサイト <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Static Web AppsのAPIでマネージドIDを使う方法
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
+API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
+API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
+Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
+このため、 独自の関数の使用 を選択する必要があります。
+・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
+https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
+独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
+https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
+ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-04-12 11:34:24 +0900 JST'>April 12, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Static Web AppsのAPIでマネージドIDを使う方法" href="https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/"></a>
+</article>
     </main>
     
 <footer class="footer">
