@@ -168,6 +168,25 @@ az staticwebapp disconnect --name static-web-app-name この状態で Azure ポ�
   <footer class="entry-footer"><span title='2022-03-22 14:41:42 +0900 JST'>March 22, 2022</span></footer>
   <a class="entry-link" aria-label="post link to Static Web Appsの連携先GitHubリポジトリを変更する方法" href="https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/"></a>
 </article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>マネージドIDを使用してRunbookからAzureリソースを操作する
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
+操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
+このまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
+Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
+作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
+Automation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
+Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。
+PowerShell のコードを記載する画面になりますが、一旦そっと閉じます。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2021-12-12 12:06:20 +0900 JST'>December 12, 2021</span></footer>
+  <a class="entry-link" aria-label="post link to マネージドIDを使用してRunbookからAzureリソースを操作する" href="https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/"></a>
+</article>
     </main>
     
 <footer class="footer">

@@ -34,5 +34,17 @@
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</loc>
     <lastmod>2022-03-22T14:41:42+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/managed-id/</loc>
+    <lastmod>2021-12-12T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/runbook/</loc>
+    <lastmod>2021-12-12T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</loc>
+    <lastmod>2021-12-12T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/</loc>
+    <lastmod>2021-12-12T12:06:20+09:00</lastmod>
   </url>
 </urlset>
