@@ -9,12 +9,11 @@
 <meta name="keywords" content="Managed ID, マネージドID, Runbook" />
 <meta name="description" content="マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
 操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-このまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
+Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
 Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
 作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-Automation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。
-PowerShell のコードを記載する画面になりますが、一旦そっと閉じます。">
+ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
+Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.">
 <meta name="author" content="">
 <link rel="canonical" href="https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
@@ -66,12 +65,11 @@ PowerShell のコードを記載する画面になりますが、一旦そっと
 </noscript><meta property="og:title" content="マネージドIDを使用してRunbookからAzureリソースを操作する" />
 <meta property="og:description" content="マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
 操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-このまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
+Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
 Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
 作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-Automation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。
-PowerShell のコードを記載する画面になりますが、一旦そっと閉じます。" />
+ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
+Runbook の種類に PowerShell を選び、ランタイムバージョンは 5." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-12-12T12:06:20&#43;09:00" />
@@ -81,12 +79,11 @@ PowerShell のコードを記載する画面になりますが、一旦そっと
 <meta name="twitter:title" content="マネージドIDを使用してRunbookからAzureリソースを操作する"/>
 <meta name="twitter:description" content="マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
 操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-このまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
+Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
 Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
 作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-Automation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。
-PowerShell のコードを記載する画面になりますが、一旦そっと閉じます。"/>
+ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
+Runbook の種類に PowerShell を選び、ランタイムバージョンは 5."/>
 
 
 <script type="application/ld+json">
@@ -115,12 +112,12 @@ PowerShell のコードを記載する画面になりますが、一旦そっと
   "@type": "BlogPosting",
   "headline": "マネージドIDを使用してRunbookからAzureリソースを操作する",
   "name": "マネージドIDを使用してRunbookからAzureリソースを操作する",
-  "description": "マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。\n操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。\nこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。\nRunbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。\n作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）\nAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。\nRunbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。\nPowerShell のコードを記載する画面になりますが、一旦そっと閉じます。",
+  "description": "マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。\n操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。\n\rScreenshot\r\r\rこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。\nRunbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。\n作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）\n\rScreenshot\r\r\rAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。\nRunbook の種類に PowerShell を選び、ランタイムバージョンは 5.",
   "keywords": [
     "Managed ID", "マネージドID", "Runbook"
   ],
-  "articleBody": "マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。\n操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。\nこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。\nRunbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。\n作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）\nAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。\nRunbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。\nPowerShell のコードを記載する画面になりますが、一旦そっと閉じます。\nマネージド ID が プライベート DNS ゾーンを操作できるようにする Azure ポータルからプライベート DNS ゾーンの「アクセス制御（IAM）」を開きます。 上の「＋追加」を押して、「ロールの割り当ての追加」をクリックします。\nロールの一覧が出るので、「プライベート DNS ゾーンの共同作成者」を選択して次へを押します。\nメンバーの選択画面になるので、アクセスの割当先を「マネージド ID」にして、「＋メンバーを選択する」をクリックします。 すると、マネージド ID の選択画面が表示されるので、マネージド ID のプルダウンから「Automation アカウント」を選択し、先ほど作成した Automation アカウントの名前（記事通りであれば blogaccount）を選択して「選択」をクリックします。\n「レビューと割り当て」をクリックすると、ロールの割り当てが完了し、Automation アカウント（の Runbook 等）からプライベート DNS ゾーンがマネージド ID で操作できるようになりました。\nプライベート DNS ゾーンを操作する PowerShell を実装する 再び Automation アカウントのポータル画面に戻り、 プロセス オートメーション – Runbook を開き、 作成した空の Runbook（Add-PrivateDnsRecord）を開きます。\n「編集」をクリックして、下記の PowerShell を記載し保存、公開してください。\n1 行目の Add-AzAccount -identity により、マネージド ID を利用して Azure にログインした状態になります。 サービスプリンシパルの場合はクレデンシャル情報を作って Connect-AzAccount を使用するので面倒ですが、マネージド ID はシークレットの概念が無いのでシンプルですね。\n2 行目の New-AzPrivateDnsRecordSet で、プライベート DNS ゾーンにレコードを追加します。\nRunbook を実行してみる 公開された Runbook は「開始」ができるようになります。 （保存だけではダメです、公開しましょう）\n開始を押してみましょう。ジョブの画面が表示されます。 「全てのログ」のところを開いておくと、処理完了後に自動的に情報が出るようです。\nエラーなどが出ていなければ成功してしそうなので、プライベート DNS ゾーンの画面に行ってみましょう。\nA レコードが追加されていたら成功です！\nまとめ マネージド ID を使用して、権限面で安全に Azure リソースの操作ができることが分かりました。\nTerraform や Runbook の Webhook を活用すれば、高度な自動化処理も実現できますね。 運用負荷軽減の自動化、頑張っていきましょう！\n",
-  "wordCount" : "168",
+  "articleBody": "マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。\n操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。\n\rScreenshot\r\r\rこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。\nRunbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。\n作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）\n\rScreenshot\r\r\rAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。\nRunbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。 Runbook 名は Add-PrivateDnsRecord にしましょうか。\n\rScreenshot\r\r\rPowerShell のコードを記載する画面になりますが、一旦そっと閉じます。\nマネージド ID が プライベート DNS ゾーンを操作できるようにする Azure ポータルからプライベート DNS ゾーンの「アクセス制御（IAM）」を開きます。 上の「＋追加」を押して、「ロールの割り当ての追加」をクリックします。\n\rScreenshot\r\r\rロールの一覧が出るので、「プライベート DNS ゾーンの共同作成者」を選択して次へを押します。\nメンバーの選択画面になるので、アクセスの割当先を「マネージド ID」にして、「＋メンバーを選択する」をクリックします。 すると、マネージド ID の選択画面が表示されるので、マネージド ID のプルダウンから「Automation アカウント」を選択し、先ほど作成した Automation アカウントの名前（記事通りであれば blogaccount）を選択して「選択」をクリックします。\n「レビューと割り当て」をクリックすると、ロールの割り当てが完了し、Automation アカウント（の Runbook 等）からプライベート DNS ゾーンがマネージド ID で操作できるようになりました。\n\rScreenshot\r\r\rプライベート DNS ゾーンを操作する PowerShell を実装する 再び Automation アカウントのポータル画面に戻り、 プロセス オートメーション – Runbook を開き、 作成した空の Runbook（Add-PrivateDnsRecord）を開きます。\n「編集」をクリックして、下記の PowerShell を記載し保存、公開してください。\n1 行目の Add-AzAccount -identity により、マネージド ID を利用して Azure にログインした状態になります。 サービスプリンシパルの場合はクレデンシャル情報を作って Connect-AzAccount を使用するので面倒ですが、マネージド ID はシークレットの概念が無いのでシンプルですね。\n2 行目の New-AzPrivateDnsRecordSet で、プライベート DNS ゾーンにレコードを追加します。\nRunbook を実行してみる 公開された Runbook は「開始」ができるようになります。 （保存だけではダメです、公開しましょう）\n\rScreenshot\r\r\r開始を押してみましょう。ジョブの画面が表示されます。 「全てのログ」のところを開いておくと、処理完了後に自動的に情報が出るようです。\nエラーなどが出ていなければ成功してしそうなので、プライベート DNS ゾーンの画面に行ってみましょう。\nA レコードが追加されていたら成功です！\n\rScreenshot\r\r\rまとめ マネージド ID を使用して、権限面で安全に Azure リソースの操作ができることが分かりました。\nTerraform や Runbook の Webhook を活用すれば、高度な自動化処理も実現できますね。 運用負荷軽減の自動化、頑張っていきましょう！\n",
+  "wordCount" : "175",
   "inLanguage": "en",
   "datePublished": "2021-12-12T12:06:20+09:00",
   "dateModified": "2021-12-12T12:06:20+09:00",
@@ -201,23 +198,53 @@ Runbook を用いてプライベート DNS ゾーンの操作を自動化を実�
 <h2 id="操作対象のリソースプライベート-dns-ゾーンの用意">操作対象のリソース（プライベート DNS ゾーン）の用意<a hidden class="anchor" aria-hidden="true" href="#操作対象のリソースプライベート-dns-ゾーンの用意">#</a></h2>
 <p>Azure ポータルから DNS ゾーンを作成します。
 DNS ゾーンの名前は <code>private.example.com</code> 、リソースグループ名は <code>blog</code> で作成してみました。</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/001.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <p>このまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。</p>
 <h2 id="runbook-の用意">Runbook の用意<a hidden class="anchor" aria-hidden="true" href="#runbook-の用意">#</a></h2>
 <p>Azure ポータルから Automation アカウントを作成します。
 名前は <code>blogaccount</code> とか、任意で大丈夫です。</p>
 <p>作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。
 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/002.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <p>Automation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。</p>
 <p>Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。
 Runbook 名は <code>Add-PrivateDnsRecord</code> にしましょうか。</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/003.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <p>PowerShell のコードを記載する画面になりますが、一旦そっと閉じます。</p>
 <h2 id="マネージド-id-が-プライベート-dns-ゾーンを操作できるようにする">マネージド ID が プライベート DNS ゾーンを操作できるようにする<a hidden class="anchor" aria-hidden="true" href="#マネージド-id-が-プライベート-dns-ゾーンを操作できるようにする">#</a></h2>
 <p>Azure ポータルからプライベート DNS ゾーンの「アクセス制御（IAM）」を開きます。
 上の「＋追加」を押して、「ロールの割り当ての追加」をクリックします。</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/004.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <p>ロールの一覧が出るので、「プライベート DNS ゾーンの共同作成者」を選択して次へを押します。</p>
 <p>メンバーの選択画面になるので、アクセスの割当先を「マネージド ID」にして、「＋メンバーを選択する」をクリックします。
 すると、マネージド ID の選択画面が表示されるので、マネージド ID のプルダウンから「Automation アカウント」を選択し、先ほど作成した Automation アカウントの名前（記事通りであれば <code>blogaccount</code>）を選択して「選択」をクリックします。</p>
 <p>「レビューと割り当て」をクリックすると、ロールの割り当てが完了し、Automation アカウント（の Runbook 等）からプライベート DNS ゾーンがマネージド ID で操作できるようになりました。</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/005.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <h2 id="プライベート-dns-ゾーンを操作する-powershell-を実装する">プライベート DNS ゾーンを操作する PowerShell を実装する<a hidden class="anchor" aria-hidden="true" href="#プライベート-dns-ゾーンを操作する-powershell-を実装する">#</a></h2>
 <p>再び Automation アカウントのポータル画面に戻り、 プロセス オートメーション – Runbook を開き、 作成した空の Runbook（<code>Add-PrivateDnsRecord</code>）を開きます。</p>
 <p>「編集」をクリックして、下記の PowerShell を記載し保存、公開してください。</p>
@@ -227,10 +254,22 @@ Runbook 名は <code>Add-PrivateDnsRecord</code> にしましょうか。</p>
 <h2 id="runbook-を実行してみる">Runbook を実行してみる<a hidden class="anchor" aria-hidden="true" href="#runbook-を実行してみる">#</a></h2>
 <p>公開された Runbook は「開始」ができるようになります。
 （保存だけではダメです、公開しましょう）</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/006.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <p>開始を押してみましょう。ジョブの画面が表示されます。
 「全てのログ」のところを開いておくと、処理完了後に自動的に情報が出るようです。</p>
 <p>エラーなどが出ていなければ成功してしそうなので、プライベート DNS ゾーンの画面に行ってみましょう。</p>
 <p>A レコードが追加されていたら成功です！</p>
+<figure class="center">
+    <img loading="lazy" src="/control-azure-resources-from-a-runbook-using-a-managed-id/007.png"/> <figcaption>
+            Screenshot
+        </figcaption>
+</figure>
+
 <h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>マネージド ID を使用して、権限面で安全に Azure リソースの操作ができることが分かりました。</p>
 <p>Terraform や Runbook の Webhook を活用すれば、高度な自動化処理も実現できますね。
