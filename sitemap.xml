@@ -3,7 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://hirokimatsueda.github.io/</loc>
-    <lastmod>2022-04-12T11:34:24+09:00</lastmod>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/categories/</loc>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/</loc>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/</loc>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/</loc>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/computers-that-i-came-into-contact-with-in-my-childhood/</loc>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/categories/%E9%9B%91%E8%A8%98/</loc>
+    <lastmod>2022-06-21T12:06:20+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/tags/api/</loc>
     <lastmod>2022-04-12T11:34:24+09:00</lastmod>
@@ -11,19 +29,10 @@
     <loc>https://hirokimatsueda.github.io/categories/azure/</loc>
     <lastmod>2022-04-12T11:34:24+09:00</lastmod>
   </url><url>
-    <loc>https://hirokimatsueda.github.io/categories/</loc>
-    <lastmod>2022-04-12T11:34:24+09:00</lastmod>
-  </url><url>
-    <loc>https://hirokimatsueda.github.io/post/</loc>
-    <lastmod>2022-04-12T11:34:24+09:00</lastmod>
-  </url><url>
     <loc>https://hirokimatsueda.github.io/tags/static-web-apps/</loc>
     <lastmod>2022-04-12T11:34:24+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/</loc>
-    <lastmod>2022-04-12T11:34:24+09:00</lastmod>
-  </url><url>
-    <loc>https://hirokimatsueda.github.io/tags/</loc>
     <lastmod>2022-04-12T11:34:24+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/</loc>
@@ -61,5 +70,11 @@
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/</loc>
     <lastmod>2021-04-06T22:04:57+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</loc>
+    <lastmod>2019-06-21T12:06:20+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/</loc>
+    <lastmod>2019-06-21T12:06:20+09:00</lastmod>
   </url>
 </urlset>

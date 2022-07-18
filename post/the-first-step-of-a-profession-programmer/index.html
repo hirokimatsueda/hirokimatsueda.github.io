@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>職業プログラマの第一歩を踏み出したあなたへ | 備忘録</title>
+<meta name="keywords" content="プログラミング" />
+<meta name="description" content="10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。
+仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。
+背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。
+そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。
+そこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。
+聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。
+人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c&#43;&#43;;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="職業プログラマの第一歩を踏み出したあなたへ" />
+<meta property="og:description" content="10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。
+仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。
+背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。
+そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。
+そこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。
+聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。
+人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c&#43;&#43;;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-06-21T12:06:20&#43;09:00" />
+<meta property="article:modified_time" content="2019-06-21T12:06:20&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="職業プログラマの第一歩を踏み出したあなたへ"/>
+<meta name="twitter:description" content="10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。
+仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。
+背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。
+そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。
+そこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。
+聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。
+人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c&#43;&#43;;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "職業プログラマの第一歩を踏み出したあなたへ",
+      "item": "https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "職業プログラマの第一歩を踏み出したあなたへ",
+  "name": "職業プログラマの第一歩を踏み出したあなたへ",
+  "description": "10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。\n仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。\n背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。\nそんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。\nそこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。\n聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。\n人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c++;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？",
+  "keywords": [
+    "プログラミング"
+  ],
+  "articleBody": "10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。\n仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。\n背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。\nそんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。\nそこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。\n聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。\n人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c++;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？\nコードも同じように、美しいコードを書けば長く愛されます。 バグを見つけることが容易なのですぐ直せますし、機能追加もしやすいです。\n最初は大変ですが、そのうち無意識に書けるようになりますので頑張りましょう。\n",
+  "wordCount" : "60",
+  "inLanguage": "en",
+  "datePublished": "2019-06-21T12:06:20+09:00",
+  "dateModified": "2019-06-21T12:06:20+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      職業プログラマの第一歩を踏み出したあなたへ
+    </h1>
+    <div class="post-meta"><span title='2019-06-21 12:06:20 +0900 JST'>June 21, 2019</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。</p>
+<p>仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。</p>
+<h2 id="背景読み飛ばし推奨">背景（読み飛ばし推奨）<a hidden class="anchor" aria-hidden="true" href="#背景読み飛ばし推奨">#</a></h2>
+<p>前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。
+当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。</p>
+<p>そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。</p>
+<p>そこで出会ったチームリーダーさんの技術に圧倒されました。
+力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。</p>
+<p>聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。
+しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。
+若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。</p>
+<h2 id="人が読みやすいコードを追求する">人が読みやすいコードを追求する<a hidden class="anchor" aria-hidden="true" href="#人が読みやすいコードを追求する">#</a></h2>
+<ul>
+<li>半年後には何をやっているか分からないコードにしない</li>
+<li>変数名は分かりやすい単語を使う
+<ul>
+<li>できるだけ日本語のローマ字表記ではなく英語で書きましょう。</li>
+</ul>
+</li>
+<li>コーディング規約を遵守する、フォーマッタを活用する
+<ul>
+<li><code>if( a== b){ c++;}</code> とか書いてあったら、私は(心の中で)キレます。</li>
+</ul>
+</li>
+<li>コメントを適宜書く。ただし書きすぎない
+<ul>
+<li><code>// a を b に代入する</code> みたいなプログラムの説明は要りません。</li>
+<li>そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。</li>
+<li>伝わりにくいときはきっとコードを見直したほうが良いです。</li>
+</ul>
+</li>
+<li>既存コードのフィーリングを尊重する
+<ul>
+<li>勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…</li>
+</ul>
+</li>
+<li>車輪の再開発を避ける
+<ul>
+<li>クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？</li>
+</ul>
+</li>
+</ul>
+<h2 id="自分の理解したコードを書く">自分の理解したコードを書く<a hidden class="anchor" aria-hidden="true" href="#自分の理解したコードを書く">#</a></h2>
+<ul>
+<li>ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない</li>
+<li>友達に直接コードを書いてもらわない
+<ul>
+<li>参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。</li>
+</ul>
+</li>
+</ul>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>上記をまとめると、要は「美しいコードを書いてください」ということです。
+音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？</p>
+<p>コードも同じように、美しいコードを書けば長く愛されます。
+バグを見つけることが容易なのですぐ直せますし、機能追加もしやすいです。</p>
+<p>最初は大変ですが、そのうち無意識に書けるようになりますので頑張りましょう。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/">プログラミング</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
