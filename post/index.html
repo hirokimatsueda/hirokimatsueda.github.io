@@ -55,7 +55,18 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="Posts" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://hirokimatsueda.github.io/post/" />
@@ -264,6 +275,9 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
         <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
     </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
@@ -275,13 +289,13 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
     let menu = document.getElementById('menu')
     if (menu) {
         menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
+        menu.onscroll = function() {
             localStorage.setItem("menu-scroll-position", menu.scrollLeft);
         }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
+        anchor.addEventListener("click", function(e) {
             e.preventDefault();
             var id = this.getAttribute("href").substr(1);
             if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -298,11 +312,10 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
             }
         });
     });
-
 </script>
 <script>
     var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
+    window.onscroll = function() {
         if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
             mybutton.style.visibility = "visible";
             mybutton.style.opacity = "1";
@@ -311,7 +324,6 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
             mybutton.style.opacity = "0";
         }
     };
-
 </script>
 <script>
     document.getElementById("theme-toggle").addEventListener("click", () => {
@@ -323,8 +335,6 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
             localStorage.setItem("pref-theme", 'dark');
         }
     })
-
-</script>
-</body>
+</script></body>
 
 </html>
