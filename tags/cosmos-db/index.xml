@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>マネージドID on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</link>
-    <description>Recent content in マネージドID on 備忘録</description>
+    <title>Cosmos DB on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/cosmos-db/</link>
+    <description>Recent content in Cosmos DB on 備忘録</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 20 Aug 2022 14:50:39 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Aug 2022 14:50:39 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/cosmos-db/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)</title>
       <link>https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/</link>
@@ -70,21 +70,6 @@ https://github.com/hirokimatsueda/azure-managed-id-sample
 Functions の認証は Functions の webbook の API キーを利用します。
 Functions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。
 コードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。</description>
-    </item>
-    
-    <item>
-      <title>マネージドIDを使用してRunbookからAzureリソースを操作する</title>
-      <link>https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/</link>
-      <pubDate>Sun, 12 Dec 2021 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/</guid>
-      <description>マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
-操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
-Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
-作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.</description>
     </item>
     
   </channel>

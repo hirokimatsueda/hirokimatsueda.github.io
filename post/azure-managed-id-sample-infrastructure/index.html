@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード) | 備忘録</title>
+<meta name="keywords" content="Managed Id, マネージドID, Functions, Function App, Cosmos DB" />
+<meta name="description" content="下記のサンプル実装のインフラコード部分を解説します。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
+本質的に必要なのは、中央の Functions と Cosmos DB です。
+Cosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。
+Azure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。
+Functions のアプリの状態の観測のため、Application Insights と接続しています。
+Functions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。
+terraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform
+Azure のインフラ構築には terraform を利用しています。
+terraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。
+module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
+この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
+マネージド ID への権限付与 下記の実装で権限付与を行っています。
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
+azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
+これはアクセス権限の定義であり、割り当てではないです。">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)" />
+<meta property="og:description" content="下記のサンプル実装のインフラコード部分を解説します。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
+本質的に必要なのは、中央の Functions と Cosmos DB です。
+Cosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。
+Azure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。
+Functions のアプリの状態の観測のため、Application Insights と接続しています。
+Functions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。
+terraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform
+Azure のインフラ構築には terraform を利用しています。
+terraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。
+module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
+この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
+マネージド ID への権限付与 下記の実装で権限付与を行っています。
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
+azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
+これはアクセス権限の定義であり、割り当てではないです。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-08-20T14:50:38&#43;09:00" />
+<meta property="article:modified_time" content="2022-08-20T14:50:38&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)"/>
+<meta name="twitter:description" content="下記のサンプル実装のインフラコード部分を解説します。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
+本質的に必要なのは、中央の Functions と Cosmos DB です。
+Cosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。
+Azure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。
+Functions のアプリの状態の観測のため、Application Insights と接続しています。
+Functions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。
+terraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform
+Azure のインフラ構築には terraform を利用しています。
+terraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。
+module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
+この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
+マネージド ID への権限付与 下記の実装で権限付与を行っています。
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
+azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
+これはアクセス権限の定義であり、割り当てではないです。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)",
+      "item": "https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)",
+  "name": "実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)",
+  "description": "下記のサンプル実装のインフラコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構成詳細 \rArchitecture\r\r\r概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。\n本質的に必要なのは、中央の Functions と Cosmos DB です。\nCosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。\nAzure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。\nFunctions のアプリの状態の観測のため、Application Insights と接続しています。\nFunctions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。\nterraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nAzure のインフラ構築には terraform を利用しています。\nterraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。\nmodule への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。\nこの時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。\nマネージド ID への権限付与 下記の実装で権限付与を行っています。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf\nazurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。\nこれはアクセス権限の定義であり、割り当てではないです。",
+  "keywords": [
+    "Managed Id", "マネージドID", "Functions", "Function App", "Cosmos DB"
+  ],
+  "articleBody": "下記のサンプル実装のインフラコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構成詳細 \rArchitecture\r\r\r概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。\n本質的に必要なのは、中央の Functions と Cosmos DB です。\nCosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。\nAzure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。\nFunctions のアプリの状態の観測のため、Application Insights と接続しています。\nFunctions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。\nterraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nAzure のインフラ構築には terraform を利用しています。\nterraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。\nmodule への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。\nこの時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。\nマネージド ID への権限付与 下記の実装で権限付与を行っています。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf\nazurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。\nこれはアクセス権限の定義であり、割り当てではないです。\n割り当てには azurerm_cosmosdb_sql_role_assignment を使用しています。\nサンプルコードでは 2 回登場しますが、userと名付けた方は terraform を実行した人への権限付与、data_contributorと名付けた方は Functions への権限不要になります。\nなぜ terraform を実行した人にも権限を付与しているかというと、ローカル PC でアプリの動作確認をする際に必要になるからです。\ndata_contributorと名付けた方は depends_on の記載がありますが、これは azurerm_cosmosdb_sql_role_assignment を複数並列で動かすとエラーになるためです。\nまとめ terraform を用いてマネージド ID で Cosmos DB にアクセスする際のポイントを解説しました。\nこれさえあればインフラ構築は怖くないですね。\n解説していない部分にもいろいろと小技を仕込んであるので、コード量の多さに負けずに一度見てもらえると嬉しいです。\n",
+  "wordCount" : "97",
+  "inLanguage": "en",
+  "datePublished": "2022-08-20T14:50:38+09:00",
+  "dateModified": "2022-08-20T14:50:38+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)
+    </h1>
+    <div class="post-meta"><span title='2022-08-20 14:50:38 +0900 JST'>August 20, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>下記のサンプル実装のインフラコード部分を解説します。</p>
+<p><a href="https://github.com/hirokimatsueda/azure-managed-id-sample">https://github.com/hirokimatsueda/azure-managed-id-sample</a></p>
+<h2 id="インフラ構成詳細">インフラ構成詳細<a hidden class="anchor" aria-hidden="true" href="#インフラ構成詳細">#</a></h2>
+<figure class="center">
+    <img loading="lazy" src="/azure-managed-id-sample-infrastructure/001.png"/> <figcaption>
+            Architecture
+        </figcaption>
+</figure>
+
+<p>概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。
+しかしかなり最低限だと思いますのでどうかお付き合いを・・・。</p>
+<p>本質的に必要なのは、中央の Functions と Cosmos DB です。</p>
+<p>Cosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。</p>
+<p>Azure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。</p>
+<p>Functions のアプリの状態の観測のため、Application Insights と接続しています。</p>
+<p>Functions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。</p>
+<h2 id="terraform-を用いた構築">terraform を用いた構築<a hidden class="anchor" aria-hidden="true" href="#terraform-を用いた構築">#</a></h2>
+<p>コードはこちら:
+<a href="https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform">https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform</a></p>
+<p>Azure のインフラ構築には <a href="https://www.terraform.io/">terraform</a> を利用しています。</p>
+<p>terraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。</p>
+<h3 id="module-への処理の分割">module への処理の分割<a hidden class="anchor" aria-hidden="true" href="#module-への処理の分割">#</a></h3>
+<p>terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。</p>
+<p>この時、<a href="https://www.terraform.io/language/modules">modules</a> という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。</p>
+<h3 id="マネージド-id-への権限付与">マネージド ID への権限付与<a hidden class="anchor" aria-hidden="true" href="#マネージド-id-への権限付与">#</a></h3>
+<p>下記の実装で権限付与を行っています。</p>
+<p><a href="https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf">https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf</a></p>
+<p><a href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_role_definition">azurerm_cosmosdb_sql_role_definition</a> を使用し、Cosmos DB のデータへのアクセス権限を定義します。</p>
+<p>これはアクセス権限の定義であり、割り当てではないです。</p>
+<p>割り当てには <a href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_role_assignment">azurerm_cosmosdb_sql_role_assignment</a> を使用しています。</p>
+<p>サンプルコードでは 2 回登場しますが、<code>user</code>と名付けた方は terraform を実行した人への権限付与、<code>data_contributor</code>と名付けた方は Functions への権限不要になります。</p>
+<p>なぜ terraform を実行した人にも権限を付与しているかというと、ローカル PC でアプリの動作確認をする際に必要になるからです。</p>
+<p><code>data_contributor</code>と名付けた方は depends_on の記載がありますが、これは azurerm_cosmosdb_sql_role_assignment を複数並列で動かすとエラーになるためです。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>terraform を用いてマネージド ID で Cosmos DB にアクセスする際のポイントを解説しました。</p>
+<p>これさえあればインフラ構築は怖くないですね。</p>
+<p>解説していない部分にもいろいろと小技を仕込んであるので、コード量の多さに負けずに一度見てもらえると嬉しいです。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/managed-id/">Managed Id</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/">マネージドID</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/functions/">Functions</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/function-app/">Function App</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/cosmos-db/">Cosmos DB</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function() {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+</script></body>
+
+</html>

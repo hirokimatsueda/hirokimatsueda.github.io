@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Azure | 備忘録</title>
+<title>Functions | 備忘録</title>
 <meta name="keywords" content="" />
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://hirokimatsueda.github.io/categories/azure/" />
+<link rel="canonical" href="https://hirokimatsueda.github.io/tags/functions/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://hirokimatsueda.github.io/categories/azure/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://hirokimatsueda.github.io/tags/functions/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -66,13 +66,13 @@
     gtag('js', new Date());
 
     gtag('config', 'G-M6XY8HL7QN');
-</script> <meta property="og:title" content="Azure" />
+</script> <meta property="og:title" content="Functions" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://hirokimatsueda.github.io/categories/azure/" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/tags/functions/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Azure"/>
+<meta name="twitter:title" content="Functions"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -122,7 +122,7 @@
 </header>
 <main class="main"> 
 <header class="page-header">
-  <h1>Azure</h1>
+  <h1>Functions</h1>
 </header>
 
 <article class="post-entry tag-entry"> 
@@ -196,82 +196,6 @@ Functions から Cosmos DB にアクセスする手段は様々なものがあ�
   </section>
   <footer class="entry-footer"><span title='2022-08-20 14:50:37 +0900 JST'>August 20, 2022</span></footer>
   <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(概要)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-summary/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Static Web AppsのAPIでマネージドIDを使う方法
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
-API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
-API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
-Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
-https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
-このため、 独自の関数の使用 を選択する必要があります。
-・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
-https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
-独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
-https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
-ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。...</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-04-12 11:34:24 +0900 JST'>April 12, 2022</span></footer>
-  <a class="entry-link" aria-label="post link to Static Web AppsのAPIでマネージドIDを使う方法" href="https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Static Web Appsの連携先GitHubリポジトリを変更する方法
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Static Web Apps (静的 Web アプリ) って便利ですよね！ 単品のリソース構築で、CDN、Web サーバー、API サーバー、カスタムドメイン with HTTPS、アプリの自動デプロイが一気に実現できるので、これからどんどん活用したいです。
-ただ私はまだ慣れていないので、アプリを検証用の GitHub リポジトリで用意してインフラを作り、後から参照する GitHub リポジトリを差し替えたくなりました。 その手順が簡単に分からなかったので、本記事で整理したいと思います。
-概要 az staticwebapp disconnect してから az staticwebapp update しましょう。
-手順 Azure CLI で対応できました。 まずはいつも通り、Azure CLI で Azure にログインします。
-az login -t tenant-id az account set -s subscription-id 続いて、az staticwebapp disconnect を使用して Static Web Apps を GitHub リポジトリから切断します。
-az staticwebapp disconnect --name static-web-app-name この状態で Azure ポータルから Static Web Apps の概要画面を眺めると、確かに GitHub リポジトリとの関連が無くなっていることが分かります。
-最後に az staticwebapp update を実行して、目的の GitHub リポジトリと接続してあげましょう。 GitHub の Personal Access Token が必要です。 (記事執筆時点では –login-with-github のオプションは指定できませんでした)...</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-03-22 14:41:42 +0900 JST'>March 22, 2022</span></footer>
-  <a class="entry-link" aria-label="post link to Static Web Appsの連携先GitHubリポジトリを変更する方法" href="https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>マネージドIDを使用してRunbookからAzureリソースを操作する
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
-操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
-Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
-作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5....</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-12-12 12:06:20 +0900 JST'>December 12, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to マネージドIDを使用してRunbookからAzureリソースを操作する" href="https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>上限変更ができないクォータの存在を知る
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Azure にはクォータ上限という概念があり、リソース作成はクォータ範囲内でしかできず、ただしクォータ上限の引き上げが要求が可能です。
-vCPU に関しては上限の引き上げが可能ですが、上限の引き上げが不可能なリソースも存在します。
-CDN プロファイルは上限の引き上げが不可能 CDN プロファイルは、サブスクリプション単位に 25 個までしか作成できません。
-https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits
-クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。
-1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。
-まとめ 大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。 必要に応じてサブスクリプションを分割するなどして対応しましょう。</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-04-06 22:04:57 +0900 JST'>April 6, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to 上限変更ができないクォータの存在を知る" href="https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/"></a>
 </article>
     </main>
     

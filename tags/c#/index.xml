@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C# on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/c#/</link>
+    <description>Recent content in C# on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Sat, 20 Aug 2022 14:50:39 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/c#/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)</title>
+      <link>https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/</link>
+      <pubDate>Sat, 20 Aug 2022 14:50:39 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/</guid>
+      <description>下記のサンプル実装のアプリコード部分を解説します。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+アプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis
+詳細と言うほどのものではないですが・・・。
+GetData リクエストパラメータから id と category を読み取って、対象のデータを Cosmos DB から取得し返却します。
+PutData リクエストボディのデータを Cosmos DB に Upsert します。
+実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。
+private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(&amp;#34;COSMOS_ENDPOINT&amp;#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。
+ローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。
+ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。
+private static Lazy&amp;lt;CosmosClient&amp;gt; lazyClient = new Lazy&amp;lt;CosmosClient&amp;gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。</description>
+    </item>
+    
+    <item>
+      <title>実用性重視！AzureのマネージドID活用のサンプルコード(概要)</title>
+      <link>https://hirokimatsueda.github.io/post/azure-managed-id-sample-summary/</link>
+      <pubDate>Sat, 20 Aug 2022 14:50:37 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/azure-managed-id-sample-summary/</guid>
+      <description>Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
+そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。
+早速全体像をご紹介します。
+サンプルコードの概要 コードは下記にあります。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+何らかのデータを Functions を経由して Cosmos DB に保管・取得するアプリとインフラのコードのサンプルです。
+データは少なくとも id と category の値を持つことを想定します。こんな感じで。
+{  &amp;#34;id&amp;#34;: &amp;#34;abc123&amp;#34;,  &amp;#34;category&amp;#34;: &amp;#34;test&amp;#34;,  &amp;#34;data&amp;#34;: &amp;#34;aaaabbbbcccc&amp;#34; } category は Cosmos DB 上のパーティションキーとして設定しますので、一定の法則で値が入ると良いことがありそうですね。
+アーキテクチャ Architectureユーザーからのリクエストを Functions で受け取り、Cosmos DB とデータのやり取りをするシンプルな構成です。
+Functions の認証は Functions の webbook の API キーを利用します。
+Functions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。
+コードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。</description>
+    </item>
+    
+  </channel>
+</rss>
