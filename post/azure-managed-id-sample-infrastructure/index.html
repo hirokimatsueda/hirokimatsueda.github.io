@@ -7,7 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード) | 備忘録</title>
 <meta name="keywords" content="Managed Id, マネージドID, Functions, Function App, Cosmos DB" />
-<meta name="description" content="下記のサンプル実装のインフラコード部分を解説します。
+<meta name="description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+下記のサンプル実装のインフラコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
 本質的に必要なのは、中央の Functions と Cosmos DB です。
@@ -21,9 +22,7 @@ terraform についての説明は割愛させていただき、どのような�
 module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
 この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
 マネージド ID への権限付与 下記の実装で権限付与を行っています。
-https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
-azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
-これはアクセス権限の定義であり、割り当てではないです。">
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf">
 <meta name="author" content="">
 <link rel="canonical" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
@@ -84,7 +83,8 @@ azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへの
 
     gtag('config', 'G-M6XY8HL7QN');
 </script> <meta property="og:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)" />
-<meta property="og:description" content="下記のサンプル実装のインフラコード部分を解説します。
+<meta property="og:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+下記のサンプル実装のインフラコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
 本質的に必要なのは、中央の Functions と Cosmos DB です。
@@ -98,9 +98,7 @@ terraform についての説明は割愛させていただき、どのような�
 module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
 この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
 マネージド ID への権限付与 下記の実装で権限付与を行っています。
-https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
-azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
-これはアクセス権限の定義であり、割り当てではないです。" />
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-08-20T14:50:38&#43;09:00" />
@@ -108,7 +106,8 @@ azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへの
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)"/>
-<meta name="twitter:description" content="下記のサンプル実装のインフラコード部分を解説します。
+<meta name="twitter:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+下記のサンプル実装のインフラコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
 本質的に必要なのは、中央の Functions と Cosmos DB です。
@@ -122,9 +121,7 @@ terraform についての説明は割愛させていただき、どのような�
 module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
 この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
 マネージド ID への権限付与 下記の実装で権限付与を行っています。
-https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
-azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
-これはアクセス権限の定義であり、割り当てではないです。"/>
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf"/>
 
 
 <script type="application/ld+json">
@@ -153,12 +150,12 @@ azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへの
   "@type": "BlogPosting",
   "headline": "実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)",
   "name": "実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)",
-  "description": "下記のサンプル実装のインフラコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構成詳細 \rArchitecture\r\r\r概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。\n本質的に必要なのは、中央の Functions と Cosmos DB です。\nCosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。\nAzure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。\nFunctions のアプリの状態の観測のため、Application Insights と接続しています。\nFunctions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。\nterraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nAzure のインフラ構築には terraform を利用しています。\nterraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。\nmodule への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。\nこの時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。\nマネージド ID への権限付与 下記の実装で権限付与を行っています。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf\nazurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。\nこれはアクセス権限の定義であり、割り当てではないです。",
+  "description": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\n下記のサンプル実装のインフラコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構成詳細 \rArchitecture\r\r\r概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。\n本質的に必要なのは、中央の Functions と Cosmos DB です。\nCosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。\nAzure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。\nFunctions のアプリの状態の観測のため、Application Insights と接続しています。\nFunctions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。\nterraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nAzure のインフラ構築には terraform を利用しています。\nterraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。\nmodule への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。\nこの時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。\nマネージド ID への権限付与 下記の実装で権限付与を行っています。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf",
   "keywords": [
     "Managed Id", "マネージドID", "Functions", "Function App", "Cosmos DB"
   ],
-  "articleBody": "下記のサンプル実装のインフラコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構成詳細 \rArchitecture\r\r\r概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。\n本質的に必要なのは、中央の Functions と Cosmos DB です。\nCosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。\nAzure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。\nFunctions のアプリの状態の観測のため、Application Insights と接続しています。\nFunctions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。\nterraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nAzure のインフラ構築には terraform を利用しています。\nterraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。\nmodule への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。\nこの時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。\nマネージド ID への権限付与 下記の実装で権限付与を行っています。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf\nazurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。\nこれはアクセス権限の定義であり、割り当てではないです。\n割り当てには azurerm_cosmosdb_sql_role_assignment を使用しています。\nサンプルコードでは 2 回登場しますが、userと名付けた方は terraform を実行した人への権限付与、data_contributorと名付けた方は Functions への権限不要になります。\nなぜ terraform を実行した人にも権限を付与しているかというと、ローカル PC でアプリの動作確認をする際に必要になるからです。\ndata_contributorと名付けた方は depends_on の記載がありますが、これは azurerm_cosmosdb_sql_role_assignment を複数並列で動かすとエラーになるためです。\nまとめ terraform を用いてマネージド ID で Cosmos DB にアクセスする際のポイントを解説しました。\nこれさえあればインフラ構築は怖くないですね。\n解説していない部分にもいろいろと小技を仕込んであるので、コード量の多さに負けずに一度見てもらえると嬉しいです。\n",
-  "wordCount" : "97",
+  "articleBody": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\n下記のサンプル実装のインフラコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構成詳細 \rArchitecture\r\r\r概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。\n本質的に必要なのは、中央の Functions と Cosmos DB です。\nCosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。\nAzure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。\nFunctions のアプリの状態の観測のため、Application Insights と接続しています。\nFunctions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。\nterraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nAzure のインフラ構築には terraform を利用しています。\nterraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。\nmodule への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。\nこの時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。\nマネージド ID への権限付与 下記の実装で権限付与を行っています。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf\nazurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。\nこれはアクセス権限の定義であり、割り当てではないです。\n割り当てには azurerm_cosmosdb_sql_role_assignment を使用しています。\nサンプルコードでは 2 回登場しますが、userと名付けた方は terraform を実行した人への権限付与、data_contributorと名付けた方は Functions への権限不要になります。\nなぜ terraform を実行した人にも権限を付与しているかというと、ローカル PC でアプリの動作確認をする際に必要になるからです。\ndata_contributorと名付けた方は depends_on の記載がありますが、これは azurerm_cosmosdb_sql_role_assignment を複数並列で動かすとエラーになるためです。\nまとめ terraform を用いてマネージド ID で Cosmos DB にアクセスする際のポイントを解説しました。\nこれさえあればインフラ構築は怖くないですね。\n解説していない部分にもいろいろと小技を仕込んであるので、コード量の多さに負けずに一度見てもらえると嬉しいです。\n",
+  "wordCount" : "102",
   "inLanguage": "en",
   "datePublished": "2022-08-20T14:50:38+09:00",
   "dateModified": "2022-08-20T14:50:38+09:00",
@@ -233,7 +230,8 @@ azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへの
 
 </div>
   </header> 
-  <div class="post-content"><p>下記のサンプル実装のインフラコード部分を解説します。</p>
+  <div class="post-content"><p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です</p>
+<p>下記のサンプル実装のインフラコード部分を解説します。</p>
 <p><a href="https://github.com/hirokimatsueda/azure-managed-id-sample">https://github.com/hirokimatsueda/azure-managed-id-sample</a></p>
 <h2 id="インフラ構成詳細">インフラ構成詳細<a hidden class="anchor" aria-hidden="true" href="#インフラ構成詳細">#</a></h2>
 <figure class="center">

@@ -7,7 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>実用性重視！AzureのマネージドID活用のサンプルコード(概要) | 備忘録</title>
 <meta name="keywords" content="Managed Id, マネージドID, Functions, Function App, Cosmos DB, C#" />
-<meta name="description" content="Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
+<meta name="description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
 そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。
 早速全体像をご紹介します。
 サンプルコードの概要 コードは下記にあります。
@@ -79,7 +80,8 @@ Functions から Cosmos DB にアクセスする手段は様々なものがあ�
 
     gtag('config', 'G-M6XY8HL7QN');
 </script> <meta property="og:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(概要)" />
-<meta property="og:description" content="Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
+<meta property="og:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
 そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。
 早速全体像をご紹介します。
 サンプルコードの概要 コードは下記にあります。
@@ -98,7 +100,8 @@ Functions から Cosmos DB にアクセスする手段は様々なものがあ�
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(概要)"/>
-<meta name="twitter:description" content="Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
+<meta name="twitter:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
 そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。
 早速全体像をご紹介します。
 サンプルコードの概要 コードは下記にあります。
@@ -138,12 +141,12 @@ Functions から Cosmos DB にアクセスする手段は様々なものがあ�
   "@type": "BlogPosting",
   "headline": "実用性重視！AzureのマネージドID活用のサンプルコード(概要)",
   "name": "実用性重視！AzureのマネージドID活用のサンプルコード(概要)",
-  "description": "Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。\nそんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。\n早速全体像をご紹介します。\nサンプルコードの概要 コードは下記にあります。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\n何らかのデータを Functions を経由して Cosmos DB に保管・取得するアプリとインフラのコードのサンプルです。\nデータは少なくとも id と category の値を持つことを想定します。こんな感じで。\n{  \u0026#34;id\u0026#34;: \u0026#34;abc123\u0026#34;,  \u0026#34;category\u0026#34;: \u0026#34;test\u0026#34;,  \u0026#34;data\u0026#34;: \u0026#34;aaaabbbbcccc\u0026#34; } category は Cosmos DB 上のパーティションキーとして設定しますので、一定の法則で値が入ると良いことがありそうですね。\nアーキテクチャ \rArchitecture\r\r\rユーザーからのリクエストを Functions で受け取り、Cosmos DB とデータのやり取りをするシンプルな構成です。\nFunctions の認証は Functions の webbook の API キーを利用します。\nFunctions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。\nコードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。",
+  "description": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\nAzure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。\nそんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。\n早速全体像をご紹介します。\nサンプルコードの概要 コードは下記にあります。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\n何らかのデータを Functions を経由して Cosmos DB に保管・取得するアプリとインフラのコードのサンプルです。\nデータは少なくとも id と category の値を持つことを想定します。こんな感じで。\n{  \u0026#34;id\u0026#34;: \u0026#34;abc123\u0026#34;,  \u0026#34;category\u0026#34;: \u0026#34;test\u0026#34;,  \u0026#34;data\u0026#34;: \u0026#34;aaaabbbbcccc\u0026#34; } category は Cosmos DB 上のパーティションキーとして設定しますので、一定の法則で値が入ると良いことがありそうですね。\nアーキテクチャ \rArchitecture\r\r\rユーザーからのリクエストを Functions で受け取り、Cosmos DB とデータのやり取りをするシンプルな構成です。\nFunctions の認証は Functions の webbook の API キーを利用します。\nFunctions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。\nコードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。",
   "keywords": [
     "Managed Id", "マネージドID", "Functions", "Function App", "Cosmos DB", "C#"
   ],
-  "articleBody": "Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。\nそんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。\n早速全体像をご紹介します。\nサンプルコードの概要 コードは下記にあります。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\n何らかのデータを Functions を経由して Cosmos DB に保管・取得するアプリとインフラのコードのサンプルです。\nデータは少なくとも id と category の値を持つことを想定します。こんな感じで。\n{  \"id\": \"abc123\",  \"category\": \"test\",  \"data\": \"aaaabbbbcccc\" } category は Cosmos DB 上のパーティションキーとして設定しますので、一定の法則で値が入ると良いことがありそうですね。\nアーキテクチャ \rArchitecture\r\r\rユーザーからのリクエストを Functions で受け取り、Cosmos DB とデータのやり取りをするシンプルな構成です。\nFunctions の認証は Functions の webbook の API キーを利用します。\nFunctions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。\nコードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。\ninfrastructure フォルダの terraform を実行して Azure 上に Functions と Cosmos DB、その他関連リソースを作成した後、applications フォルダのアプリを Functions にデプロイすればアプリにアクセス可能になります。\nまとめ サンプルコードの概要をご説明しました。\nアーキテクチャ図はシンプルなので、少し安心してもらえたのではないかと思います。\nterraform と Functions 上のアプリの解説記事もありますので、引き続きご確認いただければ幸いです。\n⇒ インフラコードの説明\r\n⇒ アプリコードの説明\r\n",
-  "wordCount" : "90",
+  "articleBody": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\nAzure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。\nそんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。\n早速全体像をご紹介します。\nサンプルコードの概要 コードは下記にあります。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\n何らかのデータを Functions を経由して Cosmos DB に保管・取得するアプリとインフラのコードのサンプルです。\nデータは少なくとも id と category の値を持つことを想定します。こんな感じで。\n{  \"id\": \"abc123\",  \"category\": \"test\",  \"data\": \"aaaabbbbcccc\" } category は Cosmos DB 上のパーティションキーとして設定しますので、一定の法則で値が入ると良いことがありそうですね。\nアーキテクチャ \rArchitecture\r\r\rユーザーからのリクエストを Functions で受け取り、Cosmos DB とデータのやり取りをするシンプルな構成です。\nFunctions の認証は Functions の webbook の API キーを利用します。\nFunctions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。\nコードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。\ninfrastructure フォルダの terraform を実行して Azure 上に Functions と Cosmos DB、その他関連リソースを作成した後、applications フォルダのアプリを Functions にデプロイすればアプリにアクセス可能になります。\nまとめ サンプルコードの概要をご説明しました。\nアーキテクチャ図はシンプルなので、少し安心してもらえたのではないかと思います。\nterraform と Functions 上のアプリの解説記事もありますので、引き続きご確認いただければ幸いです。\n⇒ インフラコードの説明\r\n⇒ アプリコードの説明\r\n",
+  "wordCount" : "95",
   "inLanguage": "en",
   "datePublished": "2022-08-20T14:50:37+09:00",
   "dateModified": "2022-08-20T14:50:37+09:00",
@@ -218,7 +221,8 @@ Functions から Cosmos DB にアクセスする手段は様々なものがあ�
 
 </div>
   </header> 
-  <div class="post-content"><p>Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。</p>
+  <div class="post-content"><p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です</p>
+<p>Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。</p>
 <p>そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。</p>
 <p>早速全体像をご紹介します。</p>
 <h2 id="サンプルコードの概要">サンプルコードの概要<a hidden class="anchor" aria-hidden="true" href="#サンプルコードの概要">#</a></h2>
