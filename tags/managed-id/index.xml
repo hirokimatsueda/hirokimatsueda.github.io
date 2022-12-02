@@ -7,7 +7,35 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 20 Aug 2022 14:50:39 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/managed-id/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Dec 2022 10:00:00 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/managed-id/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?</title>
+      <link>https://hirokimatsueda.github.io/post/baby-info-recording-system/</link>
+      <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/baby-info-recording-system/</guid>
+      <description>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。
+退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。
+子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。
+ただその中で、絶対書いておきたいのが、
+うんちの記録です！
+便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。
+うちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。
+また、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。
+ということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。
+Screen shotアプリの概要 カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。
+データは Cosmos DB に保管されます。
+アプリコード Visual Studio 2022 で作成しました。GitHub で見れるようにしています。
+https://github.com/hirokimatsueda/baby-info-recording-system
+フロントアプリの実装は大目に見てください。。
+フロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。
+アーキテクチャ概要 インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。
+アプリは ASP.NET Core Blazor での記述です。
+インフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。</description>
+    </item>
+    
     <item>
       <title>実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)</title>
       <link>https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/</link>

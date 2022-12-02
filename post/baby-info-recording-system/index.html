@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！? | 備忘録</title>
+<meta name="keywords" content="Managed Id, マネージドID, Functions, Function App, Cosmos DB, C#" />
+<meta name="description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。
+退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。
+子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。
+ただその中で、絶対書いておきたいのが、
+うんちの記録です！
+便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。
+うちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。
+また、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。
+ということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。
+Screen shotアプリの概要 カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。
+データは Cosmos DB に保管されます。
+アプリコード Visual Studio 2022 で作成しました。GitHub で見れるようにしています。
+https://github.com/hirokimatsueda/baby-info-recording-system
+フロントアプリの実装は大目に見てください。。
+フロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。
+アーキテクチャ概要 インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。
+アプリは ASP.NET Core Blazor での記述です。
+インフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/baby-info-recording-system/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?" />
+<meta property="og:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。
+退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。
+子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。
+ただその中で、絶対書いておきたいのが、
+うんちの記録です！
+便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。
+うちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。
+また、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。
+ということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。
+Screen shotアプリの概要 カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。
+データは Cosmos DB に保管されます。
+アプリコード Visual Studio 2022 で作成しました。GitHub で見れるようにしています。
+https://github.com/hirokimatsueda/baby-info-recording-system
+フロントアプリの実装は大目に見てください。。
+フロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。
+アーキテクチャ概要 インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。
+アプリは ASP.NET Core Blazor での記述です。
+インフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/baby-info-recording-system/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-12-02T10:00:00&#43;09:00" />
+<meta property="article:modified_time" content="2022-12-02T10:00:00&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?"/>
+<meta name="twitter:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
+子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。
+退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。
+子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。
+ただその中で、絶対書いておきたいのが、
+うんちの記録です！
+便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。
+うちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。
+また、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。
+ということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。
+Screen shotアプリの概要 カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。
+データは Cosmos DB に保管されます。
+アプリコード Visual Studio 2022 で作成しました。GitHub で見れるようにしています。
+https://github.com/hirokimatsueda/baby-info-recording-system
+フロントアプリの実装は大目に見てください。。
+フロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。
+アーキテクチャ概要 インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。
+アプリは ASP.NET Core Blazor での記述です。
+インフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?",
+      "item": "https://hirokimatsueda.github.io/post/baby-info-recording-system/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?",
+  "name": "Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?",
+  "description": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\n子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。\n退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。\n子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。\nただその中で、絶対書いておきたいのが、\nうんちの記録です！\n便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。\nうちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。\nまた、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。\nということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。\n\rScreen shot\r\r\rアプリの概要 カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。\nデータは Cosmos DB に保管されます。\nアプリコード Visual Studio 2022 で作成しました。GitHub で見れるようにしています。\nhttps://github.com/hirokimatsueda/baby-info-recording-system\nフロントアプリの実装は大目に見てください。。\nフロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。\nアーキテクチャ概要 インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。\nアプリは ASP.NET Core Blazor での記述です。\nインフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。",
+  "keywords": [
+    "Managed Id", "マネージドID", "Functions", "Function App", "Cosmos DB", "C#"
+  ],
+  "articleBody": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\n子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。\n退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。\n子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。\nただその中で、絶対書いておきたいのが、\nうんちの記録です！\n便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。\nうちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。\nまた、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。\nということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。\n\rScreen shot\r\r\rアプリの概要 カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。\nデータは Cosmos DB に保管されます。\nアプリコード Visual Studio 2022 で作成しました。GitHub で見れるようにしています。\nhttps://github.com/hirokimatsueda/baby-info-recording-system\nフロントアプリの実装は大目に見てください。。\nフロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。\nアーキテクチャ概要 インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。\nアプリは ASP.NET Core Blazor での記述です。\nインフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample\nインフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。\n\rInfrastructure\r\r\r下記に要点をご紹介します。\nCosmos DB と Functions の作成 下記の Terraform で作成することで、Functions から Managed ID で Cosmos DB のデータの更新ができる状態に整えます。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform\nStatic Web Apps の作成 Functions のリンクをするので、Standard で作成します。 作成時にビルドの詳細で下記を指定します。\n ビルドのプリセット: Blazor アプリの場所: Client API の場所: (空欄) 出力先: wwwroot  作成後、Azure ポータルの「API」から、作成した Functions をリンクしてください。 他の人に見えないように、全般設定でパスワード保護を実施すると良いです。\nまとめ これで子育て環境の DX が完了ですね！ ・・・とは現実的には、このレベルだとたぶん紙で運用した方が楽です。 機能追加すれば入院中の記録用紙と同じレベルで記録ができるようになると思うので、誰か作ってみて欲しいですね。\n",
+  "wordCount" : "121",
+  "inLanguage": "en",
+  "datePublished": "2022-12-02T10:00:00+09:00",
+  "dateModified": "2022-12-02T10:00:00+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/baby-info-recording-system/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?
+    </h1>
+    <div class="post-meta"><span title='2022-12-02 10:00:00 +0900 JST'>December 2, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です</p>
+<p>子供が産まれて妻子の入院期間中、体温や授乳回数やおしっこ・うんちの時間を記録する紙があって、そこに毎日記録していました。</p>
+<p>退院後もそのフォーマットを Excel で真似て紙に印刷して使っていて、子供の不調が無いか確認していました。</p>
+<p>子供が 1 歳になった今も一応、記録内容を減らした紙を運用してはいるものの、ほとんど問題ないのであまり書いていないです。</p>
+<p>ただその中で、絶対書いておきたいのが、</p>
+<p>うんちの記録です！</p>
+<p>便秘だと不機嫌になったり場合によっては病院に行かないといけなくなります。</p>
+<p>うちの子は最近は割と快便ですが、最初の頃は便秘でとても心配しました。</p>
+<p>また、うんちがあまり出ていない状態でお風呂に入ると・・・ね。。</p>
+<p>ということで、うんちの回数を記録するアプリを書いてみましたのでご紹介です。</p>
+<figure class="center">
+    <img loading="lazy" src="/baby-info-recording-system/001.png"/> <figcaption>
+            Screen shot
+        </figcaption>
+</figure>
+
+<h2 id="アプリの概要">アプリの概要<a hidden class="anchor" aria-hidden="true" href="#アプリの概要">#</a></h2>
+<p>カレンダーの中の「＋」ボタンを押すと、当日の枠に 💩 マークがつきます。</p>
+<p>データは Cosmos DB に保管されます。</p>
+<h2 id="アプリコード">アプリコード<a hidden class="anchor" aria-hidden="true" href="#アプリコード">#</a></h2>
+<p>Visual Studio 2022 で作成しました。GitHub で見れるようにしています。</p>
+<p><a href="https://github.com/hirokimatsueda/baby-info-recording-system">https://github.com/hirokimatsueda/baby-info-recording-system</a></p>
+<p>フロントアプリの実装は大目に見てください。。</p>
+<p>フロントの作りが微妙ですが・・・赤ちゃん ID を変更すると別々のデータを管理できるので、双子や兄弟のデータも扱えます。</p>
+<h2 id="アーキテクチャ概要">アーキテクチャ概要<a hidden class="anchor" aria-hidden="true" href="#アーキテクチャ概要">#</a></h2>
+<p>インフラとしては Azure の Static Web Apps での動作を想定し、情報を CosmosDB に保存するので、比較的安価に運用できるものになっています。</p>
+<p>アプリは <a href="https://learn.microsoft.com/ja-jp/aspnet/core/blazor/?view=aspnetcore-6.0">ASP.NET Core Blazor</a> での記述です。</p>
+<p>インフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。
+<a href="https://github.com/hirokimatsueda/azure-managed-id-sample">https://github.com/hirokimatsueda/azure-managed-id-sample</a></p>
+<h2 id="インフラ構築">インフラ構築<a hidden class="anchor" aria-hidden="true" href="#インフラ構築">#</a></h2>
+<p>Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。</p>
+<figure class="center">
+    <img loading="lazy" src="/baby-info-recording-system/002.png"/> <figcaption>
+            Infrastructure
+        </figcaption>
+</figure>
+
+<p>下記に要点をご紹介します。</p>
+<h3 id="cosmos-db-と-functions-の作成">Cosmos DB と Functions の作成<a hidden class="anchor" aria-hidden="true" href="#cosmos-db-と-functions-の作成">#</a></h3>
+<p>下記の Terraform で作成することで、Functions から Managed ID で Cosmos DB のデータの更新ができる状態に整えます。</p>
+<p><a href="https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform">https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform</a></p>
+<h3 id="static-web-apps-の作成">Static Web Apps の作成<a hidden class="anchor" aria-hidden="true" href="#static-web-apps-の作成">#</a></h3>
+<p>Functions のリンクをするので、Standard で作成します。
+作成時にビルドの詳細で下記を指定します。</p>
+<ul>
+<li>ビルドのプリセット: Blazor</li>
+<li>アプリの場所: Client</li>
+<li>API の場所: (空欄)</li>
+<li>出力先: wwwroot</li>
+</ul>
+<p>作成後、Azure ポータルの「API」から、作成した Functions をリンクしてください。
+他の人に見えないように、全般設定でパスワード保護を実施すると良いです。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>これで子育て環境の DX が完了ですね！
+・・・とは現実的には、このレベルだとたぶん紙で運用した方が楽です。
+機能追加すれば入院中の記録用紙と同じレベルで記録ができるようになると思うので、誰か作ってみて欲しいですね。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/managed-id/">Managed Id</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/">マネージドID</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/functions/">Functions</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/function-app/">Function App</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/cosmos-db/">Cosmos DB</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/c#/">C#</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function() {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+</script></body>
+
+</html>
