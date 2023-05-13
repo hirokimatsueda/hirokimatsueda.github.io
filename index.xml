@@ -7,7 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Fri, 02 Dec 2022 10:00:00 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 May 2023 13:29:27 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ChatGPT が子供向けの曲を作ったらどうなる？</title>
+      <link>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</link>
+      <pubDate>Sat, 13 May 2023 13:29:27 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</guid>
+      <description>社内で爆発的に流行っている ChatGPT に手を出したら、とてもハマってしまいました。 信長の野望以来のマイブーム？
+隙間時間に無理難題を問いかけて、反応を楽しんでいます。 問いかけに対してうまく答えたり答えなかったりするところが、何となく子育てに近い感じがします。
+ちょっとお遊びですが、子供向けの曲を作ってもらおうとしてみました。
+まずは作詞！ すごくアバウトに振ってみましょう。
+架空の子供番組の歌を作って ↓ lyrics 1それっぽい！？
+最後の歌詞を見る限りは、オープニング曲というよりエンディング曲ですかね？
+コード進行は作れるか？ 続いて曲にするためにコード進行を決めていきましょう。
+良いね！ コード進行を教えて ↓ chord progression 1う～ん・・・流石にこれは詰まらなすぎます。
+ちょっとつまらないので、ヴァースで変化をつけて ↓ chord progression 2(ヴァースじゃなくてコーラスで変化を付けさせるべきだった気も・・・)
+いやぁ・・・これもちょっとなぁ。
+私の好きな、某イスが主役の番組の音楽とか想像すると物足りないです。
+最近の子供番組はもっと複雑な進行になる印象です。 もう少し思い切った形になりますか？ ↓ chord progression 3ちょっとやり過ぎな感じもしますが、良しとしますか！
+コードに合わせて歌詞を調整 ブリッジが追加されて歌詞との対応関係が崩れたようなので、歌詞を調整してみます。
+良いですね、このコードに沿って歌の歌詞を調整してください。 ↓ lyrics 2lyrics 2やはりエンディング曲な締めですが、弾き語りで使えそうなメモになってきました。
+メロディーラインも作れるか？ ここまで来たらメロディーラインも作ってほしいですね。
+メロディラインを作ってください ↓ melody 1途中で回答の生成を止めちゃいましたが、音楽の生成をやろうとしてたので、文字で再度書いてもらうことに。</description>
+    </item>
+    
     <item>
       <title>Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?</title>
       <link>https://hirokimatsueda.github.io/post/baby-info-recording-system/</link>
