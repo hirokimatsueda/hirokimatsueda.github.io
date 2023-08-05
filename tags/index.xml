@@ -7,7 +7,106 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Fri, 02 Dec 2022 10:00:00 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jul 2023 09:31:03 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blob</title>
+      <link>https://hirokimatsueda.github.io/tags/blob/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/blob/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>File Share</title>
+      <link>https://hirokimatsueda.github.io/tags/file-share/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/file-share/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Premium</title>
+      <link>https://hirokimatsueda.github.io/tags/premium/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/premium/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Storage Account</title>
+      <link>https://hirokimatsueda.github.io/tags/storage-account/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/storage-account/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ストレージアカウント</title>
+      <link>https://hirokimatsueda.github.io/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ファイル共有</title>
+      <link>https://hirokimatsueda.github.io/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AKS</title>
+      <link>https://hirokimatsueda.github.io/tags/aks/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/aks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Azure Kubernetes Services</title>
+      <link>https://hirokimatsueda.github.io/tags/azure-kubernetes-services/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/azure-kubernetes-services/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flux</title>
+      <link>https://hirokimatsueda.github.io/tags/flux/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/flux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GitOps</title>
+      <link>https://hirokimatsueda.github.io/tags/gitops/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/gitops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Terraform</title>
+      <link>https://hirokimatsueda.github.io/tags/terraform/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/terraform/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>C#</title>
       <link>https://hirokimatsueda.github.io/tags/c#/</link>

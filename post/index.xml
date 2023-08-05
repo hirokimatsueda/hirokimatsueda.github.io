@@ -7,7 +7,42 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 13 May 2023 13:29:27 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jul 2023 09:31:03 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ストレージアカウントのPremiumな選択肢を覚えてみる</title>
+      <link>https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/</link>
+      <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/</guid>
+      <description>皆さん、Azure の Premium なオプションはどれくらい使えていますか？
+私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。
+Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。
+ストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts
+Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。
+こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。
+必要に応じて CDN などの他のサービスも組み合わせますかね。
+これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。
+ Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。
+各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。
+（2023/7/28 時点のドキュメントからピックアップ）
+Premium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn.</description>
+    </item>
+    
+    <item>
+      <title>Terraformを使ってAKS上にFluxを導入する手順とデモ</title>
+      <link>https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/</guid>
+      <description>はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。
+Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。
+本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。
+AKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。
+続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。
+Deploy key の作成方法は下記です。
+ 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。</description>
+    </item>
+    
     <item>
       <title>ChatGPT が子供向けの曲を作ったらどうなる？</title>
       <link>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</link>

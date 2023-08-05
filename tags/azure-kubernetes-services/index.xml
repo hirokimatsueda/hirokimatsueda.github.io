@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Azure Kubernetes Services on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/azure-kubernetes-services/</link>
+    <description>Recent content in Azure Kubernetes Services on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Thu, 06 Jul 2023 09:36:15 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/azure-kubernetes-services/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraformを使ってAKS上にFluxを導入する手順とデモ</title>
+      <link>https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/</link>
+      <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/</guid>
+      <description>はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。
+Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。
+本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。
+AKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。
+続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。
+Deploy key の作成方法は下記です。
+ 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。</description>
+    </item>
+    
+  </channel>
+</rss>

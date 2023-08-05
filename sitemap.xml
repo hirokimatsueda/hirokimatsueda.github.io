@@ -3,24 +3,66 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://hirokimatsueda.github.io/</loc>
-    <lastmod>2023-05-13T13:29:27+09:00</lastmod>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/categories/azure/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/blob/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/categories/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/file-share/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/premium/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/storage-account/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</loc>
+    <lastmod>2023-07-28T09:31:03+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/aks/</loc>
+    <lastmod>2023-07-06T09:36:15+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/azure-kubernetes-services/</loc>
+    <lastmod>2023-07-06T09:36:15+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/flux/</loc>
+    <lastmod>2023-07-06T09:36:15+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/gitops/</loc>
+    <lastmod>2023-07-06T09:36:15+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/tags/terraform/</loc>
+    <lastmod>2023-07-06T09:36:15+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/</loc>
+    <lastmod>2023-07-06T09:36:15+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</loc>
     <lastmod>2023-05-13T13:29:27+09:00</lastmod>
-  </url><url>
-    <loc>https://hirokimatsueda.github.io/post/</loc>
-    <lastmod>2023-05-13T13:29:27+09:00</lastmod>
-  </url><url>
-    <loc>https://hirokimatsueda.github.io/categories/azure/</loc>
-    <lastmod>2022-12-02T10:00:00+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/baby-info-recording-system/</loc>
     <lastmod>2022-12-02T10:00:00+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/tags/c#/</loc>
-    <lastmod>2022-12-02T10:00:00+09:00</lastmod>
-  </url><url>
-    <loc>https://hirokimatsueda.github.io/categories/</loc>
     <lastmod>2022-12-02T10:00:00+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/tags/cosmos-db/</loc>
@@ -33,9 +75,6 @@
     <lastmod>2022-12-02T10:00:00+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/tags/managed-id/</loc>
-    <lastmod>2022-12-02T10:00:00+09:00</lastmod>
-  </url><url>
-    <loc>https://hirokimatsueda.github.io/tags/</loc>
     <lastmod>2022-12-02T10:00:00+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</loc>

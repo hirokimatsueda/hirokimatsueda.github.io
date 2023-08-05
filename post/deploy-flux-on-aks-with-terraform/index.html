@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Terraformを使ってAKS上にFluxを導入する手順とデモ | 備忘録</title>
+<meta name="keywords" content="AKS, Azure Kubernetes Services, Terraform, GitOps, Flux" />
+<meta name="description" content="はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。
+Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。
+本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。
+AKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。
+続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。
+Deploy key の作成方法は下記です。
+ 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="Terraformを使ってAKS上にFluxを導入する手順とデモ" />
+<meta property="og:description" content="はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。
+Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。
+本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。
+AKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。
+続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。
+Deploy key の作成方法は下記です。
+ 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-07-06T09:36:15&#43;09:00" />
+<meta property="article:modified_time" content="2023-07-06T09:36:15&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Terraformを使ってAKS上にFluxを導入する手順とデモ"/>
+<meta name="twitter:description" content="はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。
+Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。
+本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。
+AKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。
+続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。
+Deploy key の作成方法は下記です。
+ 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Terraformを使ってAKS上にFluxを導入する手順とデモ",
+      "item": "https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraformを使ってAKS上にFluxを導入する手順とデモ",
+  "name": "Terraformを使ってAKS上にFluxを導入する手順とデモ",
+  "description": "はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。\nFlux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。\n本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。\nAKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。\n続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。\nDeploy key の作成方法は下記です。\n 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。",
+  "keywords": [
+    "AKS", "Azure Kubernetes Services", "Terraform", "GitOps", "Flux"
+  ],
+  "articleBody": "はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。\nFlux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。\n本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。\nAKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。\n続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。\nDeploy key の作成方法は下記です。\n 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。\nAKS と Flux の導入 AKS の作成と Flux の導入は Terraform で実現しましょう。\n主に azurerm_kubernetes_cluster と flux_bootstrap_git を利用します。検証時点では flux_bootstrap_git のバージョンは 1.0.0-rc.5 でした。\nmain.tf\nterraform { required_providers { kubernetes = { source = \"hashicorp/kubernetes\" } flux = { source = \"fluxcd/flux\" version = \"1.0.0-rc.5\" } } } provider \"azurerm\" { subscription_id = var.subscription_id client_id = var.sp_client_id client_secret = var.sp_client_secret tenant_id = var.sp_tenant_id features {} } provider \"kubernetes\" { host = azurerm_kubernetes_cluster.this.kube_config.0.host client_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate) client_key = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key) cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate) } provider \"flux\" { kubernetes = { host = azurerm_kubernetes_cluster.this.kube_config.0.host username = azurerm_kubernetes_cluster.this.kube_config.0.username password = azurerm_kubernetes_cluster.this.kube_config.0.password client_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate) client_key = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key) cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate) } git = { url = \"ssh://git@github.com/${var.github_organization_name}/${var.github_repository_name}.git\" ssh = { username = \"git\" private_key = file(var.gitops_ssh_private_key_file) } } } locals { resource_group_name = \"rg-gitops\" aks_name = \"aks-gitops\" namespace_flux = \"flux-system\" } resource \"azurerm_resource_group\" \"this\" { name = local.resource_group_name location = \"japaneast\" } resource \"azurerm_kubernetes_cluster\" \"this\" { name = local.aks_name location = \"japaneast\" resource_group_name = azurerm_resource_group.this.name automatic_channel_upgrade = \"patch\" dns_prefix = \"dns\" default_node_pool { name = \"system\" node_count = 1 vm_size = \"Standard_B2s\" type = \"VirtualMachineScaleSets\" } identity { type = \"SystemAssigned\" } network_profile { network_plugin = \"azure\" } } resource \"kubernetes_namespace\" \"flux\" { metadata { name = local.namespace_flux } depends_on = [ azurerm_kubernetes_cluster.this ] lifecycle { ignore_changes = [ metadata ] } } resource \"flux_bootstrap_git\" \"this\" { namespace = kubernetes_namespace.flux.metadata[0].name path = \"clusters/${local.aks_name}\" } variables.tf\nvariable \"subscription_id\" { description = \"AKS作成先のサブスクリプションのID\" type = string } variable \"sp_tenant_id\" { description = \"AzureのテナントのID\" type = string } variable \"sp_client_id\" { description = \"Azureに接続するサービスプリンシパルのID\" type = string } variable \"sp_client_secret\" { description = \"Azureに接続するサービスプリンシパルのシークレット\" sensitive = true type = string } variable \"github_organization_name\" { description = \"GitHubリポジトリが所属する組織名またはユーザー名\" type = string } variable \"github_repository_name\" { description = \"GitHubリポジトリ名\" type = string } variable \"gitops_ssh_private_key_file\" { description = \"GitHubリポジトリのDeploy keyの秘密鍵が記載されたファイルパス\" type = string } terraform apply 時は、variables.tf の description の説明を参考にパラメータを渡してあげてください。\nprovider の記述が特徴的かと思います。 namespace の作成や Flux の導入時に kubernetes への接続情報が必要になるのですが、 provider \"kubernetes\" や  provider \"flux\" の記載で azurerm_kubernetes_cluster のアウトプットから拾うようにしています。\n他は各リソースの terraform ドキュメントに記載されている内容とあまり差が無いと思います。\nGitOps のデモ terraform apply が成功すると、GitOps 用の GitHub リポジトリ内に clusters/aks-gitops/flux-system フォルダが作成され、ここに Flux の管理ファイルが保管されています。\nmain ブランチの clusters/aks-gitops フォルダ内が Flux により監視されているので、ここに好きなファイル名.yaml でマニフェストファイルを追加してあげると AKS にデプロイされます。\nGitHub を監視する周期はデフォルト設定だと 1 分です。\n試しに下記のマニフェストファイルを clusters/aks-gitops/sample-namespace.yaml として main ブランチにコミット、プッシュしてみましょう。\nsample-namespace.yaml\nkind: Namespace apiVersion: v1 metadata:  name: sample  labels:  name: sample kubectl apply すると sample という名前の namespace が作成されるマニフェストファイルですね。\nnamespace が作成されたかどうかは好きな方法で確認して OK ですが、Azure ポータルから見るのが気軽ですかね？\nAzure ポータルから Terraform で作成された AKS の「Kubenetes リソース」→「名前空間」を選択してください。\nkubectl apply せずに、マニフェストファイルをプッシュしてから 1 分以内に namespace が作成されたと思います！\nファイルの削除をコミットすれば namespace が削除されます、素晴らしいー\nまとめ Terraform を使用することで、簡単に Flux を用いた GitOps 環境が構築できることが分かりました。\nGitOps の実現手段としては ArgoCD もありますが、Flux の利用もぜひ検討してみてください。\n",
+  "wordCount" : "474",
+  "inLanguage": "en",
+  "datePublished": "2023-07-06T09:36:15+09:00",
+  "dateModified": "2023-07-06T09:36:15+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Terraformを使ってAKS上にFluxを導入する手順とデモ
+    </h1>
+    <div class="post-meta"><span title='2023-07-06 09:36:15 +0900 JST'>July 6, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="はじめに">はじめに<a hidden class="anchor" aria-hidden="true" href="#はじめに">#</a></h1>
+<p>GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。</p>
+<p>Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。</p>
+<p>本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。</p>
+<h1 id="aks-上に-flux-を導入する手順">AKS 上に Flux を導入する手順<a hidden class="anchor" aria-hidden="true" href="#aks-上に-flux-を導入する手順">#</a></h1>
+<h2 id="連携先の-github-リポジトリの準備">連携先の GitHub リポジトリの準備<a hidden class="anchor" aria-hidden="true" href="#連携先の-github-リポジトリの準備">#</a></h2>
+<p>GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。</p>
+<p>続いて GitHub との認証情報の準備です。
+今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。</p>
+<p>Deploy key の作成方法は下記です。</p>
+<ol>
+<li>接続に使用する SSH キーを生成します
+<ul>
+<li>参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key</li>
+</ul>
+</li>
+<li>対象のリポジトリの「Setting」から、「Deploy keys」を開きます</li>
+<li>「Add deploy key」をクリックします</li>
+<li>Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します</li>
+</ol>
+<p>SSH キーの秘密鍵は Terraform の実行時に必要になります。</p>
+<h1 id="aks-と-flux-の導入">AKS と Flux の導入<a hidden class="anchor" aria-hidden="true" href="#aks-と-flux-の導入">#</a></h1>
+<p>AKS の作成と Flux の導入は Terraform で実現しましょう。</p>
+<p>主に azurerm_kubernetes_cluster と flux_bootstrap_git を利用します。検証時点では flux_bootstrap_git のバージョンは <code>1.0.0-rc.5</code> でした。</p>
+<p><strong>main.tf</strong></p>
+<pre tabindex="0"><code>terraform {
+  required_providers {
+    kubernetes = {
+      source = &#34;hashicorp/kubernetes&#34;
+    }
+    flux = {
+      source  = &#34;fluxcd/flux&#34;
+      version = &#34;1.0.0-rc.5&#34;
+    }
+  }
+}
+
+provider &#34;azurerm&#34; {
+  subscription_id = var.subscription_id
+  client_id       = var.sp_client_id
+  client_secret   = var.sp_client_secret
+  tenant_id       = var.sp_tenant_id
+  features {}
+}
+
+provider &#34;kubernetes&#34; {
+  host                   = azurerm_kubernetes_cluster.this.kube_config.0.host
+  client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)
+  client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key)
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate)
+}
+
+provider &#34;flux&#34; {
+  kubernetes = {
+    host                   = azurerm_kubernetes_cluster.this.kube_config.0.host
+    username               = azurerm_kubernetes_cluster.this.kube_config.0.username
+    password               = azurerm_kubernetes_cluster.this.kube_config.0.password
+    client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)
+    client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate)
+  }
+  git = {
+    url = &#34;ssh://git@github.com/${var.github_organization_name}/${var.github_repository_name}.git&#34;
+    ssh = {
+      username    = &#34;git&#34;
+      private_key = file(var.gitops_ssh_private_key_file)
+    }
+  }
+}
+
+locals {
+  resource_group_name = &#34;rg-gitops&#34;
+  aks_name            = &#34;aks-gitops&#34;
+  namespace_flux      = &#34;flux-system&#34;
+}
+
+resource &#34;azurerm_resource_group&#34; &#34;this&#34; {
+  name     = local.resource_group_name
+  location = &#34;japaneast&#34;
+}
+
+resource &#34;azurerm_kubernetes_cluster&#34; &#34;this&#34; {
+  name                      = local.aks_name
+  location                  = &#34;japaneast&#34;
+  resource_group_name       = azurerm_resource_group.this.name
+  automatic_channel_upgrade = &#34;patch&#34;
+  dns_prefix                = &#34;dns&#34;
+
+  default_node_pool {
+    name       = &#34;system&#34;
+    node_count = 1
+    vm_size    = &#34;Standard_B2s&#34;
+    type       = &#34;VirtualMachineScaleSets&#34;
+  }
+
+  identity {
+    type = &#34;SystemAssigned&#34;
+  }
+
+  network_profile {
+    network_plugin = &#34;azure&#34;
+  }
+}
+
+resource &#34;kubernetes_namespace&#34; &#34;flux&#34; {
+  metadata {
+    name = local.namespace_flux
+  }
+  depends_on = [
+    azurerm_kubernetes_cluster.this
+  ]
+
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
+}
+
+resource &#34;flux_bootstrap_git&#34; &#34;this&#34; {
+  namespace = kubernetes_namespace.flux.metadata[0].name
+  path      = &#34;clusters/${local.aks_name}&#34;
+}
+</code></pre><p><strong>variables.tf</strong></p>
+<pre tabindex="0"><code>variable &#34;subscription_id&#34; {
+  description = &#34;AKS作成先のサブスクリプションのID&#34;
+  type        = string
+}
+
+variable &#34;sp_tenant_id&#34; {
+  description = &#34;AzureのテナントのID&#34;
+  type        = string
+}
+
+variable &#34;sp_client_id&#34; {
+  description = &#34;Azureに接続するサービスプリンシパルのID&#34;
+  type        = string
+}
+
+variable &#34;sp_client_secret&#34; {
+  description = &#34;Azureに接続するサービスプリンシパルのシークレット&#34;
+  sensitive   = true
+  type        = string
+}
+
+variable &#34;github_organization_name&#34; {
+  description = &#34;GitHubリポジトリが所属する組織名またはユーザー名&#34;
+  type        = string
+}
+
+variable &#34;github_repository_name&#34; {
+  description = &#34;GitHubリポジトリ名&#34;
+  type        = string
+}
+
+variable &#34;gitops_ssh_private_key_file&#34; {
+  description = &#34;GitHubリポジトリのDeploy keyの秘密鍵が記載されたファイルパス&#34;
+  type        = string
+}
+</code></pre><p>terraform apply 時は、variables.tf の description の説明を参考にパラメータを渡してあげてください。</p>
+<p>provider の記述が特徴的かと思います。
+namespace の作成や Flux の導入時に kubernetes への接続情報が必要になるのですが、 <code>provider &quot;kubernetes&quot;</code> や <code> provider &quot;flux&quot;</code> の記載で azurerm_kubernetes_cluster のアウトプットから拾うようにしています。</p>
+<p>他は各リソースの terraform ドキュメントに記載されている内容とあまり差が無いと思います。</p>
+<h1 id="gitops-のデモ">GitOps のデモ<a hidden class="anchor" aria-hidden="true" href="#gitops-のデモ">#</a></h1>
+<p>terraform apply が成功すると、GitOps 用の GitHub リポジトリ内に <code>clusters/aks-gitops/flux-system</code> フォルダが作成され、ここに Flux の管理ファイルが保管されています。</p>
+<p>main ブランチの <code>clusters/aks-gitops</code> フォルダ内が Flux により監視されているので、ここに好きなファイル名.yaml でマニフェストファイルを追加してあげると AKS にデプロイされます。</p>
+<p>GitHub を監視する周期はデフォルト設定だと 1 分です。</p>
+<p>試しに下記のマニフェストファイルを <code>clusters/aks-gitops/sample-namespace.yaml</code> として main ブランチにコミット、プッシュしてみましょう。</p>
+<p><strong>sample-namespace.yaml</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Namespace</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample</span>
+</span></span></code></pre></div><p>kubectl apply すると <code>sample</code> という名前の namespace が作成されるマニフェストファイルですね。</p>
+<p>namespace が作成されたかどうかは好きな方法で確認して OK ですが、Azure ポータルから見るのが気軽ですかね？</p>
+<p>Azure ポータルから Terraform で作成された AKS の「Kubenetes リソース」→「名前空間」を選択してください。</p>
+<p>kubectl apply せずに、マニフェストファイルをプッシュしてから 1 分以内に namespace が作成されたと思います！</p>
+<p>ファイルの削除をコミットすれば namespace が削除されます、素晴らしいー</p>
+<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<p>Terraform を使用することで、簡単に Flux を用いた GitOps 環境が構築できることが分かりました。</p>
+<p>GitOps の実現手段としては ArgoCD もありますが、Flux の利用もぜひ検討してみてください。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/aks/">AKS</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/azure-kubernetes-services/">Azure Kubernetes Services</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/terraform/">Terraform</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/gitops/">GitOps</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/flux/">Flux</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function() {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+</script></body>
+
+</html>

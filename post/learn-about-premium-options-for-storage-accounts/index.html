@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ストレージアカウントのPremiumな選択肢を覚えてみる | 備忘録</title>
+<meta name="keywords" content="Storage Account, ストレージアカウント, Premium, Blob, ファイル共有, File Share" />
+<meta name="description" content="皆さん、Azure の Premium なオプションはどれくらい使えていますか？
+私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。
+Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。
+ストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts
+Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。
+こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。
+必要に応じて CDN などの他のサービスも組み合わせますかね。
+これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。
+ Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。
+各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。
+（2023/7/28 時点のドキュメントからピックアップ）
+Premium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn.">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="ストレージアカウントのPremiumな選択肢を覚えてみる" />
+<meta property="og:description" content="皆さん、Azure の Premium なオプションはどれくらい使えていますか？
+私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。
+Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。
+ストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts
+Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。
+こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。
+必要に応じて CDN などの他のサービスも組み合わせますかね。
+これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。
+ Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。
+各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。
+（2023/7/28 時点のドキュメントからピックアップ）
+Premium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-07-28T09:31:03&#43;09:00" />
+<meta property="article:modified_time" content="2023-07-28T09:31:03&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ストレージアカウントのPremiumな選択肢を覚えてみる"/>
+<meta name="twitter:description" content="皆さん、Azure の Premium なオプションはどれくらい使えていますか？
+私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。
+Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。
+ストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts
+Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。
+こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。
+必要に応じて CDN などの他のサービスも組み合わせますかね。
+これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。
+ Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。
+各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。
+（2023/7/28 時点のドキュメントからピックアップ）
+Premium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "ストレージアカウントのPremiumな選択肢を覚えてみる",
+      "item": "https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ストレージアカウントのPremiumな選択肢を覚えてみる",
+  "name": "ストレージアカウントのPremiumな選択肢を覚えてみる",
+  "description": "皆さん、Azure の Premium なオプションはどれくらい使えていますか？\n私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。\nMicrosoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。\nストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts\nAzure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。\nこちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。\n必要に応じて CDN などの他のサービスも組み合わせますかね。\nこれに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。\n Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。\n各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。\n（2023/7/28 時点のドキュメントからピックアップ）\nPremium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn.",
+  "keywords": [
+    "Storage Account", "ストレージアカウント", "Premium", "Blob", "ファイル共有", "File Share"
+  ],
+  "articleBody": "皆さん、Azure の Premium なオプションはどれくらい使えていますか？\n私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。\nMicrosoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。\nストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts\nAzure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。\nこちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。\n必要に応じて CDN などの他のサービスも組み合わせますかね。\nこれに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。\n Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。\n各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。\n（2023/7/28 時点のドキュメントからピックアップ）\nPremium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage\nBlob には上記の Premium 以外に 3 のアクセス層があります。\n Premium Blob Storage  可用性：99.9% 待機時間：1 桁ミリ秒   ホット アクセス層  可用性：99.9% 待機時間：ミリ秒   クール アクセス層  可用性：99% 待機時間：ミリ秒 最小ストレージ存続期間：30 日   アーカイブ アクセス層  可用性：オフライン 待機時間：時間 最小ストレージ存続期間：180 日    下に行くにつれ、ストレージコストが下がり、トランザクションコストが上がります。\nクールとアーカイブの場合、最小ストレージ存続期間内に別の層に移動したり削除したりすると、早期削除料金を取られます。\nクールとアーカイブの中間に位置する「コールド」アクセス層もプレビュー中だったりしますね。\nhttps://azure.microsoft.com/ja-jp/updates/public-preview-azure-cold-storage/\nまとめ ストレージアカウントの Premium なオプションの特徴を見比べてみました。\n頭ごなしに「高いからいいや・・・」ではなく、案件の特徴に合わせて使い分けていきましょう。\n",
+  "wordCount" : "139",
+  "inLanguage": "en",
+  "datePublished": "2023-07-28T09:31:03+09:00",
+  "dateModified": "2023-07-28T09:31:03+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ストレージアカウントのPremiumな選択肢を覚えてみる
+    </h1>
+    <div class="post-meta"><span title='2023-07-28 09:31:03 +0900 JST'>July 28, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>皆さん、Azure の Premium なオプションはどれくらい使えていますか？</p>
+<p>私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。</p>
+<p>Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。</p>
+<h1 id="ストレージ-アカウントの種類">ストレージ アカウントの種類<a hidden class="anchor" aria-hidden="true" href="#ストレージ-アカウントの種類">#</a></h1>
+<p><a href="https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts">https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts</a></p>
+<p>Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。</p>
+<p>こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。</p>
+<p>必要に応じて CDN などの他のサービスも組み合わせますかね。</p>
+<p>これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。</p>
+<ul>
+<li>Premium ブロック BLOB</li>
+<li>Premium ファイル共有</li>
+<li>Premium ページ BLOB</li>
+</ul>
+<p>「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。</p>
+<p>各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。</p>
+<p>（2023/7/28 時点のドキュメントからピックアップ）</p>
+<h2 id="premium-ブロック-blob">Premium ブロック BLOB<a hidden class="anchor" aria-hidden="true" href="#premium-ブロック-blob">#</a></h2>
+<ul>
+<li>高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している</li>
+<li>コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる</li>
+</ul>
+<h2 id="premium-ファイル共有">Premium ファイル共有<a hidden class="anchor" aria-hidden="true" href="#premium-ファイル共有">#</a></h2>
+<ul>
+<li>サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用</li>
+<li>最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い</li>
+<li>ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい</li>
+</ul>
+<h2 id="premium-ページ-blob">Premium ページ BLOB<a hidden class="anchor" aria-hidden="true" href="#premium-ページ-blob">#</a></h2>
+<ul>
+<li>BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供</li>
+<li>サイズは固定で最大 8TB</li>
+</ul>
+<h1 id="補足blob-のアクセス層">補足：Blob のアクセス層<a hidden class="anchor" aria-hidden="true" href="#補足blob-のアクセス層">#</a></h1>
+<p><a href="https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage">https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage</a></p>
+<p>Blob には上記の Premium 以外に 3 のアクセス層があります。</p>
+<ul>
+<li>Premium Blob Storage
+<ul>
+<li>可用性：99.9%</li>
+<li>待機時間：1 桁ミリ秒</li>
+</ul>
+</li>
+<li>ホット アクセス層
+<ul>
+<li>可用性：99.9%</li>
+<li>待機時間：ミリ秒</li>
+</ul>
+</li>
+<li>クール アクセス層
+<ul>
+<li>可用性：99%</li>
+<li>待機時間：ミリ秒</li>
+<li>最小ストレージ存続期間：30 日</li>
+</ul>
+</li>
+<li>アーカイブ アクセス層
+<ul>
+<li>可用性：オフライン</li>
+<li>待機時間：時間</li>
+<li>最小ストレージ存続期間：180 日</li>
+</ul>
+</li>
+</ul>
+<p>下に行くにつれ、ストレージコストが下がり、トランザクションコストが上がります。</p>
+<p>クールとアーカイブの場合、最小ストレージ存続期間内に別の層に移動したり削除したりすると、早期削除料金を取られます。</p>
+<p>クールとアーカイブの中間に位置する「コールド」アクセス層もプレビュー中だったりしますね。</p>
+<p><a href="https://azure.microsoft.com/ja-jp/updates/public-preview-azure-cold-storage/">https://azure.microsoft.com/ja-jp/updates/public-preview-azure-cold-storage/</a></p>
+<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<p>ストレージアカウントの Premium なオプションの特徴を見比べてみました。</p>
+<p>頭ごなしに「高いからいいや・・・」ではなく、案件の特徴に合わせて使い分けていきましょう。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/storage-account/">Storage Account</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/">ストレージアカウント</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/premium/">Premium</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/blob/">Blob</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/">ファイル共有</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/file-share/">File Share</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function() {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+</script></body>
+
+</html>

@@ -138,6 +138,47 @@
 
 <article class="first-entry"> 
   <header class="entry-header">
+    <h2>ストレージアカウントのPremiumな選択肢を覚えてみる
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>皆さん、Azure の Premium なオプションはどれくらい使えていますか？
+私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。
+Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。
+ストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts
+Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。
+こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。
+必要に応じて CDN などの他のサービスも組み合わせますかね。
+これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。
+ Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。
+各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。
+（2023/7/28 時点のドキュメントからピックアップ）
+Premium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-07-28 09:31:03 +0900 JST'>July 28, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to ストレージアカウントのPremiumな選択肢を覚えてみる" href="https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Terraformを使ってAKS上にFluxを導入する手順とデモ
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。
+Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。
+本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。
+AKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。
+続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。
+Deploy key の作成方法は下記です。
+ 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-07-06 09:36:15 +0900 JST'>July 6, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to Terraformを使ってAKS上にFluxを導入する手順とデモ" href="https://hirokimatsueda.github.io/post/deploy-flux-on-aks-with-terraform/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>ChatGPT が子供向けの曲を作ったらどうなる？
     </h2>
   </header>
@@ -338,42 +379,6 @@ az staticwebapp disconnect --name static-web-app-name この状態で Azure ポ�
   </section>
   <footer class="entry-footer"><span title='2022-03-22 14:41:42 +0900 JST'>March 22, 2022</span></footer>
   <a class="entry-link" aria-label="post link to Static Web Appsの連携先GitHubリポジトリを変更する方法" href="https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>マネージドIDを使用してRunbookからAzureリソースを操作する
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
-操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
-Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
-作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5....</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-12-12 12:06:20 +0900 JST'>December 12, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to マネージドIDを使用してRunbookからAzureリソースを操作する" href="https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>上限変更ができないクォータの存在を知る
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Azure にはクォータ上限という概念があり、リソース作成はクォータ範囲内でしかできず、ただしクォータ上限の引き上げが要求が可能です。
-vCPU に関しては上限の引き上げが可能ですが、上限の引き上げが不可能なリソースも存在します。
-CDN プロファイルは上限の引き上げが不可能 CDN プロファイルは、サブスクリプション単位に 25 個までしか作成できません。
-https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits
-クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。
-1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。
-まとめ 大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。 必要に応じてサブスクリプションを分割するなどして対応しましょう。</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-04-06 22:04:57 +0900 JST'>April 6, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to 上限変更ができないクォータの存在を知る" href="https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
