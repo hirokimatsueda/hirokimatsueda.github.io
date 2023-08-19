@@ -7,7 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Fri, 28 Jul 2023 09:31:03 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/categories/azure/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Aug 2023 09:27:34 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/categories/azure/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Application Insightsでお手軽にお安く？HTTP監視しよう</title>
+      <link>https://hirokimatsueda.github.io/post/easy-http-monitoring-with-application-insights/</link>
+      <pubDate>Sat, 19 Aug 2023 09:27:34 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/easy-http-monitoring-with-application-insights/</guid>
+      <description>皆さんはパブリックに公開したシステムの正常稼働をどのように監視していますか？
+私は趣味でレンタルサーバーを常時動かしているのですが、HTTP 監視を行い不具合の検出をすぐに行えるようにしています。
+監視には Azure の Application Insights を利用しており、利用料金も私の使い方であれば格安ですので、こちらをご紹介したいと思います。
+HTTP 監視とは？ HTTP 監視とは、監視対象に対して定期的に HTTP のリクエストを送信し、その応答（200 応答するか？など）を確認する監視方法です。
+サーバー内部の不具合までは見られませんが、サーバーが落ちていないなど、ある程度の正常稼働を認識することができます。
+Application Insights による HTTP 監視 Azure の Application Insights を利用すると、お手軽に HTTP 監視を構成できます。
+可用性テストという名称です。
+Application Insights を構築し、Azure ポータルから「可用性」の画面を開くと設定を追加できます。
+「クラシックテスト」と「標準テスト」が存在しますが、「標準テスト」で実現することになります。
+（Azure で「クラシック」と名の付くものは廃止されていく運命にあることが多いです）
+標準テストのドキュメントに沿って設定してみましょう。
+Application Insights の構築・設定時のポイント  Application Insights の構築時に 2023/08/19 現在は「リソース モード」の選択がありますが、「クラシック」ではなく「ワークスペースベース」を選択します。クラシックは廃止予定の構成です。 URL にはポート番号の指定も可能ですので、通常のポート（HTTPS なら 443 とか）以外に対してもテストできます 東日本リージョンの Application Insights の場合、テスト 1 回につき $0.0008 のコストなので、要件に合わせて「テストの頻度」と「テストの場所」の数を調整しましょう 警告を「有効」にして追加の設定を入れ込むことで、HTTP 応答に問題があった際にメール通知等ができます  趣味程度の使い方の場合の料金は？ 趣味程度のサーバーなので、テストの頻度を 15 分毎、テストの場所を Japan East にしていますが、1 日当たり 8.</description>
+    </item>
+    
     <item>
       <title>ストレージアカウントのPremiumな選択肢を覚えてみる</title>
       <link>https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/</link>
