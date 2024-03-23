@@ -142,6 +142,25 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>AKS使いの私がEKS構築でハマったこと
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>概要 Azure にも AWS にもマネージドな Kubernetes があり、それぞれ Azure Kubernetes Service (AKS) と Amazon Elastic Kubernetes Service (EKS) という名前です。
+AKS（に限らず Azure のサービス）は、Azure ポータルから構築を進めるとすぐに使えることが多いです。
+EKS も AKS と同じノリでポータルで構築したらなかなか動かなかったので、ハマったポイントを共有します。
+ノードグループを追加しないと動かない Kubernetes はワーカーノードが無いと Pod を動かすことができません。
+AKS の場合、ワーカーノードを動かすためにはノードプールを用意する必要があります。 Azure ポータルから AKS クラスタを構築するときはノードプールの作成がデフォルトで指定されており、更にノードプール（厳密にはシステムモードのノードプール）の作成を指定していないとそもそも AKS 自体を構築できません。
+これに対して EKS の場合は、AWS コンソールから EKS クラスタを作成しただけではワーカーノードを動かすために必要なノードグループを作成してくれません。 クラスタはできているので、EKS に対してマニフェストファイルを apply する分には実行できるのですが、待っていても永遠に Pod が立ち上がりません。
+永続ボリュームとしての EBS のマウントにはアドオンを追加する必要がある AKS の場合、永続ボリュームとしてマネージドディスクをマウントする場合、StorageClass や Persistent Volume Claim のマニフェストファイルを用意していけば使えるのでアドオンを意識することはありませんでした。 クラスタの構築時も特にアドオンの選択はさせられません。
+EKS の場合は、クラスタの構築後にアドオンで EBS CSI driver を追加しないと EBS を永続ボリュームとして利用できません。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2024-03-23 15:02:22 +0900 JST'>March 23, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to AKS使いの私がEKS構築でハマったこと" href="https://hirokimatsueda.github.io/post/things-i-failed-at-building-eks-as-an-aks-user/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Application Insightsでお手軽にお安く？HTTP監視しよう
     </h2>
   </header>
@@ -366,28 +385,6 @@ SHARP MZ-731（たぶん） こちらは機械語で動くパソコンです。
   </section>
   <footer class="entry-footer"><span title='2022-06-21 12:06:20 +0900 JST'>June 21, 2022</span></footer>
   <a class="entry-link" aria-label="post link to 幼少期に触れ合ったパソコンたち" href="https://hirokimatsueda.github.io/post/computers-that-i-came-into-contact-with-in-my-childhood/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Static Web AppsのAPIでマネージドIDを使う方法
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
-API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
-API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
-Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
-https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
-このため、 独自の関数の使用 を選択する必要があります。
-・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
-https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
-独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
-https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
-ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。...</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-04-12 11:34:24 +0900 JST'>April 12, 2022</span></footer>
-  <a class="entry-link" aria-label="post link to Static Web AppsのAPIでマネージドIDを使う方法" href="https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
