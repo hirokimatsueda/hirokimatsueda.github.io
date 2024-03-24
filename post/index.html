@@ -142,6 +142,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>S3上の静的HTMLをカスタムドメインでCloudFrontから配信するサンプル
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>概要 AWS の理解向上を兼ねて、CloudFront で S3 上の HTML を配信する構成のサンプルを terraform で構成してみました。
+AWS Certificate Manager (ACM) で証明書を発行し、CloudFront に割り当てて、カスタムドメインで配信します。
+実際のソース 下記に配置しています。
+https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample
+実行時の前提  CloudFront に割り当てる親ドメインを管理する DNS 名前解決が可能な Route 53 がすでに構築されていること  実装ポイント   CloudFront の制約上、ACM を us-east-1 に構築する必要があるため、コードの簡素化のため全てのリソースを us-east-1 に構築しています
+provider &#34;aws&#34; {  region = &#34;us-east-1&#34;# CloudFront用のACMの要件に沿って設定  access_key = var.aws_access_key  secret_key = var.aws_secret_key }   S3 は CloudFront 以外からパブリックなアクセスをさせたくないため、IAM ポリシーを使用して CloudFront のみからアクセス可能にしています
+data &#34;aws_iam_policy_document&#34; &#34;static_site&#34; {  statement {  sid = &#34;AllowCloudFront&#34;  effect = &#34;Allow&#34;   principals {  type = &#34;AWS&#34;  identifiers = [  var....</p>
+  </section>
+  <footer class="entry-footer"><span title='2024-03-24 15:08:17 +0900 JST'>March 24, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to S3上の静的HTMLをカスタムドメインでCloudFrontから配信するサンプル" href="https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>AKS使いの私がEKS構築でハマったこと
     </h2>
   </header>
@@ -352,39 +370,6 @@ Functions から Cosmos DB にアクセスする手段は様々なものがあ�
   </section>
   <footer class="entry-footer"><span title='2022-08-20 14:50:37 +0900 JST'>August 20, 2022</span></footer>
   <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(概要)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-summary/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>幼少期に触れ合ったパソコンたち
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>今年も非常に優秀な新卒入社社員の皆さんと出会えてうれしい限りです。 この季節になると、なんとなく自分の過去を振り返っているように思います。
-なぜ自分はエンジニアになったか？を説明する時に、「10 歳からプログラミングを始めたから」と普段答えているのですが、3 つのパソコンとの関りが大きく関係していると思っています。
-ちなみに私が小学校 1 年生くらいの時に Windows 95 が出ました。
-Windows 95 のパソコン Windows 3.1 のパソコンに Windows 95 の CD-ROM でアップグレードインストールしたものです。
-ブルースクリーンが頻発したりハードディスクがガリガリ音を立てたり、本当に不安定なパソコンでした。メモリは確か 8MB・・・GB じゃないですよ？
-ハードディスクも 700MB くらいだった記憶があります。
-メモリは後で 40MB に増設した記憶があります。
-ゲームをやるくらいでしか使っていませんでしたが、Windows という、その後爆発的に普及する OS に幼少期から触れられたのは大きいです。
-NEC PC9801（たぶん） こちらは CLI ベースで動くパソコンですね。
-フロッピーディスクでアプリケーションを読み込んだりして使えるものです。
-このパソコンで父が趣味でオセロのプログラムを書いていて、そのソースコードの LINE 文を書き替えたら、オセロの盤面の線が斜めになったのが、プログラミングを始める本当の最初の点だと思います。
-これが無ければプログラミングは始めていなかったと思います。
-当時このパソコンが大好きでした。
-画面全体の表示を全て制御できるので、パソコンを全部コントロールしているような感覚になりました。
-高専の入試面接のときに「OS を作れるようになりたいです」などと無謀なことを言ったのもこちらがきっかけです。 （結局 OS の開発には１ミリも手を出しませんでした・・・）
-SHARP MZ-731（たぶん） こちらは機械語で動くパソコンです。
-祖父がパソコンを勉強するために購入したと聞いています。
-家庭用テレビに繋ぐと画面表示ができて、メモリが確か 64KB、ハードディスクは無く、カセットテープでデータの読み書きができました。
-例えば 3 分くらいかけてカセットテープを読み込ませると BASIC が使えるようになります。
-私個人としてはあんまり活用していなかったですが、メモリ空間の一部がディスプレイの表示に繋がっていて間違えて書き換えると画面の色が変わったりとか、マシンが「暴走」して応答しなくなるとかを経験して、純粋にコンピュータがどういうものかを理解することに役立ったと思います。
-まとめ メモリ容量とか具体的な数字で覚えているのが怖いですね。
-その後、パソコンは買い替えられて Windows Me とインターネット接続を手に入れ、Visual Basic 6....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-06-21 12:06:20 +0900 JST'>June 21, 2022</span></footer>
-  <a class="entry-link" aria-label="post link to 幼少期に触れ合ったパソコンたち" href="https://hirokimatsueda.github.io/post/computers-that-i-came-into-contact-with-in-my-childhood/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

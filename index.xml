@@ -7,7 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 23 Mar 2024 15:02:22 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Mar 2024 15:08:17 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>S3上の静的HTMLをカスタムドメインでCloudFrontから配信するサンプル</title>
+      <link>https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/</link>
+      <pubDate>Sun, 24 Mar 2024 15:08:17 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/</guid>
+      <description>概要 AWS の理解向上を兼ねて、CloudFront で S3 上の HTML を配信する構成のサンプルを terraform で構成してみました。
+AWS Certificate Manager (ACM) で証明書を発行し、CloudFront に割り当てて、カスタムドメインで配信します。
+実際のソース 下記に配置しています。
+https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample
+実行時の前提  CloudFront に割り当てる親ドメインを管理する DNS 名前解決が可能な Route 53 がすでに構築されていること  実装ポイント   CloudFront の制約上、ACM を us-east-1 に構築する必要があるため、コードの簡素化のため全てのリソースを us-east-1 に構築しています
+provider &amp;#34;aws&amp;#34; {  region = &amp;#34;us-east-1&amp;#34;# CloudFront用のACMの要件に沿って設定  access_key = var.aws_access_key  secret_key = var.aws_secret_key }   S3 は CloudFront 以外からパブリックなアクセスをさせたくないため、IAM ポリシーを使用して CloudFront のみからアクセス可能にしています
+data &amp;#34;aws_iam_policy_document&amp;#34; &amp;#34;static_site&amp;#34; {  statement {  sid = &amp;#34;AllowCloudFront&amp;#34;  effect = &amp;#34;Allow&amp;#34;   principals {  type = &amp;#34;AWS&amp;#34;  identifiers = [  var.</description>
+    </item>
+    
     <item>
       <title>AKS使いの私がEKS構築でハマったこと</title>
       <link>https://hirokimatsueda.github.io/post/things-i-failed-at-building-eks-as-an-aks-user/</link>
