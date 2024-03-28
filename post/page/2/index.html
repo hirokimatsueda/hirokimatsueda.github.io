@@ -251,6 +251,36 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>エンジニア業務を加速しよう！
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。
+私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。
+検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。
+検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。
+同じことをダラダラ何度も書かない ([ctrl] &#43; [R]の活用) コマンドを実行する時のお話です。
+例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。
+docker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？
+例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？
+できれば前回実行したコマンドをそのまま書いたことを書きたいですよね。
+そんな時、[ctrl] &#43; [R] が使えます。
+Linux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。
+そして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。
+reverse-i-search とか bck-i-search とか呼ばれるみたいですね。
+使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！
+ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。
+VM を活用する 例えば、Docker を使用する時、どこで動かしていますか？
+自分の PC で動かしていませんか？
+自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。
+ PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2019-12-03 08:22:49 +0900 JST'>December 3, 2019</span></footer>
+  <a class="entry-link" aria-label="post link to エンジニア業務を加速しよう！" href="https://hirokimatsueda.github.io/post/speeding-up-engineering-work/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>職業プログラマの第一歩を踏み出したあなたへ
     </h2>
   </header>
