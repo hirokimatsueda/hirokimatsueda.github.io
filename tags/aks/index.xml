@@ -23,5 +23,27 @@ Deploy key の作成方法は下記です。
  接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。</description>
     </item>
     
+    <item>
+      <title>自作のWindowsアプリをAKSに載せるキホン技</title>
+      <link>https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/</link>
+      <pubDate>Wed, 08 Apr 2020 21:07:42 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/</guid>
+      <description>Azure Kubernetes Service(以降、AKS)は Windows コンテナの使用できる構成を作成することができます。
+（記事公開時点ではパブリックプレビュー）
+Windows コンテナが使える AKS を用意して、アプリを動かしてみましょう。
+アプリの作成からインフラの作成まで一通り必要な手順を書いてみましたので、この記事をベースに Windows コンテナの世界に入門していただけたらと思います。
+また、アプリ開発、コンテナ作成、AKS 作成を一通り記載しているので、例えばアプリ開発は知識があるけどインフラはちょっと・・・という場合に部分的に参照していただけると嬉しいです。
+Azure Cloud Shell とはなんぞや？などの細かい説明は省いていますので、適宜調べながら読み進めていただけたらと思います。
+概要  （Windows 環境でしか動作しない）アプリケーションを作成します アプリケーションを載せたコンテナイメージを作成します コンテナイメージをコンテナレジストリ（ACR）に格納します Windows コンテナが動作する AKS を作成します マニフェストファイルを使用して、AKS 上でコンテナを動かします  Web アプリの作成 【作業環境の想定：手元の Windows PC】
+Web 上に公開されているサンプルアプリを使っても良いんですが、現実は自社で作成したアプリなどを使用すると思うので、Web アプリの作成からサラッと見てみましょう。
+Windows コンテナが必要なケースは、Windows でしか動作しないアプリ、例えば.NET Framework のアプリを使用している場合だと思われます。.NET Framework の ASP.NET MVC アプリを作っておきましょう。
+下記サイトから Visual Studio のインストーラをダウンロードします。 https://visualstudio.microsoft.com/ja/downloads/
+インストーラを起動し、「ASP.NET と Web 開発」を選択してインストールします。
+インストールが成功したら、新規プロジェクトを起動して、C#の ASP.NET MVC アプリを作成しましょう。
+ちょっと古めのアプリを載せる想定だと思いますので、.NET Framework は「4.5.2」辺りが良いでしょうか。プロジェクト名は適当で良いので、「MVC」のアプリを作成してください。
+アプリが作成されたら、Visual Studio のソリューションエクスプローラーから、Views/Home/Index.cshtml を開き、適当な加工を加えて実行してみてください。例えば下記のような感じでザックリいきましょう。</description>
+    </item>
+    
   </channel>
 </rss>

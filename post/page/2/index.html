@@ -142,6 +142,57 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>下記のサンプル実装のインフラコード部分を解説します。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
+本質的に必要なのは、中央の Functions と Cosmos DB です。
+Cosmos DB の中にはデータベースやコンテナーの概念があるので、これらもインフラ構築時に作成してしまいます。
+Azure のリソースは「診断設定」を設定するとリソースの状態が観測できるので、Functions と Cosmos DB に対して設定しておきます。診断ログの保管先として Log Analytics を指定しています。
+Functions のアプリの状態の観測のため、Application Insights と接続しています。
+Functions ではシステム割り当てマネージド ID を有効にして、Cosmos DB の権限設定でこのマネージド ID が Cosmos DB 内のデータを操作することを許可します。
+terraform を用いた構築 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/tree/main/infrastructure/terraform
+Azure のインフラ構築には terraform を利用しています。
+terraform についての説明は割愛させていただき、どのような方針で実装しているかを記載します。
+module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
+この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
+マネージド ID への権限付与 下記の実装で権限付与を行っています。
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
+azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
+これはアクセス権限の定義であり、割り当てではないです。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-08-20 14:50:38 +0900 JST'>August 20, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>実用性重視！AzureのマネージドID活用のサンプルコード(概要)
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
+そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。
+早速全体像をご紹介します。
+サンプルコードの概要 コードは下記にあります。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+何らかのデータを Functions を経由して Cosmos DB に保管・取得するアプリとインフラのコードのサンプルです。
+データは少なくとも id と category の値を持つことを想定します。こんな感じで。
+{  &#34;id&#34;: &#34;abc123&#34;,  &#34;category&#34;: &#34;test&#34;,  &#34;data&#34;: &#34;aaaabbbbcccc&#34; } category は Cosmos DB 上のパーティションキーとして設定しますので、一定の法則で値が入ると良いことがありそうですね。
+アーキテクチャ Architectureユーザーからのリクエストを Functions で受け取り、Cosmos DB とデータのやり取りをするシンプルな構成です。
+Functions の認証は Functions の webbook の API キーを利用します。
+Functions から Cosmos DB にアクセスする手段は様々なものがありますが、表題の通りマネージド ID を使用を想定しています。
+コードの構成 applications フォルダに Functions 上で動作する C#のアプリケーションがあり、infrastructure フォルダに Azure リソースを構築するための terraform のコードがあります。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-08-20 14:50:37 +0900 JST'>August 20, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(概要)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-summary/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>幼少期に触れ合ったパソコンたち
     </h2>
   </header>
@@ -251,6 +302,60 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>自作のWindowsアプリをAKSに載せるキホン技
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Azure Kubernetes Service(以降、AKS)は Windows コンテナの使用できる構成を作成することができます。
+（記事公開時点ではパブリックプレビュー）
+Windows コンテナが使える AKS を用意して、アプリを動かしてみましょう。
+アプリの作成からインフラの作成まで一通り必要な手順を書いてみましたので、この記事をベースに Windows コンテナの世界に入門していただけたらと思います。
+また、アプリ開発、コンテナ作成、AKS 作成を一通り記載しているので、例えばアプリ開発は知識があるけどインフラはちょっと・・・という場合に部分的に参照していただけると嬉しいです。
+Azure Cloud Shell とはなんぞや？などの細かい説明は省いていますので、適宜調べながら読み進めていただけたらと思います。
+概要  （Windows 環境でしか動作しない）アプリケーションを作成します アプリケーションを載せたコンテナイメージを作成します コンテナイメージをコンテナレジストリ（ACR）に格納します Windows コンテナが動作する AKS を作成します マニフェストファイルを使用して、AKS 上でコンテナを動かします  Web アプリの作成 【作業環境の想定：手元の Windows PC】
+Web 上に公開されているサンプルアプリを使っても良いんですが、現実は自社で作成したアプリなどを使用すると思うので、Web アプリの作成からサラッと見てみましょう。
+Windows コンテナが必要なケースは、Windows でしか動作しないアプリ、例えば.NET Framework のアプリを使用している場合だと思われます。.NET Framework の ASP.NET MVC アプリを作っておきましょう。
+下記サイトから Visual Studio のインストーラをダウンロードします。 https://visualstudio.microsoft.com/ja/downloads/
+インストーラを起動し、「ASP.NET と Web 開発」を選択してインストールします。
+インストールが成功したら、新規プロジェクトを起動して、C#の ASP.NET MVC アプリを作成しましょう。
+ちょっと古めのアプリを載せる想定だと思いますので、.NET Framework は「4.5.2」辺りが良いでしょうか。プロジェクト名は適当で良いので、「MVC」のアプリを作成してください。
+アプリが作成されたら、Visual Studio のソリューションエクスプローラーから、Views/Home/Index.cshtml を開き、適当な加工を加えて実行してみてください。例えば下記のような感じでザックリいきましょう。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2020-04-08 21:07:42 +0900 JST'>April 8, 2020</span></footer>
+  <a class="entry-link" aria-label="post link to 自作のWindowsアプリをAKSに載せるキホン技" href="https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Dockerfileに出てくる謎のexe、ServiceMonitor
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Dockerfile の基本的な書き方 皆様、Windows コンテナで遊んでいますか？
+Dockerfile に書く内容は、誤解を恐れず表現すると、だいたい下記のような流れですよね。
+ ベースイメージ ミドルウェアのインストール、セットアップの処理 アプリケーションのコピー アプリケーションの起動を監視するために ENTRYPOINT を記載  これだけ認識していれば、例えば単発実行や無限ループで処理待機するコンソールアプリケーションのコンテナ化なんてのは、（細かいことを無視すれば）すぐにできてしまうと思います。
+謎の exe 、ServiceMonitor しかし、例えば下記の Dockerfile を見てください。
+https://github.com/microsoft/dotnet-framework-docker/blob/7d120a3da56ea5279e1b54a8185530af056c7b33/4.8/aspnet/windowsservercore-ltsc2019/Dockerfile
+これは IIS で動く Web アプリを動かすときに使える Dockerfile になるんですが、 ENTRYPOINT に ServiceMonitor.exe なるものが指定されています。
+「なにこれ」と思いませんでしたか？
+私は思いました。
+そもそも ENTRYPOINT って何だっけ ENTRYPOINT は「コンテナが実行するファイルを設定します。」とのことです。
+http://docs.docker.jp/v1.11/engine/reference/builder.html#entrypoint
+そして、その「実行するファイル」が終了すると共に、コンテナが終了します。
+これを IIS で動かすアプリに当てはめるとどうなるでしょうか？
+IIS で動かすアプリは exe ファイルでは無いので、それ単体で実行することはできませんよね。IIS の上に載せてあげることで初めて動作します。
+ということは、IIS が ENTRYPOINT に記載すべきものとなります。
+しかし、 IIS 自体はサービスなので、「コンテナが実行するファイル」とは違う概念になります。
+「サービスの起動状態を監視するアプリ」が欲しい 例えば、「コンテナが実行するファイル」が IIS というサービスの起動状態を監視してくれて、そのサービスの状態に従って終了してくれたら良さそうに思いませんか？
+そんな役割を担ってくれるのが ServiceMonitor.exe です。
+よって、IIS のようなサービスの状態がコンテナの起動状態を左右する場合は、 ServiceMonitor.exe を ENTRYPOINT に指定してあげればコンテナが実現できそうですね。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2020-02-03 21:29:12 +0900 JST'>February 3, 2020</span></footer>
+  <a class="entry-link" aria-label="post link to Dockerfileに出てくる謎のexe、ServiceMonitor" href="https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>エンジニア業務を加速しよう！
     </h2>
   </header>
@@ -278,27 +383,10 @@ VM を活用する 例えば、Docker を使用する時、どこで動かして
   <footer class="entry-footer"><span title='2019-12-03 08:22:49 +0900 JST'>December 3, 2019</span></footer>
   <a class="entry-link" aria-label="post link to エンジニア業務を加速しよう！" href="https://hirokimatsueda.github.io/post/speeding-up-engineering-work/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>職業プログラマの第一歩を踏み出したあなたへ
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。
-仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。
-背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。
-そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。
-そこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。
-聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。
-人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c&#43;&#43;;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？...</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-06-21 12:06:20 +0900 JST'>June 21, 2019</span></footer>
-  <a class="entry-link" aria-label="post link to 職業プログラマの第一歩を踏み出したあなたへ" href="https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://hirokimatsueda.github.io/post/">« Prev Page</a>
+    <a class="next" href="https://hirokimatsueda.github.io/post/page/3/">Next Page »</a>
   </nav>
 </footer>
     </main>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Kubernetes | 備忘録</title>
+<meta name="keywords" content="" />
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/categories/kubernetes/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://hirokimatsueda.github.io/categories/kubernetes/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="Kubernetes" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/categories/kubernetes/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kubernetes"/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>Kubernetes</h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>kubectl waitでいろいろ待ってみよう
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Kubernetes はマニフェストファイルを用いて状態を定義することで、思い描く環境を作ることができるのが便利ですよね。
+ただ、ある一定の前提を満たさないと状態が定義できない時があります。
+例えば namespace が事前に存在していないと、その名前空間にはリソースが作れません。
+namespace の場合は kubectl create namespace を実行してからほかの作業を実施するような順次実行をすることで解決できますね。
+これで解決しないとき、例えば Kubernetes Operator のインストール完了を待機したい場合はどうすると良いでしょうか？
+kubectl wait で作業完了を待機 kubectl wait というコマンドがあります。
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait
+このコマンドは、リソースの状態が指定した状態になるのを待機してくれます。
+分かりやすい話だと例えば、deployment が available になるのを待機するには下記のように記載します。
+kubectl wait --timeout=90s --for=condition=available deployment/name-of-deployment timeout の指定により、90 秒以内に状態が変わらなければ諦めます。
+こちらは deployment 以外にも適用できるようで、Kubernetes Operator のインストールに使われる installplan が installed になるのを待機するにはこんな風に書けば良さそうです。
+kubectl wait --timeout=90s --for=condition=installed installplan/name-of-installplan -n operators このあたりを組み合わせれば、Kubernetes Operator のインストール処理の完了を待機して後続処理を実装することができそうですね。
+まとめ 短いですが、さまざまなリソースの状態を待機できる kubectl wait についてご紹介してみました。
+特に初期セットアップの自動化に役立つコマンドなのではないでしょうか？</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-01-18 20:55:17 +0900 JST'>January 18, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to kubectl waitでいろいろ待ってみよう" href="https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>自作のWindowsアプリをAKSに載せるキホン技
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Azure Kubernetes Service(以降、AKS)は Windows コンテナの使用できる構成を作成することができます。
+（記事公開時点ではパブリックプレビュー）
+Windows コンテナが使える AKS を用意して、アプリを動かしてみましょう。
+アプリの作成からインフラの作成まで一通り必要な手順を書いてみましたので、この記事をベースに Windows コンテナの世界に入門していただけたらと思います。
+また、アプリ開発、コンテナ作成、AKS 作成を一通り記載しているので、例えばアプリ開発は知識があるけどインフラはちょっと・・・という場合に部分的に参照していただけると嬉しいです。
+Azure Cloud Shell とはなんぞや？などの細かい説明は省いていますので、適宜調べながら読み進めていただけたらと思います。
+概要  （Windows 環境でしか動作しない）アプリケーションを作成します アプリケーションを載せたコンテナイメージを作成します コンテナイメージをコンテナレジストリ（ACR）に格納します Windows コンテナが動作する AKS を作成します マニフェストファイルを使用して、AKS 上でコンテナを動かします  Web アプリの作成 【作業環境の想定：手元の Windows PC】
+Web 上に公開されているサンプルアプリを使っても良いんですが、現実は自社で作成したアプリなどを使用すると思うので、Web アプリの作成からサラッと見てみましょう。
+Windows コンテナが必要なケースは、Windows でしか動作しないアプリ、例えば.NET Framework のアプリを使用している場合だと思われます。.NET Framework の ASP.NET MVC アプリを作っておきましょう。
+下記サイトから Visual Studio のインストーラをダウンロードします。 https://visualstudio.microsoft.com/ja/downloads/
+インストーラを起動し、「ASP.NET と Web 開発」を選択してインストールします。
+インストールが成功したら、新規プロジェクトを起動して、C#の ASP.NET MVC アプリを作成しましょう。
+ちょっと古めのアプリを載せる想定だと思いますので、.NET Framework は「4.5.2」辺りが良いでしょうか。プロジェクト名は適当で良いので、「MVC」のアプリを作成してください。
+アプリが作成されたら、Visual Studio のソリューションエクスプローラーから、Views/Home/Index.cshtml を開き、適当な加工を加えて実行してみてください。例えば下記のような感じでザックリいきましょう。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2020-04-08 21:07:42 +0900 JST'>April 8, 2020</span></footer>
+  <a class="entry-link" aria-label="post link to 自作のWindowsアプリをAKSに載せるキホン技" href="https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Dockerfileに出てくる謎のexe、ServiceMonitor
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Dockerfile の基本的な書き方 皆様、Windows コンテナで遊んでいますか？
+Dockerfile に書く内容は、誤解を恐れず表現すると、だいたい下記のような流れですよね。
+ ベースイメージ ミドルウェアのインストール、セットアップの処理 アプリケーションのコピー アプリケーションの起動を監視するために ENTRYPOINT を記載  これだけ認識していれば、例えば単発実行や無限ループで処理待機するコンソールアプリケーションのコンテナ化なんてのは、（細かいことを無視すれば）すぐにできてしまうと思います。
+謎の exe 、ServiceMonitor しかし、例えば下記の Dockerfile を見てください。
+https://github.com/microsoft/dotnet-framework-docker/blob/7d120a3da56ea5279e1b54a8185530af056c7b33/4.8/aspnet/windowsservercore-ltsc2019/Dockerfile
+これは IIS で動く Web アプリを動かすときに使える Dockerfile になるんですが、 ENTRYPOINT に ServiceMonitor.exe なるものが指定されています。
+「なにこれ」と思いませんでしたか？
+私は思いました。
+そもそも ENTRYPOINT って何だっけ ENTRYPOINT は「コンテナが実行するファイルを設定します。」とのことです。
+http://docs.docker.jp/v1.11/engine/reference/builder.html#entrypoint
+そして、その「実行するファイル」が終了すると共に、コンテナが終了します。
+これを IIS で動かすアプリに当てはめるとどうなるでしょうか？
+IIS で動かすアプリは exe ファイルでは無いので、それ単体で実行することはできませんよね。IIS の上に載せてあげることで初めて動作します。
+ということは、IIS が ENTRYPOINT に記載すべきものとなります。
+しかし、 IIS 自体はサービスなので、「コンテナが実行するファイル」とは違う概念になります。
+「サービスの起動状態を監視するアプリ」が欲しい 例えば、「コンテナが実行するファイル」が IIS というサービスの起動状態を監視してくれて、そのサービスの状態に従って終了してくれたら良さそうに思いませんか？
+そんな役割を担ってくれるのが ServiceMonitor.exe です。
+よって、IIS のようなサービスの状態がコンテナの起動状態を左右する場合は、 ServiceMonitor.exe を ENTRYPOINT に指定してあげればコンテナが実現できそうですね。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2020-02-03 21:29:12 +0900 JST'>February 3, 2020</span></footer>
+  <a class="entry-link" aria-label="post link to Dockerfileに出てくる謎のexe、ServiceMonitor" href="https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function() {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+</script></body>
+
+</html>

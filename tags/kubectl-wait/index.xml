@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>kubectl wait on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/kubectl-wait/</link>
+    <description>Recent content in kubectl wait on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Wed, 18 Jan 2023 20:55:17 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/kubectl-wait/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubectl waitでいろいろ待ってみよう</title>
+      <link>https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/</link>
+      <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/</guid>
+      <description>Kubernetes はマニフェストファイルを用いて状態を定義することで、思い描く環境を作ることができるのが便利ですよね。
+ただ、ある一定の前提を満たさないと状態が定義できない時があります。
+例えば namespace が事前に存在していないと、その名前空間にはリソースが作れません。
+namespace の場合は kubectl create namespace を実行してからほかの作業を実施するような順次実行をすることで解決できますね。
+これで解決しないとき、例えば Kubernetes Operator のインストール完了を待機したい場合はどうすると良いでしょうか？
+kubectl wait で作業完了を待機 kubectl wait というコマンドがあります。
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait
+このコマンドは、リソースの状態が指定した状態になるのを待機してくれます。
+分かりやすい話だと例えば、deployment が available になるのを待機するには下記のように記載します。
+kubectl wait --timeout=90s --for=condition=available deployment/name-of-deployment timeout の指定により、90 秒以内に状態が変わらなければ諦めます。
+こちらは deployment 以外にも適用できるようで、Kubernetes Operator のインストールに使われる installplan が installed になるのを待機するにはこんな風に書けば良さそうです。
+kubectl wait --timeout=90s --for=condition=installed installplan/name-of-installplan -n operators このあたりを組み合わせれば、Kubernetes Operator のインストール処理の完了を待機して後続処理を実装することができそうですね。
+まとめ 短いですが、さまざまなリソースの状態を待機できる kubectl wait についてご紹介してみました。
+特に初期セットアップの自動化に役立つコマンドなのではないでしょうか？</description>
+    </item>
+    
+  </channel>
+</rss>

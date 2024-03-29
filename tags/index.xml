@@ -180,6 +180,24 @@
     </item>
     
     <item>
+      <title>kubectl wait</title>
+      <link>https://hirokimatsueda.github.io/tags/kubectl-wait/</link>
+      <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/kubectl-wait/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>待機</title>
+      <link>https://hirokimatsueda.github.io/tags/%E5%BE%85%E6%A9%9F/</link>
+      <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/%E5%BE%85%E6%A9%9F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>C#</title>
       <link>https://hirokimatsueda.github.io/tags/c#/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
@@ -230,6 +248,24 @@
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
       
       <guid>https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>使用言語</title>
+      <link>https://hirokimatsueda.github.io/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</link>
+      <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>自己紹介</title>
+      <link>https://hirokimatsueda.github.io/tags/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B/</link>
+      <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B/</guid>
       <description></description>
     </item>
     
@@ -324,20 +360,74 @@
     </item>
     
     <item>
-      <title>bck-i-search</title>
-      <link>https://hirokimatsueda.github.io/tags/bck-i-search/</link>
-      <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
+      <title>Kubernetes</title>
+      <link>https://hirokimatsueda.github.io/tags/kubernetes/</link>
+      <pubDate>Wed, 08 Apr 2020 21:07:42 +0900</pubDate>
       
-      <guid>https://hirokimatsueda.github.io/tags/bck-i-search/</guid>
+      <guid>https://hirokimatsueda.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Windowsコンテナ</title>
+      <link>https://hirokimatsueda.github.io/tags/windows%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/</link>
+      <pubDate>Wed, 08 Apr 2020 21:07:42 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/windows%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Docker</title>
       <link>https://hirokimatsueda.github.io/tags/docker/</link>
-      <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
       
       <guid>https://hirokimatsueda.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dockerfile</title>
+      <link>https://hirokimatsueda.github.io/tags/dockerfile/</link>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/dockerfile/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ENTRYPOINT</title>
+      <link>https://hirokimatsueda.github.io/tags/entrypoint/</link>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/entrypoint/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IIS</title>
+      <link>https://hirokimatsueda.github.io/tags/iis/</link>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/iis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ServiceMonitor</title>
+      <link>https://hirokimatsueda.github.io/tags/servicemonitor/</link>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/servicemonitor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bck-i-search</title>
+      <link>https://hirokimatsueda.github.io/tags/bck-i-search/</link>
+      <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/bck-i-search/</guid>
       <description></description>
     </item>
     

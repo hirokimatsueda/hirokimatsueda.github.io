@@ -119,6 +119,28 @@ Deploy key の作成方法は下記です。
     </item>
     
     <item>
+      <title>kubectl waitでいろいろ待ってみよう</title>
+      <link>https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/</link>
+      <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/</guid>
+      <description>Kubernetes はマニフェストファイルを用いて状態を定義することで、思い描く環境を作ることができるのが便利ですよね。
+ただ、ある一定の前提を満たさないと状態が定義できない時があります。
+例えば namespace が事前に存在していないと、その名前空間にはリソースが作れません。
+namespace の場合は kubectl create namespace を実行してからほかの作業を実施するような順次実行をすることで解決できますね。
+これで解決しないとき、例えば Kubernetes Operator のインストール完了を待機したい場合はどうすると良いでしょうか？
+kubectl wait で作業完了を待機 kubectl wait というコマンドがあります。
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait
+このコマンドは、リソースの状態が指定した状態になるのを待機してくれます。
+分かりやすい話だと例えば、deployment が available になるのを待機するには下記のように記載します。
+kubectl wait --timeout=90s --for=condition=available deployment/name-of-deployment timeout の指定により、90 秒以内に状態が変わらなければ諦めます。
+こちらは deployment 以外にも適用できるようで、Kubernetes Operator のインストールに使われる installplan が installed になるのを待機するにはこんな風に書けば良さそうです。
+kubectl wait --timeout=90s --for=condition=installed installplan/name-of-installplan -n operators このあたりを組み合わせれば、Kubernetes Operator のインストール処理の完了を待機して後続処理を実装することができそうですね。
+まとめ 短いですが、さまざまなリソースの状態を待機できる kubectl wait についてご紹介してみました。
+特に初期セットアップの自動化に役立つコマンドなのではないでしょうか？</description>
+    </item>
+    
+    <item>
       <title>Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?</title>
       <link>https://hirokimatsueda.github.io/post/baby-info-recording-system/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
@@ -144,6 +166,32 @@ https://github.com/hirokimatsueda/baby-info-recording-system
 アプリは ASP.NET Core Blazor での記述です。
 インフラもアプリも、ベースとなる考え方は以前ブログでご紹介した下記のコードです。 https://github.com/hirokimatsueda/azure-managed-id-sample
 インフラ構築 Api は Static Web Apps のデフォルトの機能で動かすと Managed ID が使えないため、Static Web Apps とは別で構築した Functions を Static Web Apps にリンクする形を取るのがポイントです。</description>
+    </item>
+    
+    <item>
+      <title>35歳エンジニアが使える言語の変遷</title>
+      <link>https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</link>
+      <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</guid>
+      <description>「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。
+35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。
+10 歳～小学生 Excel VBA を使ってました。
+ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。
+中学生 Visual Basic 6.0（VB6）を使っていました。
+「のんびりゆっくり Visual Basic」という書籍が愛読書でした。
+夏休みの自由研究で毎年ゲームを作っていました。
+中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。
+高専生 専攻科まで行ったので 7 年間ですね。
+授業で習った C 言語や Java などが使えるようになりました。
+研究で C++と OpenGL で毛筆シミュレーションを作ったり、同じく C++と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。
+ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。
+社会人（1 社目、2 社目） Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。 その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。
+チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・
+社会人になってからは C#が一番好きな言語になりました。
+社会人（3 社目） 最初の頃は C#の技術力を武器に働きました。
+その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。
+いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。</description>
     </item>
     
     <item>
@@ -302,6 +350,54 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
 クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。
 1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。
 まとめ 大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。 必要に応じてサブスクリプションを分割するなどして対応しましょう。</description>
+    </item>
+    
+    <item>
+      <title>自作のWindowsアプリをAKSに載せるキホン技</title>
+      <link>https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/</link>
+      <pubDate>Wed, 08 Apr 2020 21:07:42 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/</guid>
+      <description>Azure Kubernetes Service(以降、AKS)は Windows コンテナの使用できる構成を作成することができます。
+（記事公開時点ではパブリックプレビュー）
+Windows コンテナが使える AKS を用意して、アプリを動かしてみましょう。
+アプリの作成からインフラの作成まで一通り必要な手順を書いてみましたので、この記事をベースに Windows コンテナの世界に入門していただけたらと思います。
+また、アプリ開発、コンテナ作成、AKS 作成を一通り記載しているので、例えばアプリ開発は知識があるけどインフラはちょっと・・・という場合に部分的に参照していただけると嬉しいです。
+Azure Cloud Shell とはなんぞや？などの細かい説明は省いていますので、適宜調べながら読み進めていただけたらと思います。
+概要  （Windows 環境でしか動作しない）アプリケーションを作成します アプリケーションを載せたコンテナイメージを作成します コンテナイメージをコンテナレジストリ（ACR）に格納します Windows コンテナが動作する AKS を作成します マニフェストファイルを使用して、AKS 上でコンテナを動かします  Web アプリの作成 【作業環境の想定：手元の Windows PC】
+Web 上に公開されているサンプルアプリを使っても良いんですが、現実は自社で作成したアプリなどを使用すると思うので、Web アプリの作成からサラッと見てみましょう。
+Windows コンテナが必要なケースは、Windows でしか動作しないアプリ、例えば.NET Framework のアプリを使用している場合だと思われます。.NET Framework の ASP.NET MVC アプリを作っておきましょう。
+下記サイトから Visual Studio のインストーラをダウンロードします。 https://visualstudio.microsoft.com/ja/downloads/
+インストーラを起動し、「ASP.NET と Web 開発」を選択してインストールします。
+インストールが成功したら、新規プロジェクトを起動して、C#の ASP.NET MVC アプリを作成しましょう。
+ちょっと古めのアプリを載せる想定だと思いますので、.NET Framework は「4.5.2」辺りが良いでしょうか。プロジェクト名は適当で良いので、「MVC」のアプリを作成してください。
+アプリが作成されたら、Visual Studio のソリューションエクスプローラーから、Views/Home/Index.cshtml を開き、適当な加工を加えて実行してみてください。例えば下記のような感じでザックリいきましょう。</description>
+    </item>
+    
+    <item>
+      <title>Dockerfileに出てくる謎のexe、ServiceMonitor</title>
+      <link>https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/</link>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/</guid>
+      <description>Dockerfile の基本的な書き方 皆様、Windows コンテナで遊んでいますか？
+Dockerfile に書く内容は、誤解を恐れず表現すると、だいたい下記のような流れですよね。
+ ベースイメージ ミドルウェアのインストール、セットアップの処理 アプリケーションのコピー アプリケーションの起動を監視するために ENTRYPOINT を記載  これだけ認識していれば、例えば単発実行や無限ループで処理待機するコンソールアプリケーションのコンテナ化なんてのは、（細かいことを無視すれば）すぐにできてしまうと思います。
+謎の exe 、ServiceMonitor しかし、例えば下記の Dockerfile を見てください。
+https://github.com/microsoft/dotnet-framework-docker/blob/7d120a3da56ea5279e1b54a8185530af056c7b33/4.8/aspnet/windowsservercore-ltsc2019/Dockerfile
+これは IIS で動く Web アプリを動かすときに使える Dockerfile になるんですが、 ENTRYPOINT に ServiceMonitor.exe なるものが指定されています。
+「なにこれ」と思いませんでしたか？
+私は思いました。
+そもそも ENTRYPOINT って何だっけ ENTRYPOINT は「コンテナが実行するファイルを設定します。」とのことです。
+http://docs.docker.jp/v1.11/engine/reference/builder.html#entrypoint
+そして、その「実行するファイル」が終了すると共に、コンテナが終了します。
+これを IIS で動かすアプリに当てはめるとどうなるでしょうか？
+IIS で動かすアプリは exe ファイルでは無いので、それ単体で実行することはできませんよね。IIS の上に載せてあげることで初めて動作します。
+ということは、IIS が ENTRYPOINT に記載すべきものとなります。
+しかし、 IIS 自体はサービスなので、「コンテナが実行するファイル」とは違う概念になります。
+「サービスの起動状態を監視するアプリ」が欲しい 例えば、「コンテナが実行するファイル」が IIS というサービスの起動状態を監視してくれて、そのサービスの状態に従って終了してくれたら良さそうに思いませんか？
+そんな役割を担ってくれるのが ServiceMonitor.exe です。
+よって、IIS のようなサービスの状態がコンテナの起動状態を左右する場合は、 ServiceMonitor.exe を ENTRYPOINT に指定してあげればコンテナが実現できそうですね。</description>
     </item>
     
     <item>

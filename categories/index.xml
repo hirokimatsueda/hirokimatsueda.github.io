@@ -35,5 +35,14 @@
       <description></description>
     </item>
     
+    <item>
+      <title>Kubernetes</title>
+      <link>https://hirokimatsueda.github.io/categories/kubernetes/</link>
+      <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/categories/kubernetes/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

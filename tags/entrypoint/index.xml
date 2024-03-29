@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>ENTRYPOINT on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/entrypoint/</link>
+    <description>Recent content in ENTRYPOINT on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Mon, 03 Feb 2020 21:29:12 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/entrypoint/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dockerfileに出てくる謎のexe、ServiceMonitor</title>
+      <link>https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/</link>
+      <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/</guid>
+      <description>Dockerfile の基本的な書き方 皆様、Windows コンテナで遊んでいますか？
+Dockerfile に書く内容は、誤解を恐れず表現すると、だいたい下記のような流れですよね。
+ ベースイメージ ミドルウェアのインストール、セットアップの処理 アプリケーションのコピー アプリケーションの起動を監視するために ENTRYPOINT を記載  これだけ認識していれば、例えば単発実行や無限ループで処理待機するコンソールアプリケーションのコンテナ化なんてのは、（細かいことを無視すれば）すぐにできてしまうと思います。
+謎の exe 、ServiceMonitor しかし、例えば下記の Dockerfile を見てください。
+https://github.com/microsoft/dotnet-framework-docker/blob/7d120a3da56ea5279e1b54a8185530af056c7b33/4.8/aspnet/windowsservercore-ltsc2019/Dockerfile
+これは IIS で動く Web アプリを動かすときに使える Dockerfile になるんですが、 ENTRYPOINT に ServiceMonitor.exe なるものが指定されています。
+「なにこれ」と思いませんでしたか？
+私は思いました。
+そもそも ENTRYPOINT って何だっけ ENTRYPOINT は「コンテナが実行するファイルを設定します。」とのことです。
+http://docs.docker.jp/v1.11/engine/reference/builder.html#entrypoint
+そして、その「実行するファイル」が終了すると共に、コンテナが終了します。
+これを IIS で動かすアプリに当てはめるとどうなるでしょうか？
+IIS で動かすアプリは exe ファイルでは無いので、それ単体で実行することはできませんよね。IIS の上に載せてあげることで初めて動作します。
+ということは、IIS が ENTRYPOINT に記載すべきものとなります。
+しかし、 IIS 自体はサービスなので、「コンテナが実行するファイル」とは違う概念になります。
+「サービスの起動状態を監視するアプリ」が欲しい 例えば、「コンテナが実行するファイル」が IIS というサービスの起動状態を監視してくれて、そのサービスの状態に従って終了してくれたら良さそうに思いませんか？
+そんな役割を担ってくれるのが ServiceMonitor.exe です。
+よって、IIS のようなサービスの状態がコンテナの起動状態を左右する場合は、 ServiceMonitor.exe を ENTRYPOINT に指定してあげればコンテナが実現できそうですね。</description>
+    </item>
+    
+  </channel>
+</rss>
