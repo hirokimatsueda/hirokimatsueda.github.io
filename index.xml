@@ -323,6 +323,30 @@ az staticwebapp disconnect --name static-web-app-name この状態で Azure ポ�
     </item>
     
     <item>
+      <title>AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる</title>
+      <link>https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/</link>
+      <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/</guid>
+      <description>AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
+OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
+OpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
+色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。
+サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。
+https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
+手順内で（省略可能）となっている部分については今回は省略してみました。
+クラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。
+下記を見るとクラスタへの接続方法が確認できます。
+https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster
+いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。
+ClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。
+https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler
+コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。
+GPU ノードはお財布が辛いので、例えばこれくらいですかね？
+apiVersion: &amp;#34;autoscaling.openshift.io/v1&amp;#34; kind: &amp;#34;ClusterAutoscaler&amp;#34; metadata:  name: &amp;#34;default&amp;#34; spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。</description>
+    </item>
+    
+    <item>
       <title>マネージドIDを使用してRunbookからAzureリソースを操作する</title>
       <link>https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/</link>
       <pubDate>Sun, 12 Dec 2021 12:06:20 +0900</pubDate>
@@ -338,6 +362,28 @@ Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.
     </item>
     
     <item>
+      <title>KubernetesのTaintにビビらない</title>
+      <link>https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/</link>
+      <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/</guid>
+      <description>Kubernetes をやり始めたころ、登場する言葉の多さに絶望したことを覚えています。 特にこの「Taint」はびっくりしました、「汚す」ってどういうこと？ ちょっと解説してみます。
+ノードを汚すという行為 kubectl taint のようなコマンドを使うと、ノードに Taint をつける、つまりノードを汚すことになります。
+なんだかネガティブな感じですよね。
+ここで大事なことは、「Pod はキレイ好き！」ということです。
+Taint が設定されたノードでは、普通の Pod は「こんな汚い場所で立ち上がりたくない！」となります。
+Taint を活用するコマンドで
+kubectl drain というのがありますが、これを使うと Taint の作用等により Pod をノードから安全に追い出すことができ、ノードのメンテナンスが可能な状態になります。
+汚れを許容する Toleration 通常の Pod は完璧主義というか、あらゆる Taint を拒否します（たぶん）。
+でも、いつもすべてを清潔に保てるとは限りませんよね、例えば家の窓の掃除は結構妥協してたり・・・
+こういう、一部の Taint は気にしない、といった振る舞いを Pod にさせるために Toleration という概念があります。
+例えば Windows コンテナの Pod は Windows のノードでしか起動できないので、ノードに Windows 限定にする Taint をつけておき、Windows の Pod で Toleration を設定すれば良いことがありそうですね。
+（急にニッチな話題に・・・）
+まとめ 詳しいコマンドは解説しませんでしたが、「Taint」という概念については「Pod はキレイ好きだから汚れた場所にはいきたくない」という性格を覚えておくと、関連するドキュメントが一気に読みやすくなります。
+是非覚えておいてください。</description>
+    </item>
+    
+    <item>
       <title>上限変更ができないクォータの存在を知る</title>
       <link>https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/</link>
       <pubDate>Tue, 06 Apr 2021 22:04:57 +0900</pubDate>
@@ -350,6 +396,25 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
 クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。
 1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。
 まとめ 大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。 必要に応じてサブスクリプションを分割するなどして対応しましょう。</description>
+    </item>
+    
+    <item>
+      <title>goでjsonを臨機応変に扱う</title>
+      <link>https://hirokimatsueda.github.io/post/treat-json-flexibly-with-go/</link>
+      <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/treat-json-flexibly-with-go/</guid>
+      <description>最近はスクリプト言語を使う時に何を使うのが良いか迷います。
+いや、もともと大して選んでいないんですが、Azure 関連の操作がメインだったので PowerShell をよく使っています。
+PowerShell は C#っぽく書けるので悪くないんですが、改めて、OS 関係なく軽快に動いてくれる言語として go に注目しています。
+プログラミングのリハビリを兼ねて go で Grafana を扱うコードを書いていたんですが、json を扱うところで苦労したのでノウハウをメモしておこうと思います。
+encoding/json を使用する場合のお話になります。
+1. 礼儀正しく扱う json の構造をすべて把握している場合は、その構造を表現した type を宣言し、json.Unmarshal で変換された値を突っ込むことができます。
+一部定義するだけでも良いようです。
+例えば Grafana で GET /api/search/ を実行した結果の json を処理したい場合を考えます。
+https://grafana.com/docs/grafana/latest/http_api/folder_dashboard_search/
+得られる json には、id、uid、title、・・・といくつかの値が得られますが、例えばその中で title と uid の値だけ拾いたいときは下記のような感じです。
+package main  import (  &amp;#34;encoding/json&amp;#34;  &amp;#34;fmt&amp;#34;  &amp;#34;log&amp;#34; )  type DashboardOverview struct {  Title string `json:&amp;#34;title&amp;#34;`  Uid string `json:&amp;#34;uid&amp;#34;` }  func main() {  dashboardJson := 【Grafanaからjsonを取得する処理】  var dashboards []DashboardOverview  if err := json.</description>
     </item>
     
     <item>

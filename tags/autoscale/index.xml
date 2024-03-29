@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>autoscale on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/autoscale/</link>
+    <description>Recent content in autoscale on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Tue, 28 Dec 2021 08:26:09 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/autoscale/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる</title>
+      <link>https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/</link>
+      <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/</guid>
+      <description>AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
+OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
+OpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
+色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。
+サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。
+https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
+手順内で（省略可能）となっている部分については今回は省略してみました。
+クラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。
+下記を見るとクラスタへの接続方法が確認できます。
+https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster
+いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。
+ClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。
+https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler
+コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。
+GPU ノードはお財布が辛いので、例えばこれくらいですかね？
+apiVersion: &amp;#34;autoscaling.openshift.io/v1&amp;#34; kind: &amp;#34;ClusterAutoscaler&amp;#34; metadata:  name: &amp;#34;default&amp;#34; spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。</description>
+    </item>
+    
+  </channel>
+</rss>

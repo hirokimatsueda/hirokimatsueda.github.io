@@ -7,7 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Wed, 08 Apr 2020 21:07:42 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Oct 2021 08:35:01 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KubernetesのTaintにビビらない</title>
+      <link>https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/</link>
+      <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/</guid>
+      <description>Kubernetes をやり始めたころ、登場する言葉の多さに絶望したことを覚えています。 特にこの「Taint」はびっくりしました、「汚す」ってどういうこと？ ちょっと解説してみます。
+ノードを汚すという行為 kubectl taint のようなコマンドを使うと、ノードに Taint をつける、つまりノードを汚すことになります。
+なんだかネガティブな感じですよね。
+ここで大事なことは、「Pod はキレイ好き！」ということです。
+Taint が設定されたノードでは、普通の Pod は「こんな汚い場所で立ち上がりたくない！」となります。
+Taint を活用するコマンドで
+kubectl drain というのがありますが、これを使うと Taint の作用等により Pod をノードから安全に追い出すことができ、ノードのメンテナンスが可能な状態になります。
+汚れを許容する Toleration 通常の Pod は完璧主義というか、あらゆる Taint を拒否します（たぶん）。
+でも、いつもすべてを清潔に保てるとは限りませんよね、例えば家の窓の掃除は結構妥協してたり・・・
+こういう、一部の Taint は気にしない、といった振る舞いを Pod にさせるために Toleration という概念があります。
+例えば Windows コンテナの Pod は Windows のノードでしか起動できないので、ノードに Windows 限定にする Taint をつけておき、Windows の Pod で Toleration を設定すれば良いことがありそうですね。
+（急にニッチな話題に・・・）
+まとめ 詳しいコマンドは解説しませんでしたが、「Taint」という概念については「Pod はキレイ好きだから汚れた場所にはいきたくない」という性格を覚えておくと、関連するドキュメントが一気に読みやすくなります。
+是非覚えておいてください。</description>
+    </item>
+    
     <item>
       <title>自作のWindowsアプリをAKSに載せるキホン技</title>
       <link>https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/</link>

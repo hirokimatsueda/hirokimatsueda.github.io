@@ -142,6 +142,90 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>自作のWindowsアプリをAKSに載せるキホン技
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Azure Kubernetes Service(以降、AKS)は Windows コンテナの使用できる構成を作成することができます。
+（記事公開時点ではパブリックプレビュー）
+Windows コンテナが使える AKS を用意して、アプリを動かしてみましょう。
+アプリの作成からインフラの作成まで一通り必要な手順を書いてみましたので、この記事をベースに Windows コンテナの世界に入門していただけたらと思います。
+また、アプリ開発、コンテナ作成、AKS 作成を一通り記載しているので、例えばアプリ開発は知識があるけどインフラはちょっと・・・という場合に部分的に参照していただけると嬉しいです。
+Azure Cloud Shell とはなんぞや？などの細かい説明は省いていますので、適宜調べながら読み進めていただけたらと思います。
+概要  （Windows 環境でしか動作しない）アプリケーションを作成します アプリケーションを載せたコンテナイメージを作成します コンテナイメージをコンテナレジストリ（ACR）に格納します Windows コンテナが動作する AKS を作成します マニフェストファイルを使用して、AKS 上でコンテナを動かします  Web アプリの作成 【作業環境の想定：手元の Windows PC】
+Web 上に公開されているサンプルアプリを使っても良いんですが、現実は自社で作成したアプリなどを使用すると思うので、Web アプリの作成からサラッと見てみましょう。
+Windows コンテナが必要なケースは、Windows でしか動作しないアプリ、例えば.NET Framework のアプリを使用している場合だと思われます。.NET Framework の ASP.NET MVC アプリを作っておきましょう。
+下記サイトから Visual Studio のインストーラをダウンロードします。 https://visualstudio.microsoft.com/ja/downloads/
+インストーラを起動し、「ASP.NET と Web 開発」を選択してインストールします。
+インストールが成功したら、新規プロジェクトを起動して、C#の ASP.NET MVC アプリを作成しましょう。
+ちょっと古めのアプリを載せる想定だと思いますので、.NET Framework は「4.5.2」辺りが良いでしょうか。プロジェクト名は適当で良いので、「MVC」のアプリを作成してください。
+アプリが作成されたら、Visual Studio のソリューションエクスプローラーから、Views/Home/Index.cshtml を開き、適当な加工を加えて実行してみてください。例えば下記のような感じでザックリいきましょう。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2020-04-08 21:07:42 +0900 JST'>April 8, 2020</span></footer>
+  <a class="entry-link" aria-label="post link to 自作のWindowsアプリをAKSに載せるキホン技" href="https://hirokimatsueda.github.io/post/get-started-with-windows-container-aks-easily/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Dockerfileに出てくる謎のexe、ServiceMonitor
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Dockerfile の基本的な書き方 皆様、Windows コンテナで遊んでいますか？
+Dockerfile に書く内容は、誤解を恐れず表現すると、だいたい下記のような流れですよね。
+ ベースイメージ ミドルウェアのインストール、セットアップの処理 アプリケーションのコピー アプリケーションの起動を監視するために ENTRYPOINT を記載  これだけ認識していれば、例えば単発実行や無限ループで処理待機するコンソールアプリケーションのコンテナ化なんてのは、（細かいことを無視すれば）すぐにできてしまうと思います。
+謎の exe 、ServiceMonitor しかし、例えば下記の Dockerfile を見てください。
+https://github.com/microsoft/dotnet-framework-docker/blob/7d120a3da56ea5279e1b54a8185530af056c7b33/4.8/aspnet/windowsservercore-ltsc2019/Dockerfile
+これは IIS で動く Web アプリを動かすときに使える Dockerfile になるんですが、 ENTRYPOINT に ServiceMonitor.exe なるものが指定されています。
+「なにこれ」と思いませんでしたか？
+私は思いました。
+そもそも ENTRYPOINT って何だっけ ENTRYPOINT は「コンテナが実行するファイルを設定します。」とのことです。
+http://docs.docker.jp/v1.11/engine/reference/builder.html#entrypoint
+そして、その「実行するファイル」が終了すると共に、コンテナが終了します。
+これを IIS で動かすアプリに当てはめるとどうなるでしょうか？
+IIS で動かすアプリは exe ファイルでは無いので、それ単体で実行することはできませんよね。IIS の上に載せてあげることで初めて動作します。
+ということは、IIS が ENTRYPOINT に記載すべきものとなります。
+しかし、 IIS 自体はサービスなので、「コンテナが実行するファイル」とは違う概念になります。
+「サービスの起動状態を監視するアプリ」が欲しい 例えば、「コンテナが実行するファイル」が IIS というサービスの起動状態を監視してくれて、そのサービスの状態に従って終了してくれたら良さそうに思いませんか？
+そんな役割を担ってくれるのが ServiceMonitor.exe です。
+よって、IIS のようなサービスの状態がコンテナの起動状態を左右する場合は、 ServiceMonitor.exe を ENTRYPOINT に指定してあげればコンテナが実現できそうですね。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2020-02-03 21:29:12 +0900 JST'>February 3, 2020</span></footer>
+  <a class="entry-link" aria-label="post link to Dockerfileに出てくる謎のexe、ServiceMonitor" href="https://hirokimatsueda.github.io/post/mysterious-exe-that-appears-in-dockerfile/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>エンジニア業務を加速しよう！
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。
+私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。
+検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。
+検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。
+同じことをダラダラ何度も書かない ([ctrl] &#43; [R]の活用) コマンドを実行する時のお話です。
+例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。
+docker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？
+例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？
+できれば前回実行したコマンドをそのまま書いたことを書きたいですよね。
+そんな時、[ctrl] &#43; [R] が使えます。
+Linux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。
+そして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。
+reverse-i-search とか bck-i-search とか呼ばれるみたいですね。
+使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！
+ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。
+VM を活用する 例えば、Docker を使用する時、どこで動かしていますか？
+自分の PC で動かしていませんか？
+自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。
+ PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2019-12-03 08:22:49 +0900 JST'>December 3, 2019</span></footer>
+  <a class="entry-link" aria-label="post link to エンジニア業務を加速しよう！" href="https://hirokimatsueda.github.io/post/speeding-up-engineering-work/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>職業プログラマの第一歩を踏み出したあなたへ
     </h2>
   </header>

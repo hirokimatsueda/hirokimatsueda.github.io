@@ -315,11 +315,74 @@
     </item>
     
     <item>
+      <title>autoscale</title>
+      <link>https://hirokimatsueda.github.io/tags/autoscale/</link>
+      <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/autoscale/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OpenShift</title>
+      <link>https://hirokimatsueda.github.io/tags/openshift/</link>
+      <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/openshift/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>オートスケール</title>
+      <link>https://hirokimatsueda.github.io/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/</link>
+      <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Runbook</title>
       <link>https://hirokimatsueda.github.io/tags/runbook/</link>
       <pubDate>Sun, 12 Dec 2021 12:06:20 +0900</pubDate>
       
       <guid>https://hirokimatsueda.github.io/tags/runbook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>drain</title>
+      <link>https://hirokimatsueda.github.io/tags/drain/</link>
+      <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/drain/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://hirokimatsueda.github.io/tags/kubernetes/</link>
+      <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>taint</title>
+      <link>https://hirokimatsueda.github.io/tags/taint/</link>
+      <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/taint/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>toleration</title>
+      <link>https://hirokimatsueda.github.io/tags/toleration/</link>
+      <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/toleration/</guid>
       <description></description>
     </item>
     
@@ -360,11 +423,38 @@
     </item>
     
     <item>
-      <title>Kubernetes</title>
-      <link>https://hirokimatsueda.github.io/tags/kubernetes/</link>
-      <pubDate>Wed, 08 Apr 2020 21:07:42 +0900</pubDate>
+      <title>go</title>
+      <link>https://hirokimatsueda.github.io/tags/go/</link>
+      <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
       
-      <guid>https://hirokimatsueda.github.io/tags/kubernetes/</guid>
+      <guid>https://hirokimatsueda.github.io/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://hirokimatsueda.github.io/tags/golang/</link>
+      <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go言語</title>
+      <link>https://hirokimatsueda.github.io/tags/go%E8%A8%80%E8%AA%9E/</link>
+      <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/go%E8%A8%80%E8%AA%9E/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>json</title>
+      <link>https://hirokimatsueda.github.io/tags/json/</link>
+      <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/tags/json/</guid>
       <description></description>
     </item>
     
