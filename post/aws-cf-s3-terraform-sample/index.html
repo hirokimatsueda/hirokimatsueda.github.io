@@ -203,17 +203,17 @@ data &#34;aws_iam_policy_document&#34; &#34;static_site&#34; {  statement {  sid
 
 </div>
   </header> 
-  <div class="post-content"><h1 id="概要">概要<a hidden class="anchor" aria-hidden="true" href="#概要">#</a></h1>
+  <div class="post-content"><h2 id="概要">概要<a hidden class="anchor" aria-hidden="true" href="#概要">#</a></h2>
 <p>AWS の理解向上を兼ねて、CloudFront で S3 上の HTML を配信する構成のサンプルを terraform で構成してみました。</p>
 <p>AWS Certificate Manager (ACM) で証明書を発行し、CloudFront に割り当てて、カスタムドメインで配信します。</p>
-<h1 id="実際のソース">実際のソース<a hidden class="anchor" aria-hidden="true" href="#実際のソース">#</a></h1>
+<h2 id="実際のソース">実際のソース<a hidden class="anchor" aria-hidden="true" href="#実際のソース">#</a></h2>
 <p>下記に配置しています。</p>
 <p><a href="https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample">https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample</a></p>
-<h1 id="実行時の前提">実行時の前提<a hidden class="anchor" aria-hidden="true" href="#実行時の前提">#</a></h1>
+<h2 id="実行時の前提">実行時の前提<a hidden class="anchor" aria-hidden="true" href="#実行時の前提">#</a></h2>
 <ul>
 <li>CloudFront に割り当てる親ドメインを管理する DNS 名前解決が可能な Route 53 がすでに構築されていること</li>
 </ul>
-<h1 id="実装ポイント">実装ポイント<a hidden class="anchor" aria-hidden="true" href="#実装ポイント">#</a></h1>
+<h2 id="実装ポイント">実装ポイント<a hidden class="anchor" aria-hidden="true" href="#実装ポイント">#</a></h2>
 <ul>
 <li>
 <p>CloudFront の制約上、ACM を us-east-1 に構築する必要があるため、コードの簡素化のため全てのリソースを us-east-1 に構築しています</p>
@@ -251,7 +251,7 @@ data &#34;aws_iam_policy_document&#34; &#34;static_site&#34; {  statement {  sid
 <p>モジュールを S3 の構築部分と CloudFront ＋ ACM の構築部分で分離していて、こうするとコードの見通しが良いように個人的には思います。</p>
 </li>
 </ul>
-<h1 id="azure-との比較">Azure との比較<a hidden class="anchor" aria-hidden="true" href="#azure-との比較">#</a></h1>
+<h2 id="azure-との比較">Azure との比較<a hidden class="anchor" aria-hidden="true" href="#azure-との比較">#</a></h2>
 <p>Azure の場合、証明書は KeyVault に配置して、Front Door に割り当てることをしますが、KeyVault のリージョンが限定されることはないので ACM のリージョン縛りはハマりました。。</p>
 <p>ただ、それ以外の要素は AWS の良さに気づかされました。</p>
 <p>例えば ACM で気軽に証明書を作成できるのがいいですね。

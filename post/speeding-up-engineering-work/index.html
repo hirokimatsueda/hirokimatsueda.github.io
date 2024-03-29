@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>エンジニア業務を加速しよう！ | 備忘録</title>
-<meta name="keywords" content="" />
+<meta name="keywords" content="Slack, Docker, reverse-i-search, bck-i-search" />
 <meta name="description" content="スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。
 私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。
 検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。
@@ -161,7 +161,7 @@ VM を活用する 例えば、Docker を使用する時、どこで動かして
   "name": "エンジニア業務を加速しよう！",
   "description": "スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。\n私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。\n検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。\n検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。\n同じことをダラダラ何度も書かない ([ctrl] + [R]の活用) コマンドを実行する時のお話です。\n例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。\ndocker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？\n例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？\nできれば前回実行したコマンドをそのまま書いたことを書きたいですよね。\nそんな時、[ctrl] + [R] が使えます。\nLinux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。\nそして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。\nreverse-i-search とか bck-i-search とか呼ばれるみたいですね。\n使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！\nただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。\nVM を活用する 例えば、Docker を使用する時、どこで動かしていますか？\n自分の PC で動かしていませんか？\n自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。\n PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。",
   "keywords": [
-    
+    "Slack", "Docker", "reverse-i-search", "bck-i-search"
   ],
   "articleBody": "スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。\n私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。\n検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。\n検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。\n同じことをダラダラ何度も書かない ([ctrl] + [R]の活用) コマンドを実行する時のお話です。\n例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。\ndocker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？\n例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？\nできれば前回実行したコマンドをそのまま書いたことを書きたいですよね。\nそんな時、[ctrl] + [R] が使えます。\nLinux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。\nそして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。\nreverse-i-search とか bck-i-search とか呼ばれるみたいですね。\n使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！\nただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。\nVM を活用する 例えば、Docker を使用する時、どこで動かしていますか？\n自分の PC で動かしていませんか？\n自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。\n PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。\n自動シャットダウンを活用すればある程度費用を絞ることもできるので、 VM を活用することを検討してください。\nSlack を Twitter 化する これは賛否両論あるかもですが・・・\nSlack でスレッドを立てて、検証しようとしている内容や悩み迷いを呟きましょう。\n（チャンネルをぐちゃぐちゃにしないよう、スレッドでお願いしますね・・・）\n優しいメンバーから解決の糸口をもらえるかもしれません。\n一人で悩むより、他の人にも考えてもらったほうが早くなります。もちろん自分からも積極的に他のメンバーのサポートをしたいですね。\nSlack を使うと下記の利点があります。\n 他の拠点の人にも相談できる 他の人の仕事の邪魔にならない範囲で相談できる 考えたことのログが残る  近くの人と会話することも大切なので、どういう手法で課題を解決していくかは状況に応じて判断したいところです。\nまとめ 仕事を効率化してより良いものを作りましょう！\n",
   "wordCount" : "95",
@@ -239,12 +239,12 @@ VM を活用する 例えば、Docker を使用する時、どこで動かして
 
 </div>
   </header> 
-  <div class="post-content"><h1 id="スピーディーに仕事がしたい">スピーディーに仕事がしたい！<a hidden class="anchor" aria-hidden="true" href="#スピーディーに仕事がしたい">#</a></h1>
+  <div class="post-content"><h2 id="スピーディーに仕事がしたい">スピーディーに仕事がしたい！<a hidden class="anchor" aria-hidden="true" href="#スピーディーに仕事がしたい">#</a></h2>
 <p>先月は <code>docker</code> から始まるコマンドを何度も何度も実行していた気がします。</p>
 <p>私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。</p>
 <p>検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。</p>
 <p>検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。</p>
-<h1 id="同じことをダラダラ何度も書かない-ctrl--rの活用">同じことをダラダラ何度も書かない ([ctrl] + [R]の活用)<a hidden class="anchor" aria-hidden="true" href="#同じことをダラダラ何度も書かない-ctrl--rの活用">#</a></h1>
+<h2 id="同じことをダラダラ何度も書かない-ctrl--rの活用">同じことをダラダラ何度も書かない ([ctrl] + [R]の活用)<a hidden class="anchor" aria-hidden="true" href="#同じことをダラダラ何度も書かない-ctrl--rの活用">#</a></h2>
 <p>コマンドを実行する時のお話です。</p>
 <p>例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>docker build . -t cloudconfig/blog
@@ -257,7 +257,7 @@ VM を活用する 例えば、Docker を使用する時、どこで動かして
 <p><code>reverse-i-search</code> とか <code>bck-i-search</code> とか呼ばれるみたいですね。</p>
 <p>使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！</p>
 <p>ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。</p>
-<h1 id="vm-を活用する">VM を活用する<a hidden class="anchor" aria-hidden="true" href="#vm-を活用する">#</a></h1>
+<h2 id="vm-を活用する">VM を活用する<a hidden class="anchor" aria-hidden="true" href="#vm-を活用する">#</a></h2>
 <p>例えば、Docker を使用する時、どこで動かしていますか？</p>
 <p>自分の PC で動かしていませんか？</p>
 <p>自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。</p>
@@ -268,7 +268,7 @@ VM を活用する 例えば、Docker を使用する時、どこで動かして
 </ul>
 <p>上記のようなリスクは、VM を使用することで改善できます。</p>
 <p>自動シャットダウンを活用すればある程度費用を絞ることもできるので、 VM を活用することを検討してください。</p>
-<h1 id="slack-を-twitter-化する">Slack を Twitter 化する<a hidden class="anchor" aria-hidden="true" href="#slack-を-twitter-化する">#</a></h1>
+<h2 id="slack-を-twitter-化する">Slack を Twitter 化する<a hidden class="anchor" aria-hidden="true" href="#slack-を-twitter-化する">#</a></h2>
 <p>これは賛否両論あるかもですが・・・</p>
 <p>Slack でスレッドを立てて、検証しようとしている内容や悩み迷いを呟きましょう。</p>
 <p>（チャンネルをぐちゃぐちゃにしないよう、スレッドでお願いしますね・・・）</p>
@@ -281,13 +281,19 @@ VM を活用する 例えば、Docker を使用する時、どこで動かして
 <li>考えたことのログが残る</li>
 </ul>
 <p>近くの人と会話することも大切なので、どういう手法で課題を解決していくかは状況に応じて判断したいところです。</p>
-<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>仕事を効率化してより良いものを作りましょう！</p>
 
 
   </div>
 
   <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://hirokimatsueda.github.io/tags/slack/">Slack</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/docker/">Docker</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/reverse-i-search/">reverse-i-search</a></li>
+      <li><a href="https://hirokimatsueda.github.io/tags/bck-i-search/">bck-i-search</a></li>
+    </ul>
   </footer>
 </article>
     </main>

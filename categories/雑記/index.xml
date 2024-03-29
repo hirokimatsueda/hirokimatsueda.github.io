@@ -7,7 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Tue, 21 Jun 2022 12:06:20 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/categories/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 May 2023 13:29:27 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/categories/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ChatGPT が子供向けの曲を作ったらどうなる？</title>
+      <link>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</link>
+      <pubDate>Sat, 13 May 2023 13:29:27 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</guid>
+      <description>社内で爆発的に流行っている ChatGPT に手を出したら、とてもハマってしまいました。 信長の野望以来のマイブーム？
+隙間時間に無理難題を問いかけて、反応を楽しんでいます。 問いかけに対してうまく答えたり答えなかったりするところが、何となく子育てに近い感じがします。
+ちょっとお遊びですが、子供向けの曲を作ってもらおうとしてみました。
+まずは作詞！ すごくアバウトに振ってみましょう。
+架空の子供番組の歌を作って ↓ lyrics 1それっぽい！？
+最後の歌詞を見る限りは、オープニング曲というよりエンディング曲ですかね？
+コード進行は作れるか？ 続いて曲にするためにコード進行を決めていきましょう。
+良いね！ コード進行を教えて ↓ chord progression 1う～ん・・・流石にこれは詰まらなすぎます。
+ちょっとつまらないので、ヴァースで変化をつけて ↓ chord progression 2(ヴァースじゃなくてコーラスで変化を付けさせるべきだった気も・・・)
+いやぁ・・・これもちょっとなぁ。
+私の好きな、某イスが主役の番組の音楽とか想像すると物足りないです。
+最近の子供番組はもっと複雑な進行になる印象です。 もう少し思い切った形になりますか？ ↓ chord progression 3ちょっとやり過ぎな感じもしますが、良しとしますか！
+コードに合わせて歌詞を調整 ブリッジが追加されて歌詞との対応関係が崩れたようなので、歌詞を調整してみます。
+良いですね、このコードに沿って歌の歌詞を調整してください。 ↓ lyrics 2lyrics 2やはりエンディング曲な締めですが、弾き語りで使えそうなメモになってきました。
+メロディーラインも作れるか？ ここまで来たらメロディーラインも作ってほしいですね。
+メロディラインを作ってください ↓ melody 1途中で回答の生成を止めちゃいましたが、音楽の生成をやろうとしてたので、文字で再度書いてもらうことに。</description>
+    </item>
+    
     <item>
       <title>幼少期に触れ合ったパソコンたち</title>
       <link>https://hirokimatsueda.github.io/post/computers-that-i-came-into-contact-with-in-my-childhood/</link>
@@ -36,6 +60,33 @@ SHARP MZ-731（たぶん） こちらは機械語で動くパソコンです。
 私個人としてはあんまり活用していなかったですが、メモリ空間の一部がディスプレイの表示に繋がっていて間違えて書き換えると画面の色が変わったりとか、マシンが「暴走」して応答しなくなるとかを経験して、純粋にコンピュータがどういうものかを理解することに役立ったと思います。
 まとめ メモリ容量とか具体的な数字で覚えているのが怖いですね。
 その後、パソコンは買い替えられて Windows Me とインターネット接続を手に入れ、Visual Basic 6.</description>
+    </item>
+    
+    <item>
+      <title>エンジニア業務を加速しよう！</title>
+      <link>https://hirokimatsueda.github.io/post/speeding-up-engineering-work/</link>
+      <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/speeding-up-engineering-work/</guid>
+      <description>スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。
+私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。
+検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。
+検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。
+同じことをダラダラ何度も書かない ([ctrl] + [R]の活用) コマンドを実行する時のお話です。
+例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。
+docker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？
+例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？
+できれば前回実行したコマンドをそのまま書いたことを書きたいですよね。
+そんな時、[ctrl] + [R] が使えます。
+Linux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。
+そして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。
+reverse-i-search とか bck-i-search とか呼ばれるみたいですね。
+使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！
+ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。
+VM を活用する 例えば、Docker を使用する時、どこで動かしていますか？
+自分の PC で動かしていませんか？
+自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。
+ PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。</description>
     </item>
     
     <item>

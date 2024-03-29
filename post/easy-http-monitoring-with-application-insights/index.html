@@ -221,27 +221,27 @@ Application Insights の構築・設定時のポイント  Application Insights 
   <div class="post-content"><p>皆さんはパブリックに公開したシステムの正常稼働をどのように監視していますか？</p>
 <p>私は趣味でレンタルサーバーを常時動かしているのですが、HTTP 監視を行い不具合の検出をすぐに行えるようにしています。</p>
 <p>監視には Azure の Application Insights を利用しており、利用料金も私の使い方であれば格安ですので、こちらをご紹介したいと思います。</p>
-<h1 id="http-監視とは">HTTP 監視とは？<a hidden class="anchor" aria-hidden="true" href="#http-監視とは">#</a></h1>
+<h2 id="http-監視とは">HTTP 監視とは？<a hidden class="anchor" aria-hidden="true" href="#http-監視とは">#</a></h2>
 <p>HTTP 監視とは、監視対象に対して定期的に HTTP のリクエストを送信し、その応答（200 応答するか？など）を確認する監視方法です。</p>
 <p>サーバー内部の不具合までは見られませんが、サーバーが落ちていないなど、ある程度の正常稼働を認識することができます。</p>
-<h1 id="application-insights-による-http-監視">Application Insights による HTTP 監視<a hidden class="anchor" aria-hidden="true" href="#application-insights-による-http-監視">#</a></h1>
+<h2 id="application-insights-による-http-監視">Application Insights による HTTP 監視<a hidden class="anchor" aria-hidden="true" href="#application-insights-による-http-監視">#</a></h2>
 <p>Azure の Application Insights を利用すると、お手軽に HTTP 監視を構成できます。</p>
 <p><a href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/availability-overview">可用性テスト</a>という名称です。</p>
 <p>Application Insights を構築し、Azure ポータルから「可用性」の画面を開くと設定を追加できます。</p>
 <p>「クラシックテスト」と「標準テスト」が存在しますが、「標準テスト」で実現することになります。</p>
 <p>（Azure で「クラシック」と名の付くものは廃止されていく運命にあることが多いです）</p>
 <p><a href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/availability-standard-tests">標準テストのドキュメント</a>に沿って設定してみましょう。</p>
-<h1 id="application-insights-の構築設定時のポイント">Application Insights の構築・設定時のポイント<a hidden class="anchor" aria-hidden="true" href="#application-insights-の構築設定時のポイント">#</a></h1>
+<h2 id="application-insights-の構築設定時のポイント">Application Insights の構築・設定時のポイント<a hidden class="anchor" aria-hidden="true" href="#application-insights-の構築設定時のポイント">#</a></h2>
 <ul>
 <li>Application Insights の構築時に 2023/08/19 現在は「リソース モード」の選択がありますが、「クラシック」ではなく「ワークスペースベース」を選択します。クラシックは廃止予定の構成です。</li>
 <li>URL にはポート番号の指定も可能ですので、通常のポート（HTTPS なら 443 とか）以外に対してもテストできます</li>
 <li>東日本リージョンの Application Insights の場合、<a href="https://azure.microsoft.com/ja-jp/pricing/details/monitor/#pricing">テスト 1 回につき <code>$0.0008</code> のコスト</a>なので、要件に合わせて「テストの頻度」と「テストの場所」の数を調整しましょう</li>
 <li>警告を「有効」にして<a href="https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/availability-alerts">追加の設定</a>を入れ込むことで、HTTP 応答に問題があった際にメール通知等ができます</li>
 </ul>
-<h1 id="趣味程度の使い方の場合の料金は">趣味程度の使い方の場合の料金は？<a hidden class="anchor" aria-hidden="true" href="#趣味程度の使い方の場合の料金は">#</a></h1>
+<h2 id="趣味程度の使い方の場合の料金は">趣味程度の使い方の場合の料金は？<a hidden class="anchor" aria-hidden="true" href="#趣味程度の使い方の場合の料金は">#</a></h2>
 <p>趣味程度のサーバーなので、テストの頻度を 15 分毎、テストの場所を Japan East にしていますが、1 日当たり <code>8.90円</code> (2023/07 実績)となっていました。</p>
 <p>1 か月 31 日なら <code>約 276 円/月</code> ですね、とっても安い！</p>
-<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>Azure の Application Insights を利用すれば、Azure のリソースに限らず HTTP 監視を構成できることが分かりました。</p>
 <p>要件に応じて料金が異なりますが、趣味程度のターゲットであればかなり安く構成できます。</p>
 <p>一度ご検討してみてはいかがでしょうか？</p>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>reverse-i-search on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/reverse-i-search/</link>
+    <description>Recent content in reverse-i-search on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Tue, 03 Dec 2019 08:22:49 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/reverse-i-search/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>エンジニア業務を加速しよう！</title>
+      <link>https://hirokimatsueda.github.io/post/speeding-up-engineering-work/</link>
+      <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/speeding-up-engineering-work/</guid>
+      <description>スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。
+私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。
+検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。
+検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。
+同じことをダラダラ何度も書かない ([ctrl] + [R]の活用) コマンドを実行する時のお話です。
+例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。
+docker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？
+例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？
+できれば前回実行したコマンドをそのまま書いたことを書きたいですよね。
+そんな時、[ctrl] + [R] が使えます。
+Linux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。
+そして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。
+reverse-i-search とか bck-i-search とか呼ばれるみたいですね。
+使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！
+ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。
+VM を活用する 例えば、Docker を使用する時、どこで動かしていますか？
+自分の PC で動かしていませんか？
+自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。
+ PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -301,8 +301,7 @@ https://github.com/hirokimatsueda/baby-info-recording-system
     </h2>
   </header>
   <section class="entry-content">
-    <p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
-下記のサンプル実装のアプリコード部分を解説します。
+    <p>下記のサンプル実装のアプリコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 アプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis
 詳細と言うほどのものではないですが・・・。
@@ -311,7 +310,8 @@ PutData リクエストボディのデータを Cosmos DB に Upsert します�
 実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。
 private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(&#34;COSMOS_ENDPOINT&#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。
 ローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。
-ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。...</p>
+ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。
+private static Lazy&lt;CosmosClient&gt; lazyClient = new Lazy&lt;CosmosClient&gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。...</p>
   </section>
   <footer class="entry-footer"><span title='2022-08-20 14:50:39 +0900 JST'>August 20, 2022</span></footer>
   <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/"></a>
@@ -323,8 +323,7 @@ private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(
     </h2>
   </header>
   <section class="entry-content">
-    <p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
-下記のサンプル実装のインフラコード部分を解説します。
+    <p>下記のサンプル実装のインフラコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 インフラ構成詳細 Architecture概要記事で「シンプル」と表現しましたが、構築されるリソースを明記すると若干インパクトがあるかもしれません。 しかしかなり最低限だと思いますのでどうかお付き合いを・・・。
 本質的に必要なのは、中央の Functions と Cosmos DB です。
@@ -338,7 +337,9 @@ terraform についての説明は割愛させていただき、どのような�
 module への処理の分割 terraform は、カレントディレクトリ配下（サブディレクトリを除く）の tf ファイルをすべて確認してインフラ構築をしてくれますが、リソース数が多い場合はコードの見通しが悪くなりがちです。
 この時、modules という概念を使用すると処理の詳細を別フォルダに整理できるので見通しが良くなります。
 マネージド ID への権限付与 下記の実装で権限付与を行っています。
-https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf...</p>
+https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructure/terraform/modules/cosmos_db_sql/main.tf
+azurerm_cosmosdb_sql_role_definition を使用し、Cosmos DB のデータへのアクセス権限を定義します。
+これはアクセス権限の定義であり、割り当てではないです。...</p>
   </section>
   <footer class="entry-footer"><span title='2022-08-20 14:50:38 +0900 JST'>August 20, 2022</span></footer>
   <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-infrastructure/"></a>
@@ -350,8 +351,7 @@ https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/infrastructu
     </h2>
   </header>
   <section class="entry-content">
-    <p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
-Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
+    <p>Azure のマネージド ID は分かれば非常に有用な概念なのですが、いざ実装するとなった場合、インフラとアプリケーションが密接に関わっていることもあってハードルが高く思うケースがあると思います。
 そんな皆様のために、いつもの当たり障りのない記事ではなく、しっかり実用的に使えるコードを用意しました。
 早速全体像をご紹介します。
 サンプルコードの概要 コードは下記にあります。

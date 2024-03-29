@@ -127,7 +127,7 @@ Deploy key の作成方法は下記です。
   "keywords": [
     "AKS", "Azure Kubernetes Services", "Terraform", "GitOps", "Flux"
   ],
-  "articleBody": "はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。\nFlux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。\n本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。\nAKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。\n続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。\nDeploy key の作成方法は下記です。\n 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。\nAKS と Flux の導入 AKS の作成と Flux の導入は Terraform で実現しましょう。\n主に azurerm_kubernetes_cluster と flux_bootstrap_git を利用します。検証時点では flux_bootstrap_git のバージョンは 1.0.0-rc.5 でした。\nmain.tf\nterraform { required_providers { kubernetes = { source = \"hashicorp/kubernetes\" } flux = { source = \"fluxcd/flux\" version = \"1.0.0-rc.5\" } } } provider \"azurerm\" { subscription_id = var.subscription_id client_id = var.sp_client_id client_secret = var.sp_client_secret tenant_id = var.sp_tenant_id features {} } provider \"kubernetes\" { host = azurerm_kubernetes_cluster.this.kube_config.0.host client_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate) client_key = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key) cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate) } provider \"flux\" { kubernetes = { host = azurerm_kubernetes_cluster.this.kube_config.0.host username = azurerm_kubernetes_cluster.this.kube_config.0.username password = azurerm_kubernetes_cluster.this.kube_config.0.password client_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate) client_key = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key) cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate) } git = { url = \"ssh://git@github.com/${var.github_organization_name}/${var.github_repository_name}.git\" ssh = { username = \"git\" private_key = file(var.gitops_ssh_private_key_file) } } } locals { resource_group_name = \"rg-gitops\" aks_name = \"aks-gitops\" namespace_flux = \"flux-system\" } resource \"azurerm_resource_group\" \"this\" { name = local.resource_group_name location = \"japaneast\" } resource \"azurerm_kubernetes_cluster\" \"this\" { name = local.aks_name location = \"japaneast\" resource_group_name = azurerm_resource_group.this.name automatic_channel_upgrade = \"patch\" dns_prefix = \"dns\" default_node_pool { name = \"system\" node_count = 1 vm_size = \"Standard_B2s\" type = \"VirtualMachineScaleSets\" } identity { type = \"SystemAssigned\" } network_profile { network_plugin = \"azure\" } } resource \"kubernetes_namespace\" \"flux\" { metadata { name = local.namespace_flux } depends_on = [ azurerm_kubernetes_cluster.this ] lifecycle { ignore_changes = [ metadata ] } } resource \"flux_bootstrap_git\" \"this\" { namespace = kubernetes_namespace.flux.metadata[0].name path = \"clusters/${local.aks_name}\" } variables.tf\nvariable \"subscription_id\" { description = \"AKS作成先のサブスクリプションのID\" type = string } variable \"sp_tenant_id\" { description = \"AzureのテナントのID\" type = string } variable \"sp_client_id\" { description = \"Azureに接続するサービスプリンシパルのID\" type = string } variable \"sp_client_secret\" { description = \"Azureに接続するサービスプリンシパルのシークレット\" sensitive = true type = string } variable \"github_organization_name\" { description = \"GitHubリポジトリが所属する組織名またはユーザー名\" type = string } variable \"github_repository_name\" { description = \"GitHubリポジトリ名\" type = string } variable \"gitops_ssh_private_key_file\" { description = \"GitHubリポジトリのDeploy keyの秘密鍵が記載されたファイルパス\" type = string } terraform apply 時は、variables.tf の description の説明を参考にパラメータを渡してあげてください。\nprovider の記述が特徴的かと思います。 namespace の作成や Flux の導入時に kubernetes への接続情報が必要になるのですが、 provider \"kubernetes\" や  provider \"flux\" の記載で azurerm_kubernetes_cluster のアウトプットから拾うようにしています。\n他は各リソースの terraform ドキュメントに記載されている内容とあまり差が無いと思います。\nGitOps のデモ terraform apply が成功すると、GitOps 用の GitHub リポジトリ内に clusters/aks-gitops/flux-system フォルダが作成され、ここに Flux の管理ファイルが保管されています。\nmain ブランチの clusters/aks-gitops フォルダ内が Flux により監視されているので、ここに好きなファイル名.yaml でマニフェストファイルを追加してあげると AKS にデプロイされます。\nGitHub を監視する周期はデフォルト設定だと 1 分です。\n試しに下記のマニフェストファイルを clusters/aks-gitops/sample-namespace.yaml として main ブランチにコミット、プッシュしてみましょう。\nsample-namespace.yaml\nkind: Namespace apiVersion: v1 metadata:  name: sample  labels:  name: sample kubectl apply すると sample という名前の namespace が作成されるマニフェストファイルですね。\nnamespace が作成されたかどうかは好きな方法で確認して OK ですが、Azure ポータルから見るのが気軽ですかね？\nAzure ポータルから Terraform で作成された AKS の「Kubenetes リソース」→「名前空間」を選択してください。\nkubectl apply せずに、マニフェストファイルをプッシュしてから 1 分以内に namespace が作成されたと思います！\nファイルの削除をコミットすれば namespace が削除されます、素晴らしいー\nまとめ Terraform を使用することで、簡単に Flux を用いた GitOps 環境が構築できることが分かりました。\nGitOps の実現手段としては ArgoCD もありますが、Flux の利用もぜひ検討してみてください。\n",
+  "articleBody": "はじめに GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。\nFlux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。\n本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。\nAKS 上に Flux を導入する手順 連携先の GitHub リポジトリの準備 GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。\n続いて GitHub との認証情報の準備です。 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。\nDeploy key の作成方法は下記です。\n 接続に使用する SSH キーを生成します  参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key   対象のリポジトリの「Setting」から、「Deploy keys」を開きます 「Add deploy key」をクリックします Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します  SSH キーの秘密鍵は Terraform の実行時に必要になります。\nAKS と Flux の導入 AKS の作成と Flux の導入は Terraform で実現しましょう。\n主に azurerm_kubernetes_cluster と flux_bootstrap_git を利用します。検証時点では flux_bootstrap_git のバージョンは 1.0.0-rc.5 でした。\nmain.tf terraform {  required_providers {  kubernetes = {  source = \"hashicorp/kubernetes\"  }  flux = {  source = \"fluxcd/flux\"  version = \"1.0.0-rc.5\"  }  } } provider \"azurerm\" {  subscription_id = var.subscription_id  client_id = var.sp_client_id  client_secret = var.sp_client_secret  tenant_id = var.sp_tenant_id  features {} } provider \"kubernetes\" {  host = azurerm_kubernetes_cluster.this.kube_config.0.host  client_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)  client_key = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key)  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate) } provider \"flux\" {  kubernetes = {  host = azurerm_kubernetes_cluster.this.kube_config.0.host  username = azurerm_kubernetes_cluster.this.kube_config.0.username  password = azurerm_kubernetes_cluster.this.kube_config.0.password  client_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)  client_key = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key)  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate)  }  git = {  url = \"ssh://git@github.com/${var.github_organization_name}/${var.github_repository_name}.git\"  ssh = {  username = \"git\"  private_key = file(var.gitops_ssh_private_key_file)  }  } }  locals {  resource_group_name = \"rg-gitops\"  aks_name = \"aks-gitops\"  namespace_flux = \"flux-system\" } resource \"azurerm_resource_group\" \"this\" {  name = local.resource_group_name  location = \"japaneast\" } resource \"azurerm_kubernetes_cluster\" \"this\" {  name = local.aks_name  location = \"japaneast\"  resource_group_name = azurerm_resource_group.this.name  automatic_channel_upgrade = \"patch\"  dns_prefix = \"dns\"   default_node_pool {  name = \"system\"  node_count = 1  vm_size = \"Standard_B2s\"  type = \"VirtualMachineScaleSets\"  }   identity {  type = \"SystemAssigned\"  }   network_profile {  network_plugin = \"azure\"  } } resource \"kubernetes_namespace\" \"flux\" {  metadata {  name = local.namespace_flux  }  depends_on = [  azurerm_kubernetes_cluster.this  ]   lifecycle {  ignore_changes = [  metadata  ]  } } resource \"flux_bootstrap_git\" \"this\" {  namespace = kubernetes_namespace.flux.metadata[0].name  path = \"clusters/${local.aks_name}\" } variables.tf variable \"subscription_id\" {  description = \"AKS作成先のサブスクリプションのID\"  type = string } variable \"sp_tenant_id\" {  description = \"AzureのテナントのID\"  type = string } variable \"sp_client_id\" {  description = \"Azureに接続するサービスプリンシパルのID\"  type = string } variable \"sp_client_secret\" {  description = \"Azureに接続するサービスプリンシパルのシークレット\"  sensitive = true  type = string } variable \"github_organization_name\" {  description = \"GitHubリポジトリが所属する組織名またはユーザー名\"  type = string } variable \"github_repository_name\" {  description = \"GitHubリポジトリ名\"  type = string } variable \"gitops_ssh_private_key_file\" {  description = \"GitHubリポジトリのDeploy keyの秘密鍵が記載されたファイルパス\"  type = string } terraform apply 時は、variables.tf の description の説明を参考にパラメータを渡してあげてください。\nprovider の記述が特徴的かと思います。 namespace の作成や Flux の導入時に kubernetes への接続情報が必要になるのですが、 provider \"kubernetes\" や  provider \"flux\" の記載で azurerm_kubernetes_cluster のアウトプットから拾うようにしています。\n他は各リソースの terraform ドキュメントに記載されている内容とあまり差が無いと思います。\nGitOps のデモ terraform apply が成功すると、GitOps 用の GitHub リポジトリ内に clusters/aks-gitops/flux-system フォルダが作成され、ここに Flux の管理ファイルが保管されています。\nmain ブランチの clusters/aks-gitops フォルダ内が Flux により監視されているので、ここに好きなファイル名.yaml でマニフェストファイルを追加してあげると AKS にデプロイされます。\nGitHub を監視する周期はデフォルト設定だと 1 分です。\n試しに下記のマニフェストファイルを clusters/aks-gitops/sample-namespace.yaml として main ブランチにコミット、プッシュしてみましょう。\nsample-namespace.yaml kind: Namespace apiVersion: v1 metadata:  name: sample  labels:  name: sample kubectl apply すると sample という名前の namespace が作成されるマニフェストファイルですね。\nnamespace が作成されたかどうかは好きな方法で確認して OK ですが、Azure ポータルから見るのが気軽ですかね？\nAzure ポータルから Terraform で作成された AKS の「Kubenetes リソース」→「名前空間」を選択してください。\nkubectl apply せずに、マニフェストファイルをプッシュしてから 1 分以内に namespace が作成されたと思います！\nファイルの削除をコミットすれば namespace が削除されます、素晴らしいー\nまとめ Terraform を使用することで、簡単に Flux を用いた GitOps 環境が構築できることが分かりました。\nGitOps の実現手段としては ArgoCD もありますが、Flux の利用もぜひ検討してみてください。\n",
   "wordCount" : "474",
   "inLanguage": "en",
   "datePublished": "2023-07-06T09:36:15+09:00",
@@ -203,12 +203,12 @@ Deploy key の作成方法は下記です。
 
 </div>
   </header> 
-  <div class="post-content"><h1 id="はじめに">はじめに<a hidden class="anchor" aria-hidden="true" href="#はじめに">#</a></h1>
+  <div class="post-content"><h2 id="はじめに">はじめに<a hidden class="anchor" aria-hidden="true" href="#はじめに">#</a></h2>
 <p>GitOps は、開発者がコードを Git リポジトリにプッシュすることで自動的にインフラストラクチャーが更新される仕組みです。</p>
 <p>Flux は、GitOps を実現するためのツールであり、Kubernetes の manifest ファイルを Git リポジトリに保存し、変更があるたびに自動でデプロイすることができます。</p>
 <p>本記事では、Terraform を用いて AKS 上に Flux を導入する手順を説明し、GitOps のデモを行います。</p>
-<h1 id="aks-上に-flux-を導入する手順">AKS 上に Flux を導入する手順<a hidden class="anchor" aria-hidden="true" href="#aks-上に-flux-を導入する手順">#</a></h1>
-<h2 id="連携先の-github-リポジトリの準備">連携先の GitHub リポジトリの準備<a hidden class="anchor" aria-hidden="true" href="#連携先の-github-リポジトリの準備">#</a></h2>
+<h2 id="aks-上に-flux-を導入する手順">AKS 上に Flux を導入する手順<a hidden class="anchor" aria-hidden="true" href="#aks-上に-flux-を導入する手順">#</a></h2>
+<h3 id="連携先の-github-リポジトリの準備">連携先の GitHub リポジトリの準備<a hidden class="anchor" aria-hidden="true" href="#連携先の-github-リポジトリの準備">#</a></h3>
 <p>GitHub リポジトリが空だと Terraform の実行時にエラーになるため、main ブランチに readme か何かを入れておいてください。</p>
 <p>続いて GitHub との認証情報の準備です。
 今回は Deploy key を用いて Flux から GitHub に接続する方針で説明します。</p>
@@ -216,7 +216,7 @@ Deploy key の作成方法は下記です。
 <ol>
 <li>接続に使用する SSH キーを生成します
 <ul>
-<li>参考：https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key</li>
+<li>参考：<a href="https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key">https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key</a></li>
 </ul>
 </li>
 <li>対象のリポジトリの「Setting」から、「Deploy keys」を開きます</li>
@@ -224,154 +224,154 @@ Deploy key の作成方法は下記です。
 <li>Title に任意の名称を設定し、SSH キーの公開鍵をコピペし、「Allow write access」のチェックを入れて「Add key」します</li>
 </ol>
 <p>SSH キーの秘密鍵は Terraform の実行時に必要になります。</p>
-<h1 id="aks-と-flux-の導入">AKS と Flux の導入<a hidden class="anchor" aria-hidden="true" href="#aks-と-flux-の導入">#</a></h1>
+<h2 id="aks-と-flux-の導入">AKS と Flux の導入<a hidden class="anchor" aria-hidden="true" href="#aks-と-flux-の導入">#</a></h2>
 <p>AKS の作成と Flux の導入は Terraform で実現しましょう。</p>
 <p>主に azurerm_kubernetes_cluster と flux_bootstrap_git を利用します。検証時点では flux_bootstrap_git のバージョンは <code>1.0.0-rc.5</code> でした。</p>
-<p><strong>main.tf</strong></p>
-<pre tabindex="0"><code>terraform {
-  required_providers {
-    kubernetes = {
-      source = &#34;hashicorp/kubernetes&#34;
-    }
-    flux = {
-      source  = &#34;fluxcd/flux&#34;
-      version = &#34;1.0.0-rc.5&#34;
-    }
-  }
-}
-
-provider &#34;azurerm&#34; {
-  subscription_id = var.subscription_id
-  client_id       = var.sp_client_id
-  client_secret   = var.sp_client_secret
-  tenant_id       = var.sp_tenant_id
-  features {}
-}
-
-provider &#34;kubernetes&#34; {
-  host                   = azurerm_kubernetes_cluster.this.kube_config.0.host
-  client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)
-  client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key)
-  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate)
-}
-
-provider &#34;flux&#34; {
-  kubernetes = {
-    host                   = azurerm_kubernetes_cluster.this.kube_config.0.host
-    username               = azurerm_kubernetes_cluster.this.kube_config.0.username
-    password               = azurerm_kubernetes_cluster.this.kube_config.0.password
-    client_certificate     = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_certificate)
-    client_key             = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.client_key)
-    cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.this.kube_config.0.cluster_ca_certificate)
-  }
-  git = {
-    url = &#34;ssh://git@github.com/${var.github_organization_name}/${var.github_repository_name}.git&#34;
-    ssh = {
-      username    = &#34;git&#34;
-      private_key = file(var.gitops_ssh_private_key_file)
-    }
-  }
-}
-
-locals {
-  resource_group_name = &#34;rg-gitops&#34;
-  aks_name            = &#34;aks-gitops&#34;
-  namespace_flux      = &#34;flux-system&#34;
-}
-
-resource &#34;azurerm_resource_group&#34; &#34;this&#34; {
-  name     = local.resource_group_name
-  location = &#34;japaneast&#34;
-}
-
-resource &#34;azurerm_kubernetes_cluster&#34; &#34;this&#34; {
-  name                      = local.aks_name
-  location                  = &#34;japaneast&#34;
-  resource_group_name       = azurerm_resource_group.this.name
-  automatic_channel_upgrade = &#34;patch&#34;
-  dns_prefix                = &#34;dns&#34;
-
-  default_node_pool {
-    name       = &#34;system&#34;
-    node_count = 1
-    vm_size    = &#34;Standard_B2s&#34;
-    type       = &#34;VirtualMachineScaleSets&#34;
-  }
-
-  identity {
-    type = &#34;SystemAssigned&#34;
-  }
-
-  network_profile {
-    network_plugin = &#34;azure&#34;
-  }
-}
-
-resource &#34;kubernetes_namespace&#34; &#34;flux&#34; {
-  metadata {
-    name = local.namespace_flux
-  }
-  depends_on = [
-    azurerm_kubernetes_cluster.this
-  ]
-
-  lifecycle {
-    ignore_changes = [
-      metadata
-    ]
-  }
-}
-
-resource &#34;flux_bootstrap_git&#34; &#34;this&#34; {
-  namespace = kubernetes_namespace.flux.metadata[0].name
-  path      = &#34;clusters/${local.aks_name}&#34;
-}
-</code></pre><p><strong>variables.tf</strong></p>
-<pre tabindex="0"><code>variable &#34;subscription_id&#34; {
-  description = &#34;AKS作成先のサブスクリプションのID&#34;
-  type        = string
-}
-
-variable &#34;sp_tenant_id&#34; {
-  description = &#34;AzureのテナントのID&#34;
-  type        = string
-}
-
-variable &#34;sp_client_id&#34; {
-  description = &#34;Azureに接続するサービスプリンシパルのID&#34;
-  type        = string
-}
-
-variable &#34;sp_client_secret&#34; {
-  description = &#34;Azureに接続するサービスプリンシパルのシークレット&#34;
-  sensitive   = true
-  type        = string
-}
-
-variable &#34;github_organization_name&#34; {
-  description = &#34;GitHubリポジトリが所属する組織名またはユーザー名&#34;
-  type        = string
-}
-
-variable &#34;github_repository_name&#34; {
-  description = &#34;GitHubリポジトリ名&#34;
-  type        = string
-}
-
-variable &#34;gitops_ssh_private_key_file&#34; {
-  description = &#34;GitHubリポジトリのDeploy keyの秘密鍵が記載されたファイルパス&#34;
-  type        = string
-}
-</code></pre><p>terraform apply 時は、variables.tf の description の説明を参考にパラメータを渡してあげてください。</p>
+<h3 id="maintf">main.tf<a hidden class="anchor" aria-hidden="true" href="#maintf">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#a6e22e">terraform</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">required_providers</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">kubernetes</span> = {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">source</span> = <span style="color:#e6db74">&#34;hashicorp/kubernetes&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">flux</span> = {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">source</span>  = <span style="color:#e6db74">&#34;fluxcd/flux&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;1.0.0-rc.5&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;azurerm&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">subscription_id</span> = var.<span style="color:#a6e22e">subscription_id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">client_id</span>       = var.<span style="color:#a6e22e">sp_client_id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">client_secret</span>   = var.<span style="color:#a6e22e">sp_client_secret</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tenant_id</span>       = var.<span style="color:#a6e22e">sp_tenant_id</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">features</span> {}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;kubernetes&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">host</span>                   = <span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">host</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">client_certificate</span>     = base64decode(<span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">client_certificate</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">client_key</span>             = base64decode(<span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">client_key</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cluster_ca_certificate</span> = base64decode(<span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">cluster_ca_certificate</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;flux&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kubernetes</span> = {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">host</span>                   = <span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">host</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">username</span>               = <span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">username</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">password</span>               = <span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">password</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client_certificate</span>     = base64decode(<span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">client_certificate</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client_key</span>             = base64decode(<span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">client_key</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cluster_ca_certificate</span> = base64decode(<span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">kube_config</span>.<span style="color:#ae81ff">0</span>.<span style="color:#a6e22e">cluster_ca_certificate</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">git</span> = {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#34;ssh://git@github.com/</span><span style="color:#e6db74">${</span>var.<span style="color:#a6e22e">github_organization_name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>var.<span style="color:#a6e22e">github_repository_name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">.git&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ssh</span> = {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">username</span>    = <span style="color:#e6db74">&#34;git&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">private_key</span> = file(var.<span style="color:#a6e22e">gitops_ssh_private_key_file</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">locals</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">resource_group_name</span> = <span style="color:#e6db74">&#34;rg-gitops&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">aks_name</span>            = <span style="color:#e6db74">&#34;aks-gitops&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">namespace_flux</span>      = <span style="color:#e6db74">&#34;flux-system&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;azurerm_resource_group&#34;</span> <span style="color:#e6db74">&#34;this&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span>     = <span style="color:#a6e22e">local</span>.<span style="color:#a6e22e">resource_group_name</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">location</span> = <span style="color:#e6db74">&#34;japaneast&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;azurerm_kubernetes_cluster&#34;</span> <span style="color:#e6db74">&#34;this&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span>                      = <span style="color:#a6e22e">local</span>.<span style="color:#a6e22e">aks_name</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">location</span>                  = <span style="color:#e6db74">&#34;japaneast&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">resource_group_name</span>       = <span style="color:#a6e22e">azurerm_resource_group</span>.<span style="color:#a6e22e">this</span>.<span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">automatic_channel_upgrade</span> = <span style="color:#e6db74">&#34;patch&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">dns_prefix</span>                = <span style="color:#e6db74">&#34;dns&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">default_node_pool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span>       = <span style="color:#e6db74">&#34;system&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">node_count</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">vm_size</span>    = <span style="color:#e6db74">&#34;Standard_B2s&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">type</span>       = <span style="color:#e6db74">&#34;VirtualMachineScaleSets&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">identity</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">type</span> = <span style="color:#e6db74">&#34;SystemAssigned&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">network_profile</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">network_plugin</span> = <span style="color:#e6db74">&#34;azure&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;kubernetes_namespace&#34;</span> <span style="color:#e6db74">&#34;flux&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">metadata</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#a6e22e">local</span>.<span style="color:#a6e22e">namespace_flux</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">depends_on</span> = [
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">azurerm_kubernetes_cluster</span>.<span style="color:#a6e22e">this</span>
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">lifecycle</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ignore_changes</span> = [
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">metadata</span>
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;flux_bootstrap_git&#34;</span> <span style="color:#e6db74">&#34;this&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">namespace</span> = <span style="color:#a6e22e">kubernetes_namespace</span>.<span style="color:#a6e22e">flux</span>.<span style="color:#a6e22e">metadata</span>[<span style="color:#ae81ff">0</span>].<span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">path</span>      = <span style="color:#e6db74">&#34;clusters/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">local</span>.<span style="color:#a6e22e">aks_name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="variablestf">variables.tf<a hidden class="anchor" aria-hidden="true" href="#variablestf">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;subscription_id&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;AKS作成先のサブスクリプションのID&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;sp_tenant_id&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;AzureのテナントのID&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;sp_client_id&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Azureに接続するサービスプリンシパルのID&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;sp_client_secret&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Azureに接続するサービスプリンシパルのシークレット&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">sensitive</span>   = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;github_organization_name&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;GitHubリポジトリが所属する組織名またはユーザー名&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;github_repository_name&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;GitHubリポジトリ名&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;gitops_ssh_private_key_file&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;GitHubリポジトリのDeploy keyの秘密鍵が記載されたファイルパス&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">type</span>        = <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>terraform apply 時は、variables.tf の description の説明を参考にパラメータを渡してあげてください。</p>
 <p>provider の記述が特徴的かと思います。
 namespace の作成や Flux の導入時に kubernetes への接続情報が必要になるのですが、 <code>provider &quot;kubernetes&quot;</code> や <code> provider &quot;flux&quot;</code> の記載で azurerm_kubernetes_cluster のアウトプットから拾うようにしています。</p>
 <p>他は各リソースの terraform ドキュメントに記載されている内容とあまり差が無いと思います。</p>
-<h1 id="gitops-のデモ">GitOps のデモ<a hidden class="anchor" aria-hidden="true" href="#gitops-のデモ">#</a></h1>
+<h2 id="gitops-のデモ">GitOps のデモ<a hidden class="anchor" aria-hidden="true" href="#gitops-のデモ">#</a></h2>
 <p>terraform apply が成功すると、GitOps 用の GitHub リポジトリ内に <code>clusters/aks-gitops/flux-system</code> フォルダが作成され、ここに Flux の管理ファイルが保管されています。</p>
 <p>main ブランチの <code>clusters/aks-gitops</code> フォルダ内が Flux により監視されているので、ここに好きなファイル名.yaml でマニフェストファイルを追加してあげると AKS にデプロイされます。</p>
 <p>GitHub を監視する周期はデフォルト設定だと 1 分です。</p>
 <p>試しに下記のマニフェストファイルを <code>clusters/aks-gitops/sample-namespace.yaml</code> として main ブランチにコミット、プッシュしてみましょう。</p>
-<p><strong>sample-namespace.yaml</strong></p>
+<h3 id="sample-namespaceyaml">sample-namespace.yaml<a hidden class="anchor" aria-hidden="true" href="#sample-namespaceyaml">#</a></h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Namespace</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
@@ -383,7 +383,7 @@ namespace の作成や Flux の導入時に kubernetes への接続情報が必�
 <p>Azure ポータルから Terraform で作成された AKS の「Kubenetes リソース」→「名前空間」を選択してください。</p>
 <p>kubectl apply せずに、マニフェストファイルをプッシュしてから 1 分以内に namespace が作成されたと思います！</p>
 <p>ファイルの削除をコミットすれば namespace が削除されます、素晴らしいー</p>
-<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>Terraform を使用することで、簡単に Flux を用いた GitOps 環境が構築できることが分かりました。</p>
 <p>GitOps の実現手段としては ArgoCD もありますが、Flux の利用もぜひ検討してみてください。</p>
 

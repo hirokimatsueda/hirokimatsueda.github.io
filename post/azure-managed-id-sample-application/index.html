@@ -7,8 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード) | 備忘録</title>
 <meta name="keywords" content="Managed Id, マネージドID, Functions, Function App, Cosmos DB, C#" />
-<meta name="description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
-下記のサンプル実装のアプリコード部分を解説します。
+<meta name="description" content="下記のサンプル実装のアプリコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 アプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis
 詳細と言うほどのものではないですが・・・。
@@ -17,7 +16,8 @@ PutData リクエストボディのデータを Cosmos DB に Upsert します�
 実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。
 private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(&#34;COSMOS_ENDPOINT&#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。
 ローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。
-ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。">
+ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。
+private static Lazy&lt;CosmosClient&gt; lazyClient = new Lazy&lt;CosmosClient&gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。">
 <meta name="author" content="">
 <link rel="canonical" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
@@ -78,8 +78,7 @@ private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(
 
     gtag('config', 'G-M6XY8HL7QN');
 </script> <meta property="og:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)" />
-<meta property="og:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
-下記のサンプル実装のアプリコード部分を解説します。
+<meta property="og:description" content="下記のサンプル実装のアプリコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 アプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis
 詳細と言うほどのものではないですが・・・。
@@ -88,7 +87,8 @@ PutData リクエストボディのデータを Cosmos DB に Upsert します�
 実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。
 private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(&#34;COSMOS_ENDPOINT&#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。
 ローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。
-ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。" />
+ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。
+private static Lazy&lt;CosmosClient&gt; lazyClient = new Lazy&lt;CosmosClient&gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-08-20T14:50:39&#43;09:00" />
@@ -96,8 +96,7 @@ private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)"/>
-<meta name="twitter:description" content="※ この記事は、cloud.config Tech Blog にもマルチポストする予定です
-下記のサンプル実装のアプリコード部分を解説します。
+<meta name="twitter:description" content="下記のサンプル実装のアプリコード部分を解説します。
 https://github.com/hirokimatsueda/azure-managed-id-sample
 アプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis
 詳細と言うほどのものではないですが・・・。
@@ -106,7 +105,8 @@ PutData リクエストボディのデータを Cosmos DB に Upsert します�
 実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。
 private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(&#34;COSMOS_ENDPOINT&#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。
 ローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。
-ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。"/>
+ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。
+private static Lazy&lt;CosmosClient&gt; lazyClient = new Lazy&lt;CosmosClient&gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。"/>
 
 
 <script type="application/ld+json">
@@ -135,12 +135,12 @@ private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(
   "@type": "BlogPosting",
   "headline": "実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)",
   "name": "実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)",
-  "description": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\n下記のサンプル実装のアプリコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nアプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis\n詳細と言うほどのものではないですが・・・。\nGetData リクエストパラメータから id と category を読み取って、対象のデータを Cosmos DB から取得し返却します。\nPutData リクエストボディのデータを Cosmos DB に Upsert します。\n実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。\nprivate static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(\u0026#34;COSMOS_ENDPOINT\u0026#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。\nローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。\nほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。",
+  "description": "下記のサンプル実装のアプリコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nアプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis\n詳細と言うほどのものではないですが・・・。\nGetData リクエストパラメータから id と category を読み取って、対象のデータを Cosmos DB から取得し返却します。\nPutData リクエストボディのデータを Cosmos DB に Upsert します。\n実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。\nprivate static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(\u0026#34;COSMOS_ENDPOINT\u0026#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。\nローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。\nほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。\nprivate static Lazy\u0026lt;CosmosClient\u0026gt; lazyClient = new Lazy\u0026lt;CosmosClient\u0026gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。",
   "keywords": [
     "Managed Id", "マネージドID", "Functions", "Function App", "Cosmos DB", "C#"
   ],
-  "articleBody": "※ この記事は、cloud.config Tech Blog にもマルチポストする予定です\n下記のサンプル実装のアプリコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nアプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis\n詳細と言うほどのものではないですが・・・。\nGetData リクエストパラメータから id と category を読み取って、対象のデータを Cosmos DB から取得し返却します。\nPutData リクエストボディのデータを Cosmos DB に Upsert します。\n実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。\nprivate static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(\"COSMOS_ENDPOINT\", EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。\nローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。\nほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。\nprivate static Lazy lazyClient = new Lazy(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。\nまとめ アプリ開発のポイントを整理しました。\nポイントと言いつつも、インターネットで探せば見つかる情報ばかりではありますね。\nインフラの設定が整っていればアプリの実装はシンプルなのでありがたいです。\nこれでマネージド ID の使用有無はプロジェクトの進行に影響なしですね？\n",
-  "wordCount" : "87",
+  "articleBody": "下記のサンプル実装のアプリコード部分を解説します。\nhttps://github.com/hirokimatsueda/azure-managed-id-sample\nアプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis\n詳細と言うほどのものではないですが・・・。\nGetData リクエストパラメータから id と category を読み取って、対象のデータを Cosmos DB から取得し返却します。\nPutData リクエストボディのデータを Cosmos DB に Upsert します。\n実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。\nprivate static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(\"COSMOS_ENDPOINT\", EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。\nローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。\nほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。\nprivate static Lazy lazyClient = new Lazy(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。\nまとめ アプリ開発のポイントを整理しました。\nポイントと言いつつも、インターネットで探せば見つかる情報ばかりではありますね。\nインフラの設定が整っていればアプリの実装はシンプルなのでありがたいです。\nこれでマネージド ID の使用有無はプロジェクトの進行に影響なしですね？\n",
+  "wordCount" : "82",
   "inLanguage": "en",
   "datePublished": "2022-08-20T14:50:39+09:00",
   "dateModified": "2022-08-20T14:50:39+09:00",
@@ -215,8 +215,7 @@ private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(
 
 </div>
   </header> 
-  <div class="post-content"><p>※ この記事は、cloud.config Tech Blog にもマルチポストする予定です</p>
-<p>下記のサンプル実装のアプリコード部分を解説します。</p>
+  <div class="post-content"><p>下記のサンプル実装のアプリコード部分を解説します。</p>
 <p><a href="https://github.com/hirokimatsueda/azure-managed-id-sample">https://github.com/hirokimatsueda/azure-managed-id-sample</a></p>
 <h2 id="アプリ処理詳細">アプリ処理詳細<a hidden class="anchor" aria-hidden="true" href="#アプリ処理詳細">#</a></h2>
 <p>コードはこちら:

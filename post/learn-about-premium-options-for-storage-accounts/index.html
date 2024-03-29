@@ -221,7 +221,7 @@ Premium ブロック BLOB  高速の一貫した応答時間を要するワー�
   <div class="post-content"><p>皆さん、Azure の Premium なオプションはどれくらい使えていますか？</p>
 <p>私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。</p>
 <p>Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。</p>
-<h1 id="ストレージ-アカウントの種類">ストレージ アカウントの種類<a hidden class="anchor" aria-hidden="true" href="#ストレージ-アカウントの種類">#</a></h1>
+<h2 id="ストレージ-アカウントの種類">ストレージ アカウントの種類<a hidden class="anchor" aria-hidden="true" href="#ストレージ-アカウントの種類">#</a></h2>
 <p><a href="https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts">https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts</a></p>
 <p>Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。</p>
 <p>こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。</p>
@@ -235,23 +235,23 @@ Premium ブロック BLOB  高速の一貫した応答時間を要するワー�
 <p>「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。</p>
 <p>各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。</p>
 <p>（2023/7/28 時点のドキュメントからピックアップ）</p>
-<h2 id="premium-ブロック-blob">Premium ブロック BLOB<a hidden class="anchor" aria-hidden="true" href="#premium-ブロック-blob">#</a></h2>
+<h3 id="premium-ブロック-blob">Premium ブロック BLOB<a hidden class="anchor" aria-hidden="true" href="#premium-ブロック-blob">#</a></h3>
 <ul>
 <li>高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している</li>
 <li>コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる</li>
 </ul>
-<h2 id="premium-ファイル共有">Premium ファイル共有<a hidden class="anchor" aria-hidden="true" href="#premium-ファイル共有">#</a></h2>
+<h3 id="premium-ファイル共有">Premium ファイル共有<a hidden class="anchor" aria-hidden="true" href="#premium-ファイル共有">#</a></h3>
 <ul>
 <li>サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用</li>
 <li>最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い</li>
 <li>ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい</li>
 </ul>
-<h2 id="premium-ページ-blob">Premium ページ BLOB<a hidden class="anchor" aria-hidden="true" href="#premium-ページ-blob">#</a></h2>
+<h3 id="premium-ページ-blob">Premium ページ BLOB<a hidden class="anchor" aria-hidden="true" href="#premium-ページ-blob">#</a></h3>
 <ul>
 <li>BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供</li>
 <li>サイズは固定で最大 8TB</li>
 </ul>
-<h1 id="補足blob-のアクセス層">補足：Blob のアクセス層<a hidden class="anchor" aria-hidden="true" href="#補足blob-のアクセス層">#</a></h1>
+<h2 id="補足blob-のアクセス層">補足：Blob のアクセス層<a hidden class="anchor" aria-hidden="true" href="#補足blob-のアクセス層">#</a></h2>
 <p><a href="https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage">https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage</a></p>
 <p>Blob には上記の Premium 以外に 3 のアクセス層があります。</p>
 <ul>
@@ -286,7 +286,7 @@ Premium ブロック BLOB  高速の一貫した応答時間を要するワー�
 <p>クールとアーカイブの場合、最小ストレージ存続期間内に別の層に移動したり削除したりすると、早期削除料金を取られます。</p>
 <p>クールとアーカイブの中間に位置する「コールド」アクセス層もプレビュー中だったりしますね。</p>
 <p><a href="https://azure.microsoft.com/ja-jp/updates/public-preview-azure-cold-storage/">https://azure.microsoft.com/ja-jp/updates/public-preview-azure-cold-storage/</a></p>
-<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>ストレージアカウントの Premium なオプションの特徴を見比べてみました。</p>
 <p>頭ごなしに「高いからいいや・・・」ではなく、案件の特徴に合わせて使い分けていきましょう。</p>
 

@@ -205,13 +205,13 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
   </header> 
   <div class="post-content"><p>Azure にはクォータ上限という概念があり、リソース作成はクォータ範囲内でしかできず、ただしクォータ上限の引き上げが要求が可能です。</p>
 <p>vCPU に関しては上限の引き上げが可能ですが、上限の引き上げが不可能なリソースも存在します。</p>
-<h1 id="cdn-プロファイルは上限の引き上げが不可能">CDN プロファイルは上限の引き上げが不可能<a hidden class="anchor" aria-hidden="true" href="#cdn-プロファイルは上限の引き上げが不可能">#</a></h1>
+<h2 id="cdn-プロファイルは上限の引き上げが不可能">CDN プロファイルは上限の引き上げが不可能<a hidden class="anchor" aria-hidden="true" href="#cdn-プロファイルは上限の引き上げが不可能">#</a></h2>
 <p>CDN プロファイルは、<strong>サブスクリプション単位に 25 個</strong>までしか作成できません。</p>
 <p><a href="https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits">https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits</a></p>
 <p>クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。
 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。</p>
 <p>1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。</p>
-<h1 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h1>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
 <p>大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。
 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。
 必要に応じてサブスクリプションを分割するなどして対応しましょう。</p>
