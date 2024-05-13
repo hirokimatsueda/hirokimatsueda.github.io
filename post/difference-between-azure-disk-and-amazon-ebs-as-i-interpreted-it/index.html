@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Azure Managed DiskとAmazon EBSの性能差 | 備忘録</title>
+<meta name="keywords" content="" />
+<meta name="description" content="AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。
+Azure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。
+ Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。
+Standard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。
+また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。">
+<meta name="author" content="">
+<link rel="canonical" href="https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M6XY8HL7QN');
+</script> <meta property="og:title" content="Azure Managed DiskとAmazon EBSの性能差" />
+<meta property="og:description" content="AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。
+Azure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。
+ Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。
+Standard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。
+また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-05-13T20:46:57&#43;09:00" />
+<meta property="article:modified_time" content="2024-05-13T20:46:57&#43;09:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Azure Managed DiskとAmazon EBSの性能差"/>
+<meta name="twitter:description" content="AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。
+Azure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。
+ Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。
+Standard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。
+また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hirokimatsueda.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Azure Managed DiskとAmazon EBSの性能差",
+      "item": "https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Azure Managed DiskとAmazon EBSの性能差",
+  "name": "Azure Managed DiskとAmazon EBSの性能差",
+  "description": "AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。\nAzure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。\n Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。\nStandard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。\nまた AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。",
+  "keywords": [
+    
+  ],
+  "articleBody": "AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。\nAzure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。\n Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。\nStandard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。\nまた AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。\nStandard SSD と gp3 の性能差 IOPS に関して、Standard SSD は 500 で固定（容量によってはバーストして 600 や 1,000 まで増加可能）ですが、gp3 は容量関係なく最大 16,000 まで指定できます。\nスループットに関して、Standard SSD は 100MB/秒（容量によってはバーストして 150MB/秒や 250MB/秒まで増加可能）ですが、gp3 は最大 1,000MiB/秒まで指定できます。\nこちらは圧倒的に AWS の選択肢が広いですね。\nPremium SSD と io2 の性能差 IOPS に関して、Premium SSD は最大 7,500 まで設定可能ですが、io2 は GiB あたり最大 1,000、ボリュームあたり 256,000 まで指定可能です。ただし 32,000 IOPS を超える場合は条件付きとのことです。\nスループットに関して、Premium SSD は最大 250MB/秒、io2 は最大 4,000 MiB/秒となります。\nこちらも圧倒的に AWS の選択肢が広いですね。\nまとめ AWS はディスクの性能の最大値が大きく、様々な構成に適応できそうです。もちろん料金と相談にはなりますね。\n（趣味での話ですが、Azure でディスクの性能が出なくて断念したアレは AWS だったら解決したのかなぁという後悔が・・・）\n",
+  "wordCount" : "136",
+  "inLanguage": "en",
+  "datePublished": "2024-05-13T20:46:57+09:00",
+  "dateModified": "2024-05-13T20:46:57+09:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "備忘録",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Azure Managed DiskとAmazon EBSの性能差
+    </h1>
+    <div class="post-meta"><span title='2024-05-13 20:46:57 +0900 JST'>May 13, 2024</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。</p>
+<h2 id="azure-managed-disk-の個人的なイメージ">Azure Managed Disk の個人的なイメージ<a hidden class="anchor" aria-hidden="true" href="#azure-managed-disk-の個人的なイメージ">#</a></h2>
+<ul>
+<li>Standard HDD、Standard SSD、Premium SSD が基本的な選択肢</li>
+<li>Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度）</li>
+<li>Premium SSD を選択すると、利用可能な IOPS が爆増する</li>
+</ul>
+<h2 id="amazon-ebs-との比較">Amazon EBS との比較<a hidden class="anchor" aria-hidden="true" href="#amazon-ebs-との比較">#</a></h2>
+<p>対応関係は乱暴に言うと下記のようになります。</p>
+<ul>
+<li>Standard HDD = st1</li>
+<li>Standard SSD = gp3</li>
+<li>Premium SSD = io2</li>
+</ul>
+<p>Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。</p>
+<h3 id="standard-hdd-と-st1-の性能差">Standard HDD と st1 の性能差<a hidden class="anchor" aria-hidden="true" href="#standard-hdd-と-st1-の性能差">#</a></h3>
+<p>スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。
+IOPS はどちらも 500。</p>
+<p>また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。</p>
+<h3 id="standard-ssd-と-gp3-の性能差">Standard SSD と gp3 の性能差<a hidden class="anchor" aria-hidden="true" href="#standard-ssd-と-gp3-の性能差">#</a></h3>
+<p>IOPS に関して、Standard SSD は 500 で固定（容量によってはバーストして 600 や 1,000 まで増加可能）ですが、gp3 は容量関係なく最大 16,000 まで指定できます。</p>
+<p>スループットに関して、Standard SSD は 100MB/秒（容量によってはバーストして 150MB/秒や 250MB/秒まで増加可能）ですが、gp3 は最大 1,000MiB/秒まで指定できます。</p>
+<p>こちらは圧倒的に AWS の選択肢が広いですね。</p>
+<h3 id="premium-ssd-と-io2-の性能差">Premium SSD と io2 の性能差<a hidden class="anchor" aria-hidden="true" href="#premium-ssd-と-io2-の性能差">#</a></h3>
+<p>IOPS に関して、Premium SSD は最大 7,500 まで設定可能ですが、io2 は GiB あたり最大 1,000、ボリュームあたり 256,000 まで指定可能です。ただし 32,000 IOPS を超える場合は条件付きとのことです。</p>
+<p>スループットに関して、Premium SSD は最大 250MB/秒、io2 は最大 4,000 MiB/秒となります。</p>
+<p>こちらも圧倒的に AWS の選択肢が広いですね。</p>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>AWS はディスクの性能の最大値が大きく、様々な構成に適応できそうです。もちろん料金と相談にはなりますね。</p>
+<p>（趣味での話ですが、Azure でディスクの性能が出なくて断念したアレは AWS だったら解決したのかなぁという後悔が・・・）</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>Copyright © 2022 Hiroki Matsueda</span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <span>
+        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function() {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+</script></body>
+
+</html>

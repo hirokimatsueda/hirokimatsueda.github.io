@@ -142,6 +142,28 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>下記のサンプル実装のアプリコード部分を解説します。
+https://github.com/hirokimatsueda/azure-managed-id-sample
+アプリ処理詳細 コードはこちら: https://github.com/hirokimatsueda/azure-managed-id-sample/blob/main/applications/DataApis
+詳細と言うほどのものではないですが・・・。
+GetData リクエストパラメータから id と category を読み取って、対象のデータを Cosmos DB から取得し返却します。
+PutData リクエストボディのデータを Cosmos DB に Upsert します。
+実装のポイント マネージド ID という観点で言うと、CosmosClient に渡すクレデンシャル情報に new DefaultAzureCredential() を指定するくらいです。
+private static CosmosClient InitializeCosmosClient() {  return new CosmosClient(Environment.GetEnvironmentVariable(&#34;COSMOS_ENDPOINT&#34;, EnvironmentVariableTarget.Process), new DefaultAzureCredential()); } これにより Functions 上ではマネージド ID のクレデンシャルが使用されます。
+ローカル PC 上で実行する場合は、ローカル PC 上の認証情報を使用してくれるので、例えば az login したユーザーが Cosmos DB のデータへのアクセス権限を持っていればローカル PC でデバッグが可能です。
+ほかのポイントとしては、CosmosClient をメソッド呼び出し時に生成するのではなく Static 変数として持っておき、Lazy クラスを活用した初期化を実施しています。
+private static Lazy&lt;CosmosClient&gt; lazyClient = new Lazy&lt;CosmosClient&gt;(InitializeCosmosClient); これにより CosmosClient の初期化というコストの高い処理回数を削減しています。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-08-20 14:50:39 +0900 JST'>August 20, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to 実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)" href="https://hirokimatsueda.github.io/post/azure-managed-id-sample-application/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>実用性重視！AzureのマネージドID活用のサンプルコード(インフラコード)
     </h2>
   </header>
@@ -350,28 +372,6 @@ https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-s
   </section>
   <footer class="entry-footer"><span title='2021-04-06 22:04:57 +0900 JST'>April 6, 2021</span></footer>
   <a class="entry-link" aria-label="post link to 上限変更ができないクォータの存在を知る" href="https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>goでjsonを臨機応変に扱う
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>最近はスクリプト言語を使う時に何を使うのが良いか迷います。
-いや、もともと大して選んでいないんですが、Azure 関連の操作がメインだったので PowerShell をよく使っています。
-PowerShell は C#っぽく書けるので悪くないんですが、改めて、OS 関係なく軽快に動いてくれる言語として go に注目しています。
-プログラミングのリハビリを兼ねて go で Grafana を扱うコードを書いていたんですが、json を扱うところで苦労したのでノウハウをメモしておこうと思います。
-encoding/json を使用する場合のお話になります。
-1. 礼儀正しく扱う json の構造をすべて把握している場合は、その構造を表現した type を宣言し、json.Unmarshal で変換された値を突っ込むことができます。
-一部定義するだけでも良いようです。
-例えば Grafana で GET /api/search/ を実行した結果の json を処理したい場合を考えます。
-https://grafana.com/docs/grafana/latest/http_api/folder_dashboard_search/
-得られる json には、id、uid、title、・・・といくつかの値が得られますが、例えばその中で title と uid の値だけ拾いたいときは下記のような感じです。
-package main  import (  &#34;encoding/json&#34;  &#34;fmt&#34;  &#34;log&#34; )  type DashboardOverview struct {  Title string `json:&#34;title&#34;`  Uid string `json:&#34;uid&#34;` }  func main() {  dashboardJson := 【Grafanaからjsonを取得する処理】  var dashboards []DashboardOverview  if err := json....</p>
-  </section>
-  <footer class="entry-footer"><span title='2020-07-10 08:40:25 +0900 JST'>July 10, 2020</span></footer>
-  <a class="entry-link" aria-label="post link to goでjsonを臨機応変に扱う" href="https://hirokimatsueda.github.io/post/treat-json-flexibly-with-go/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

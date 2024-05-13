@@ -3,16 +3,19 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://hirokimatsueda.github.io/</loc>
-    <lastmod>2024-03-24T15:08:17+09:00</lastmod>
+    <lastmod>2024-05-13T20:46:57+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/categories/aws/</loc>
-    <lastmod>2024-03-24T15:08:17+09:00</lastmod>
+    <lastmod>2024-05-13T20:46:57+09:00</lastmod>
+  </url><url>
+    <loc>https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</loc>
+    <lastmod>2024-05-13T20:46:57+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/categories/</loc>
-    <lastmod>2024-03-24T15:08:17+09:00</lastmod>
+    <lastmod>2024-05-13T20:46:57+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/</loc>
-    <lastmod>2024-03-24T15:08:17+09:00</lastmod>
+    <lastmod>2024-05-13T20:46:57+09:00</lastmod>
   </url><url>
     <loc>https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/</loc>
     <lastmod>2024-03-24T15:08:17+09:00</lastmod>

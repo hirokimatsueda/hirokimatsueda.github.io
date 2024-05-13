@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sun, 24 Mar 2024 15:08:17 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 May 2024 20:46:57 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Azure Managed DiskとAmazon EBSの性能差</title>
+      <link>https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</link>
+      <pubDate>Mon, 13 May 2024 20:46:57 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</guid>
+      <description>AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。
+Azure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。
+ Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。
+Standard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。
+また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。</description>
+    </item>
+    
     <item>
       <title>S3上の静的HTMLをカスタムドメインでCloudFrontから配信するサンプル</title>
       <link>https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/</link>

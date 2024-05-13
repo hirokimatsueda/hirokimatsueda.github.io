@@ -127,6 +127,22 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>Azure Managed DiskとAmazon EBSの性能差
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。
+Azure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。
+ Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。
+Standard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。
+また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2024-05-13 20:46:57 +0900 JST'>May 13, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to Azure Managed DiskとAmazon EBSの性能差" href="https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>S3上の静的HTMLをカスタムドメインでCloudFrontから配信するサンプル
     </h2>
   </header>
