@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>exp on 備忘録</title>
+    <link>https://hirokimatsueda.github.io/tags/exp/</link>
+    <description>Recent content in exp on 備忘録</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
+    <lastBuildDate>Thu, 30 May 2024 13:37:20 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/exp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Keycloakとtraefikを使って認証環境を作る練習</title>
+      <link>https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/</link>
+      <pubDate>Thu, 30 May 2024 13:37:20 +0900</pubDate>
+      
+      <guid>https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/</guid>
+      <description>個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
+ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
+【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。
+検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。
+minikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
+apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay.</description>
+    </item>
+    
+  </channel>
+</rss>

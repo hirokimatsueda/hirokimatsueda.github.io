@@ -142,6 +142,35 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>35歳エンジニアが使える言語の変遷
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。
+35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。
+10 歳～小学生 Excel VBA を使ってました。
+ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。
+中学生 Visual Basic 6.0（VB6）を使っていました。
+「のんびりゆっくり Visual Basic」という書籍が愛読書でした。
+夏休みの自由研究で毎年ゲームを作っていました。
+中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。
+高専生 専攻科まで行ったので 7 年間ですね。
+授業で習った C 言語や Java などが使えるようになりました。
+研究で C&#43;&#43;と OpenGL で毛筆シミュレーションを作ったり、同じく C&#43;&#43;と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。
+ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。
+社会人（1 社目、2 社目） Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。 その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。
+チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・
+社会人になってからは C#が一番好きな言語になりました。
+社会人（3 社目） 最初の頃は C#の技術力を武器に働きました。
+その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。
+いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。...</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-05 21:01:24 +0900 JST'>September 5, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to 35歳エンジニアが使える言語の変遷" href="https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>実用性重視！AzureのマネージドID活用のサンプルコード(アプリコード)
     </h2>
   </header>
@@ -354,24 +383,6 @@ kubectl drain というのがありますが、これを使うと Taint の作�
   </section>
   <footer class="entry-footer"><span title='2021-10-15 08:35:01 +0900 JST'>October 15, 2021</span></footer>
   <a class="entry-link" aria-label="post link to KubernetesのTaintにビビらない" href="https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>上限変更ができないクォータの存在を知る
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Azure にはクォータ上限という概念があり、リソース作成はクォータ範囲内でしかできず、ただしクォータ上限の引き上げが要求が可能です。
-vCPU に関しては上限の引き上げが可能ですが、上限の引き上げが不可能なリソースも存在します。
-CDN プロファイルは上限の引き上げが不可能 CDN プロファイルは、サブスクリプション単位に 25 個までしか作成できません。
-https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits
-クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。
-1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。
-まとめ 大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。 必要に応じてサブスクリプションを分割するなどして対応しましょう。</p>
-  </section>
-  <footer class="entry-footer"><span title='2021-04-06 22:04:57 +0900 JST'>April 6, 2021</span></footer>
-  <a class="entry-link" aria-label="post link to 上限変更ができないクォータの存在を知る" href="https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

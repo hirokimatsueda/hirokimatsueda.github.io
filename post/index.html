@@ -142,6 +142,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Keycloakとtraefikを使って認証環境を作る練習
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
+ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
+【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。
+検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。
+minikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
+apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay....</p>
+  </section>
+  <footer class="entry-footer"><span title='2024-05-30 13:37:20 +0900 JST'>May 30, 2024</span></footer>
+  <a class="entry-link" aria-label="post link to Keycloakとtraefikを使って認証環境を作る練習" href="https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Azure Managed DiskとAmazon EBSの性能差
     </h2>
   </header>
@@ -338,35 +355,6 @@ https://github.com/hirokimatsueda/baby-info-recording-system
   </section>
   <footer class="entry-footer"><span title='2022-12-02 10:00:00 +0900 JST'>December 2, 2022</span></footer>
   <a class="entry-link" aria-label="post link to Azureお父さん必見！赤ちゃんのうんち記録アプリで子育てをDX！?" href="https://hirokimatsueda.github.io/post/baby-info-recording-system/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>35歳エンジニアが使える言語の変遷
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。
-35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。
-10 歳～小学生 Excel VBA を使ってました。
-ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。
-中学生 Visual Basic 6.0（VB6）を使っていました。
-「のんびりゆっくり Visual Basic」という書籍が愛読書でした。
-夏休みの自由研究で毎年ゲームを作っていました。
-中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。
-高専生 専攻科まで行ったので 7 年間ですね。
-授業で習った C 言語や Java などが使えるようになりました。
-研究で C&#43;&#43;と OpenGL で毛筆シミュレーションを作ったり、同じく C&#43;&#43;と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。
-ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。
-社会人（1 社目、2 社目） Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。 その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。
-チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・
-社会人になってからは C#が一番好きな言語になりました。
-社会人（3 社目） 最初の頃は C#の技術力を武器に働きました。
-その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。
-いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。...</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-09-05 21:01:24 +0900 JST'>September 5, 2022</span></footer>
-  <a class="entry-link" aria-label="post link to 35歳エンジニアが使える言語の変遷" href="https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
