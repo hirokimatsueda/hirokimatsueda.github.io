@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>API on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/api/</link>
+    <link>https://blog.pokapu.jp/tags/api/</link>
     <description>Recent content in API on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Tue, 12 Apr 2022 11:34:24 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/api/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 12 Apr 2022 11:34:24 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/api/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Static Web AppsのAPIでマネージドIDを使う方法</title>
-      <link>https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/</link>
+      <link>https://blog.pokapu.jp/post/how-to-use-a-managed-id-with-the-static-web-apps-api/</link>
       <pubDate>Tue, 12 Apr 2022 11:34:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/how-to-use-a-managed-id-with-the-static-web-apps-api/</guid>
-      <description>Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。
-API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。
-API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。
-Static Web Apps の API は 2 種類 Static Web Apps の API は マネージド関数 と 独自の関数 の使用という 2 つの構成が存在します。 マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。
-https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis
-このため、 独自の関数の使用 を選択する必要があります。
-・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。 マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。 上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。
-https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token
-独自の関数の使用 下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。
-https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own
-ドキュメントを見なくてもできちゃうくらい簡単です。 まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。</description>
+      <guid>https://blog.pokapu.jp/post/how-to-use-a-managed-id-with-the-static-web-apps-api/</guid>
+      <description>&lt;p&gt;Static Web Apps はお手軽に静的な Web サイトを提供するだけでなく、API もデプロイできます。&lt;/p&gt;&#xA;&lt;p&gt;API をデプロイした場合、Azure の他のリソースにアクセスする処理が必要なケースが多いと思います。&lt;/p&gt;&#xA;&lt;p&gt;API から他のリソースにアクセスするには接続情報を環境変数に持たせる手もありますが、マネージド ID を使用するとより安全でスマートなコードが組めるので良いですよね。&lt;/p&gt;&#xA;&lt;h2 id=&#34;static-web-apps-の-api-は-2-種類&#34;&gt;Static Web Apps の API は 2 種類&lt;/h2&gt;&#xA;&lt;p&gt;Static Web Apps の API は &lt;strong&gt;マネージド関数&lt;/strong&gt; と &lt;strong&gt;独自の関数&lt;/strong&gt; の使用という 2 つの構成が存在します。&#xA;マネージド関数の方がお手軽に使えますが、下記の表にあるようにマネージド ID（現状の和訳だと「管理対象 ID」になっている）が使えません。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis&#34;&gt;https://docs.microsoft.com/ja-jp/azure/static-web-apps/apis&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;このため、 &lt;strong&gt;独自の関数の使用&lt;/strong&gt; を選択する必要があります。&lt;/p&gt;&#xA;&lt;p&gt;・・・とキレイに書いてみましたが、実際はこの仕様を知らず、Static Web Apps のマネージド ID を有効化して IAM 設定をして「動かないなぁ。。」と悩んでいました。&#xA;マネージド関数でマネージド ID を使おうとして、169.254.169.254:80 にアクセスできない旨のエラーを見て気づきました。&#xA;上記 IP アドレスは下記のドキュメント等に登場しますが、Azure に対する何らかの問い合わせに使われる IP アドレスです。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token&#34;&gt;https://docs.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;独自の関数の使用&#34;&gt;独自の関数の使用&lt;/h2&gt;&#xA;&lt;p&gt;下記のドキュメントを参考に、Azure ポータルからポチポチ設定すれば連携できます。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own&#34;&gt;https://docs.microsoft.com/ja-jp/azure/static-web-apps/functions-bring-your-own&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;ドキュメントを見なくてもできちゃうくらい簡単です。&#xA;まずはマネージド ID を有効化した Functions を用意し、その後 Static Web Apps の「関数」のところからリンクすれば OK です。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

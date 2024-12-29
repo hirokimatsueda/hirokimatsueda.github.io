@@ -1,56 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AWS on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/categories/aws/</link>
+    <link>https://blog.pokapu.jp/categories/aws/</link>
     <description>Recent content in AWS on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Mon, 13 May 2024 20:46:57 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/categories/aws/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 May 2024 20:46:57 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/categories/aws/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Azure Managed DiskとAmazon EBSの性能差</title>
-      <link>https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</link>
+      <link>https://blog.pokapu.jp/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</link>
       <pubDate>Mon, 13 May 2024 20:46:57 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</guid>
-      <description>AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。
-Azure Managed Disk の個人的なイメージ  Standard HDD、Standard SSD、Premium SSD が基本的な選択肢 Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度） Premium SSD を選択すると、利用可能な IOPS が爆増する  Amazon EBS との比較 対応関係は乱暴に言うと下記のようになります。
- Standard HDD = st1 Standard SSD = gp3 Premium SSD = io2  Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。
-Standard HDD と st1 の性能差 スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。 IOPS はどちらも 500。
-また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。</description>
+      <guid>https://blog.pokapu.jp/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/</guid>
+      <description>&lt;p&gt;AWS の資格勉強をしていて、ディスクの性能が全然違ったので自分なりに整理しました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;azure-managed-disk-の個人的なイメージ&#34;&gt;Azure Managed Disk の個人的なイメージ&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Standard HDD、Standard SSD、Premium SSD が基本的な選択肢&lt;/li&gt;&#xA;&lt;li&gt;Standard SSD と Standard HDD は性能差がそこまで大きくない（IOPS は同じでバーストできる程度）&lt;/li&gt;&#xA;&lt;li&gt;Premium SSD を選択すると、利用可能な IOPS が爆増する&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;amazon-ebs-との比較&#34;&gt;Amazon EBS との比較&lt;/h2&gt;&#xA;&lt;p&gt;対応関係は乱暴に言うと下記のようになります。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Standard HDD = st1&lt;/li&gt;&#xA;&lt;li&gt;Standard SSD = gp3&lt;/li&gt;&#xA;&lt;li&gt;Premium SSD = io2&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Azure の場合、ディスク容量が 4,096GiB 以下とそれより上で性能の値が全く異なってくるため、下記は 4,096GiB 以下の容量での比較で記載します。&lt;/p&gt;&#xA;&lt;h3 id=&#34;standard-hdd-と-st1-の性能差&#34;&gt;Standard HDD と st1 の性能差&lt;/h3&gt;&#xA;&lt;p&gt;スループットに関して、Standard HDD の場合 60MB/秒 で固定値であるのに対し、st1 の場合は TiB ごとに 40 MiB/秒となっているので、容量に比例したスループットを得られます。&#xA;IOPS はどちらも 500。&lt;/p&gt;&#xA;&lt;p&gt;また AWS の方はアクセス頻度の低いアーカイブ用の sc1 という HDD のディスクがあります。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>S3上の静的HTMLをカスタムドメインでCloudFrontから配信するサンプル</title>
-      <link>https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/</link>
+      <link>https://blog.pokapu.jp/post/aws-cf-s3-terraform-sample/</link>
       <pubDate>Sun, 24 Mar 2024 15:08:17 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/aws-cf-s3-terraform-sample/</guid>
-      <description>概要 AWS の理解向上を兼ねて、CloudFront で S3 上の HTML を配信する構成のサンプルを terraform で構成してみました。
-AWS Certificate Manager (ACM) で証明書を発行し、CloudFront に割り当てて、カスタムドメインで配信します。
-実際のソース 下記に配置しています。
-https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample
-実行時の前提  CloudFront に割り当てる親ドメインを管理する DNS 名前解決が可能な Route 53 がすでに構築されていること  実装ポイント   CloudFront の制約上、ACM を us-east-1 に構築する必要があるため、コードの簡素化のため全てのリソースを us-east-1 に構築しています
-provider &amp;#34;aws&amp;#34; {  region = &amp;#34;us-east-1&amp;#34;# CloudFront用のACMの要件に沿って設定  access_key = var.aws_access_key  secret_key = var.aws_secret_key }   S3 は CloudFront 以外からパブリックなアクセスをさせたくないため、IAM ポリシーを使用して CloudFront のみからアクセス可能にしています
-data &amp;#34;aws_iam_policy_document&amp;#34; &amp;#34;static_site&amp;#34; {  statement {  sid = &amp;#34;AllowCloudFront&amp;#34;  effect = &amp;#34;Allow&amp;#34;   principals {  type = &amp;#34;AWS&amp;#34;  identifiers = [  var.</description>
+      <guid>https://blog.pokapu.jp/post/aws-cf-s3-terraform-sample/</guid>
+      <description>&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;&#xA;&lt;p&gt;AWS の理解向上を兼ねて、CloudFront で S3 上の HTML を配信する構成のサンプルを terraform で構成してみました。&lt;/p&gt;&#xA;&lt;p&gt;AWS Certificate Manager (ACM) で証明書を発行し、CloudFront に割り当てて、カスタムドメインで配信します。&lt;/p&gt;&#xA;&lt;h2 id=&#34;実際のソース&#34;&gt;実際のソース&lt;/h2&gt;&#xA;&lt;p&gt;下記に配置しています。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample&#34;&gt;https://github.com/hirokimatsueda/aws-cf-s3-terraform-sample&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;実行時の前提&#34;&gt;実行時の前提&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;CloudFront に割り当てる親ドメインを管理する DNS 名前解決が可能な Route 53 がすでに構築されていること&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;実装ポイント&#34;&gt;実装ポイント&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;CloudFront の制約上、ACM を us-east-1 に構築する必要があるため、コードの簡素化のため全てのリソースを us-east-1 に構築しています&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-terraform&#34; data-lang=&#34;terraform&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;provider&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;aws&amp;#34;&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;region&lt;/span&gt;     = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;us-east-1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt; # CloudFront用のACMの要件に沿って設定&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;access_key&lt;/span&gt; = var.&lt;span style=&#34;color:#a6e22e&#34;&gt;aws_access_key&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;secret_key&lt;/span&gt; = var.&lt;span style=&#34;color:#a6e22e&#34;&gt;aws_secret_key&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;S3 は CloudFront 以外からパブリックなアクセスをさせたくないため、IAM ポリシーを使用して CloudFront のみからアクセス可能にしています&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-terraform&#34; data-lang=&#34;terraform&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;aws_iam_policy_document&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;static_site&amp;#34;&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;statement&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;sid&lt;/span&gt;    = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;AllowCloudFront&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;effect&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Allow&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;principals&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a6e22e&#34;&gt;type&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;AWS&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a6e22e&#34;&gt;identifiers&lt;/span&gt; = [&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        var.&lt;span style=&#34;color:#a6e22e&#34;&gt;cloudfront_origin_access_identity_iam_arn&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ]&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;actions&lt;/span&gt; = [&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;s3:GetObject&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;resources&lt;/span&gt; = [&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;aws_s3_bucket&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;static_site&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;arn&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/*&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;モジュールを S3 の構築部分と CloudFront ＋ ACM の構築部分で分離していて、こうするとコードの見通しが良いように個人的には思います。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>AKS使いの私がEKS構築でハマったこと</title>
-      <link>https://hirokimatsueda.github.io/post/things-i-failed-at-building-eks-as-an-aks-user/</link>
+      <link>https://blog.pokapu.jp/post/things-i-failed-at-building-eks-as-an-aks-user/</link>
       <pubDate>Sat, 23 Mar 2024 15:02:22 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/things-i-failed-at-building-eks-as-an-aks-user/</guid>
-      <description>概要 Azure にも AWS にもマネージドな Kubernetes があり、それぞれ Azure Kubernetes Service (AKS) と Amazon Elastic Kubernetes Service (EKS) という名前です。
-AKS（に限らず Azure のサービス）は、Azure ポータルから構築を進めるとすぐに使えることが多いです。
-EKS も AKS と同じノリでポータルで構築したらなかなか動かなかったので、ハマったポイントを共有します。
-ノードグループを追加しないと動かない Kubernetes はワーカーノードが無いと Pod を動かすことができません。
-AKS の場合、ワーカーノードを動かすためにはノードプールを用意する必要があります。 Azure ポータルから AKS クラスタを構築するときはノードプールの作成がデフォルトで指定されており、更にノードプール（厳密にはシステムモードのノードプール）の作成を指定していないとそもそも AKS 自体を構築できません。
-これに対して EKS の場合は、AWS コンソールから EKS クラスタを作成しただけではワーカーノードを動かすために必要なノードグループを作成してくれません。 クラスタはできているので、EKS に対してマニフェストファイルを apply する分には実行できるのですが、待っていても永遠に Pod が立ち上がりません。
-永続ボリュームとしての EBS のマウントにはアドオンを追加する必要がある AKS の場合、永続ボリュームとしてマネージドディスクをマウントする場合、StorageClass や Persistent Volume Claim のマニフェストファイルを用意していけば使えるのでアドオンを意識することはありませんでした。 クラスタの構築時も特にアドオンの選択はさせられません。
-EKS の場合は、クラスタの構築後にアドオンで EBS CSI driver を追加しないと EBS を永続ボリュームとして利用できません。</description>
+      <guid>https://blog.pokapu.jp/post/things-i-failed-at-building-eks-as-an-aks-user/</guid>
+      <description>&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;&#xA;&lt;p&gt;Azure にも AWS にもマネージドな Kubernetes があり、それぞれ Azure Kubernetes Service (AKS) と Amazon Elastic Kubernetes Service (EKS) という名前です。&lt;/p&gt;&#xA;&lt;p&gt;AKS（に限らず Azure のサービス）は、Azure ポータルから構築を進めるとすぐに使えることが多いです。&lt;/p&gt;&#xA;&lt;p&gt;EKS も AKS と同じノリでポータルで構築したらなかなか動かなかったので、ハマったポイントを共有します。&lt;/p&gt;&#xA;&lt;h2 id=&#34;ノードグループを追加しないと動かない&#34;&gt;ノードグループを追加しないと動かない&lt;/h2&gt;&#xA;&lt;p&gt;Kubernetes はワーカーノードが無いと Pod を動かすことができません。&lt;/p&gt;&#xA;&lt;p&gt;AKS の場合、ワーカーノードを動かすためにはノードプールを用意する必要があります。&#xA;Azure ポータルから AKS クラスタを構築するときはノードプールの作成がデフォルトで指定されており、更にノードプール（厳密にはシステムモードのノードプール）の作成を指定していないとそもそも AKS 自体を構築できません。&lt;/p&gt;&#xA;&lt;p&gt;これに対して EKS の場合は、AWS コンソールから EKS クラスタを作成しただけではワーカーノードを動かすために必要なノードグループを作成してくれません。&#xA;クラスタはできているので、EKS に対してマニフェストファイルを apply する分には実行できるのですが、待っていても永遠に Pod が立ち上がりません。&lt;/p&gt;&#xA;&lt;h2 id=&#34;永続ボリュームとしての-ebs-のマウントにはアドオンを追加する必要がある&#34;&gt;永続ボリュームとしての EBS のマウントにはアドオンを追加する必要がある&lt;/h2&gt;&#xA;&lt;p&gt;AKS の場合、永続ボリュームとしてマネージドディスクをマウントする場合、StorageClass や Persistent Volume Claim のマニフェストファイルを用意していけば使えるのでアドオンを意識することはありませんでした。&#xA;クラスタの構築時も特にアドオンの選択はさせられません。&lt;/p&gt;&#xA;&lt;p&gt;EKS の場合は、クラスタの構築後にアドオンで EBS CSI driver を追加しないと EBS を永続ボリュームとして利用できません。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

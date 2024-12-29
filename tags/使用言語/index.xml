@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>使用言語 on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</link>
+    <link>https://blog.pokapu.jp/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</link>
     <description>Recent content in 使用言語 on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Mon, 05 Sep 2022 21:01:24 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Sep 2022 21:01:24 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>35歳エンジニアが使える言語の変遷</title>
-      <link>https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</link>
+      <link>https://blog.pokapu.jp/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</link>
       <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</guid>
-      <description>「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。
-35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。
-10 歳～小学生 Excel VBA を使ってました。
-ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。
-中学生 Visual Basic 6.0（VB6）を使っていました。
-「のんびりゆっくり Visual Basic」という書籍が愛読書でした。
-夏休みの自由研究で毎年ゲームを作っていました。
-中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。
-高専生 専攻科まで行ったので 7 年間ですね。
-授業で習った C 言語や Java などが使えるようになりました。
-研究で C++と OpenGL で毛筆シミュレーションを作ったり、同じく C++と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。
-ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。
-社会人（1 社目、2 社目） Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。 その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。
-チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・
-社会人になってからは C#が一番好きな言語になりました。
-社会人（3 社目） 最初の頃は C#の技術力を武器に働きました。
-その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。
-いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。</description>
+      <guid>https://blog.pokapu.jp/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</guid>
+      <description>&lt;p&gt;「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。&lt;/p&gt;&#xA;&lt;p&gt;35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;10-歳小学生&#34;&gt;10 歳～小学生&lt;/h2&gt;&#xA;&lt;p&gt;Excel VBA を使ってました。&lt;/p&gt;&#xA;&lt;p&gt;ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。&lt;/p&gt;&#xA;&lt;h2 id=&#34;中学生&#34;&gt;中学生&lt;/h2&gt;&#xA;&lt;p&gt;Visual Basic 6.0（VB6）を使っていました。&lt;/p&gt;&#xA;&lt;p&gt;「のんびりゆっくり Visual Basic」という書籍が愛読書でした。&lt;/p&gt;&#xA;&lt;p&gt;夏休みの自由研究で毎年ゲームを作っていました。&lt;/p&gt;&#xA;&lt;p&gt;中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;高専生&#34;&gt;高専生&lt;/h2&gt;&#xA;&lt;p&gt;専攻科まで行ったので 7 年間ですね。&lt;/p&gt;&#xA;&lt;p&gt;授業で習った C 言語や Java などが使えるようになりました。&lt;/p&gt;&#xA;&lt;p&gt;研究で C++と OpenGL で毛筆シミュレーションを作ったり、同じく C++と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。&lt;/p&gt;&#xA;&lt;p&gt;ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。&lt;/p&gt;&#xA;&lt;h2 id=&#34;社会人1-社目2-社目&#34;&gt;社会人（1 社目、2 社目）&lt;/h2&gt;&#xA;&lt;p&gt;Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。&#xA;その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。&lt;/p&gt;&#xA;&lt;p&gt;チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・&lt;/p&gt;&#xA;&lt;p&gt;社会人になってからは C#が一番好きな言語になりました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;社会人3-社目&#34;&gt;社会人（3 社目）&lt;/h2&gt;&#xA;&lt;p&gt;最初の頃は C#の技術力を武器に働きました。&lt;/p&gt;&#xA;&lt;p&gt;その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。&lt;/p&gt;&#xA;&lt;p&gt;いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

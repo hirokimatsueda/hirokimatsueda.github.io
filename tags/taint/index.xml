@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>taint on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/taint/</link>
-    <description>Recent content in taint on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Taint on 備忘録</title>
+    <link>https://blog.pokapu.jp/tags/taint/</link>
+    <description>Recent content in Taint on 備忘録</description>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Fri, 15 Oct 2021 08:35:01 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/taint/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Oct 2021 08:35:01 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/taint/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>KubernetesのTaintにビビらない</title>
-      <link>https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/</link>
+      <link>https://blog.pokapu.jp/post/dont-be-afraid-of-kubernetes-taint/</link>
       <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/dont-be-afraid-of-kubernetes-taint/</guid>
-      <description>Kubernetes をやり始めたころ、登場する言葉の多さに絶望したことを覚えています。 特にこの「Taint」はびっくりしました、「汚す」ってどういうこと？ ちょっと解説してみます。
-ノードを汚すという行為 kubectl taint のようなコマンドを使うと、ノードに Taint をつける、つまりノードを汚すことになります。
-なんだかネガティブな感じですよね。
-ここで大事なことは、「Pod はキレイ好き！」ということです。
-Taint が設定されたノードでは、普通の Pod は「こんな汚い場所で立ち上がりたくない！」となります。
-Taint を活用するコマンドで
-kubectl drain というのがありますが、これを使うと Taint の作用等により Pod をノードから安全に追い出すことができ、ノードのメンテナンスが可能な状態になります。
-汚れを許容する Toleration 通常の Pod は完璧主義というか、あらゆる Taint を拒否します（たぶん）。
-でも、いつもすべてを清潔に保てるとは限りませんよね、例えば家の窓の掃除は結構妥協してたり・・・
-こういう、一部の Taint は気にしない、といった振る舞いを Pod にさせるために Toleration という概念があります。
-例えば Windows コンテナの Pod は Windows のノードでしか起動できないので、ノードに Windows 限定にする Taint をつけておき、Windows の Pod で Toleration を設定すれば良いことがありそうですね。
-（急にニッチな話題に・・・）
-まとめ 詳しいコマンドは解説しませんでしたが、「Taint」という概念については「Pod はキレイ好きだから汚れた場所にはいきたくない」という性格を覚えておくと、関連するドキュメントが一気に読みやすくなります。
-是非覚えておいてください。</description>
+      <guid>https://blog.pokapu.jp/post/dont-be-afraid-of-kubernetes-taint/</guid>
+      <description>&lt;p&gt;Kubernetes をやり始めたころ、登場する言葉の多さに絶望したことを覚えています。&#xA;特にこの「Taint」はびっくりしました、「汚す」ってどういうこと？&#xA;ちょっと解説してみます。&lt;/p&gt;&#xA;&lt;h2 id=&#34;ノードを汚すという行為&#34;&gt;ノードを汚すという行為&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl taint&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;のようなコマンドを使うと、ノードに Taint をつける、つまりノードを汚すことになります。&lt;/p&gt;&#xA;&lt;p&gt;なんだかネガティブな感じですよね。&lt;/p&gt;&#xA;&lt;p&gt;ここで大事なことは、「Pod はキレイ好き！」ということです。&lt;/p&gt;&#xA;&lt;p&gt;Taint が設定されたノードでは、普通の Pod は「こんな汚い場所で立ち上がりたくない！」となります。&lt;/p&gt;&#xA;&lt;p&gt;Taint を活用するコマンドで&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl drain&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;というのがありますが、これを使うと Taint の作用等により Pod をノードから安全に追い出すことができ、ノードのメンテナンスが可能な状態になります。&lt;/p&gt;&#xA;&lt;h2 id=&#34;汚れを許容する-toleration&#34;&gt;汚れを許容する Toleration&lt;/h2&gt;&#xA;&lt;p&gt;通常の Pod は完璧主義というか、あらゆる Taint を拒否します（たぶん）。&lt;/p&gt;&#xA;&lt;p&gt;でも、いつもすべてを清潔に保てるとは限りませんよね、例えば家の窓の掃除は結構妥協してたり・・・&lt;/p&gt;&#xA;&lt;p&gt;こういう、一部の Taint は気にしない、といった振る舞いを Pod にさせるために Toleration という概念があります。&lt;/p&gt;&#xA;&lt;p&gt;例えば Windows コンテナの Pod は Windows のノードでしか起動できないので、ノードに Windows 限定にする Taint をつけておき、Windows の Pod で Toleration を設定すれば良いことがありそうですね。&lt;/p&gt;&#xA;&lt;p&gt;（急にニッチな話題に・・・）&lt;/p&gt;&#xA;&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;&#xA;&lt;p&gt;詳しいコマンドは解説しませんでしたが、「Taint」という概念については「Pod はキレイ好きだから汚れた場所にはいきたくない」という性格を覚えておくと、関連するドキュメントが一気に読みやすくなります。&lt;/p&gt;&#xA;&lt;p&gt;是非覚えておいてください。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,32 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Premium on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/premium/</link>
+    <link>https://blog.pokapu.jp/tags/premium/</link>
     <description>Recent content in Premium on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Fri, 28 Jul 2023 09:31:03 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/premium/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jul 2023 09:31:03 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/premium/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ストレージアカウントのPremiumな選択肢を覚えてみる</title>
-      <link>https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/</link>
+      <link>https://blog.pokapu.jp/post/learn-about-premium-options-for-storage-accounts/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/learn-about-premium-options-for-storage-accounts/</guid>
-      <description>皆さん、Azure の Premium なオプションはどれくらい使えていますか？
-私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。
-Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。
-ストレージ アカウントの種類 https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts
-Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。
-こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。
-必要に応じて CDN などの他のサービスも組み合わせますかね。
-これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。
- Premium ブロック BLOB Premium ファイル共有 Premium ページ BLOB  「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。
-各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。
-（2023/7/28 時点のドキュメントからピックアップ）
-Premium ブロック BLOB  高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる  Premium ファイル共有  サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用 最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい  Premium ページ BLOB  BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供 サイズは固定で最大 8TB  補足：Blob のアクセス層 https://learn.</description>
+      <guid>https://blog.pokapu.jp/post/learn-about-premium-options-for-storage-accounts/</guid>
+      <description>&lt;p&gt;皆さん、Azure の Premium なオプションはどれくらい使えていますか？&lt;/p&gt;&#xA;&lt;p&gt;私は WebApps と SQL Database がぱっと頭に浮かびますが、よく考えるといろいろありますよね。&lt;/p&gt;&#xA;&lt;p&gt;Microsoft Learn を参考に、ストレージアカウントの選択可能なオプションを覚えるため整理してみたいと思います。&lt;/p&gt;&#xA;&lt;h2 id=&#34;ストレージ-アカウントの種類&#34;&gt;ストレージ アカウントの種類&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts&#34;&gt;https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/3-design-for-azure-storage-accounts&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;Azure ポータルからデフォルト設定で構築していくと、「Standard 汎用 v2」が選択されると思います。&lt;/p&gt;&#xA;&lt;p&gt;こちらを使えば、よくある Web サイト等を動かすには十分な性能のものが利用でき、安価にデータを保管できます。&lt;/p&gt;&#xA;&lt;p&gt;必要に応じて CDN などの他のサービスも組み合わせますかね。&lt;/p&gt;&#xA;&lt;p&gt;これに対し、「Standard 汎用 v2」以外には下記の Premium なオプションがあります。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Premium ブロック BLOB&lt;/li&gt;&#xA;&lt;li&gt;Premium ファイル共有&lt;/li&gt;&#xA;&lt;li&gt;Premium ページ BLOB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;「Standard 汎用 v2」の場合、Blob Storage (Data Lake Storage を含む)、Queue Storage、Table Storage、Azure Files の 4 つのサービスが提供されますが、上記の Premium なオプションを利用した場合は特定のサービスにサポートが限定されます。&lt;/p&gt;&#xA;&lt;p&gt;各オプションについて、高いスループット以外のドキュメント上で気になるところをピックアップしていきます。&lt;/p&gt;&#xA;&lt;p&gt;（2023/7/28 時点のドキュメントからピックアップ）&lt;/p&gt;&#xA;&lt;h3 id=&#34;premium-ブロック-blob&#34;&gt;Premium ブロック BLOB&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高速の一貫した応答時間を要するワークロードや、小さな読み書きが大量に行われるワークロードに適している&lt;/li&gt;&#xA;&lt;li&gt;コスト効率で言うと、トランザクションコストが低く設定されており、使用方法によっては「Standard 汎用 v2」よりも安くなる場合も考えられる&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;premium-ファイル共有&#34;&gt;Premium ファイル共有&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;サーバー メッセージ ブロック (SMB) と NFS ファイル共有の両方をサポートする必要がある場合に利用&lt;/li&gt;&#xA;&lt;li&gt;最大同時要求レートは 100,000 IOPS で、Standard の 20,000 IOPS よりはるかに高い&lt;/li&gt;&#xA;&lt;li&gt;ストレージアカウントの最大容量は(100TiB)で、Standard の 5PiB より小さい&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;premium-ページ-blob&#34;&gt;Premium ページ BLOB&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;BLOB あたり最大 7,500 IOPS と 250MBps のプロビジョニングされたディスク パフォーマンスを提供&lt;/li&gt;&#xA;&lt;li&gt;サイズは固定で最大 8TB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;補足blob-のアクセス層&#34;&gt;補足：Blob のアクセス層&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage&#34;&gt;https://learn.microsoft.com/ja-jp/training/modules/design-data-storage-solution-for-non-relational-data/5-design-for-azure-blob-storage&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,15 +1,23 @@
+
+
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる | 備忘録</title>
-<meta name="keywords" content="オートスケール, autoscale, OpenShift" />
-<meta name="description" content="AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+ 
+
+
+      <title>AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる - </title>
+
+  <meta name="description" content="AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
 OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
-OpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
+OpenShift 環境の構築トライ
+実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
 色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。
 サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。
 https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
@@ -18,221 +26,319 @@ https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
 下記を見るとクラスタへの接続方法が確認できます。
 https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster
 いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。
-ClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。
+ClusterAutoscaler の設定確認
+下記を参考に、ClusterAutoscaler の設定を見てみます。
 https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler
 コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。
 GPU ノードはお財布が辛いので、例えばこれくらいですかね？
-apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#34; metadata:  name: &#34;default&#34; spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。">
-<meta name="author" content="">
-<link rel="canonical" href="https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
-<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript> 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-M6XY8HL7QN');
-</script> <meta property="og:title" content="AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる" />
-<meta property="og:description" content="AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
-OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
-OpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
-色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。
-サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。
-https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
-手順内で（省略可能）となっている部分については今回は省略してみました。
-クラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。
-下記を見るとクラスタへの接続方法が確認できます。
-https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster
-いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。
-ClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。
-https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler
-コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。
-GPU ノードはお財布が辛いので、例えばこれくらいですかね？
-apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#34; metadata:  name: &#34;default&#34; spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-12-28T08:26:09&#43;09:00" />
-<meta property="article:modified_time" content="2021-12-28T08:26:09&#43;09:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる"/>
-<meta name="twitter:description" content="AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
-OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
-OpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
-色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。
-サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。
-https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
-手順内で（省略可能）となっている部分については今回は省略してみました。
-クラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。
-下記を見るとクラスタへの接続方法が確認できます。
-https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster
-いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。
-ClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。
-https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler
-コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。
-GPU ノードはお財布が辛いので、例えばこれくらいですかね？
-apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#34; metadata:  name: &#34;default&#34; spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。"/>
-
-
-<script type="application/ld+json">
+apiVersion: &#34;autoscaling.openshift.io/v1&#34;
+kind: &#34;ClusterAutoscaler&#34;
+metadata:
+  name: &#34;default&#34;
+spec:
+  podPriorityThreshold: -10
+  resourceLimits:
+    maxNodesTotal: 24
+    cores:
+      min: 8
+      max: 128
+    memory:
+      min: 4
+      max: 256
+  scaleDown:
+    enabled: true
+    delayAfterAdd: 10m
+    delayAfterDelete: 5m
+    delayAfterFailure: 30s
+    unneededTime: 60s
+resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。"><script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://hirokimatsueda.github.io/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる",
-      "item": "https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/"
-    }
-  ]
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "備忘録",
+    
+    "url": "https:\/\/blog.pokapu.jp\/"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/blog.pokapu.jp\/"
+  
+  
+  
+  
 }
 </script>
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる",
-  "name": "AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる",
-  "description": "AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。\nOpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。\nOpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。\n色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。\nサブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。\nhttps://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster\n手順内で（省略可能）となっている部分については今回は省略してみました。\nクラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。\n下記を見るとクラスタへの接続方法が確認できます。\nhttps://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster\nいろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。\nClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。\nhttps://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler\nコマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。\nGPU ノードはお財布が辛いので、例えばこれくらいですかね？\napiVersion: \u0026#34;autoscaling.openshift.io/v1\u0026#34; kind: \u0026#34;ClusterAutoscaler\u0026#34; metadata:  name: \u0026#34;default\u0026#34; spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。",
-  "keywords": [
-    "オートスケール", "autoscale", "OpenShift"
-  ],
-  "articleBody": "AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。\nOpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。\nOpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。\n色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。\nサブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。\nhttps://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster\n手順内で（省略可能）となっている部分については今回は省略してみました。\nクラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。\n下記を見るとクラスタへの接続方法が確認できます。\nhttps://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster\nいろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。\nClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。\nhttps://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler\nコマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。\nGPU ノードはお財布が辛いので、例えばこれくらいですかね？\napiVersion: \"autoscaling.openshift.io/v1\" kind: \"ClusterAutoscaler\" metadata:  name: \"default\" spec:  podPriorityThreshold: -10  resourceLimits:  maxNodesTotal: 24  cores:  min: 8  max: 128  memory:  min: 4  max: 256  scaleDown:  enabled: true  delayAfterAdd: 10m  delayAfterDelete: 5m  delayAfterFailure: 30s  unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。\n例えばノードをバンバンスケールダウンしたかったら delayAfterDelete の時間を短くすれば良さそうです。\nenabled の設定があるので、スケールダウンしないという選択も可能に見えます。\nこの設定は次の MachineAutoscaler の設定をしないと動かないとのこと。\nMachineAutoscaler の設定確認 ClusterAutoscaler だけではスケーリングしないようで、MachineAutoscaler という定義が必要なので下記を参考に考えます。\nhttps://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-machineautoscaler\nほぼコピペですがこんな感じでどうでしょうか？\napiVersion: \"autoscaling.openshift.io/v1beta1\" kind: \"MachineAutoscaler\" metadata:  name: \"worker-japan-east-1a\"  namespace: \"openshift-machine-api\" spec:  minReplicas: 1  maxReplicas: 4  scaleTargetRef:  apiVersion: machine.openshift.io/v1beta1  kind: MachineSet  name: worker-japan-east-1a name の値が気になるところ・・・MachineSet という概念があるそうです。\nOpenShift のクラスターコンソールを眺めていたら、「コンピュート」→「マシンセット」で出てきました。\n初期構築で出来るみたいですね。\n「コンピュート」→「マシン」のビューを見るとアベイラビリティゾーンが分かれているので、単リージョンでも安全に運用できそうな構成であることが分かりました。\nMachineSet の名前は「matsuedatest-hclr8-worker-japaneast1」のような名前だったので、アベイラビリティゾーン 1 を使用する MachineSet へのオートスケール設定をする場合は、こんな定義になるでしょうか。\napiVersion: \"autoscaling.openshift.io/v1beta1\" kind: \"MachineAutoscaler\" metadata:  name: \"matsuedatest-hclr8-worker-japaneast1\"  namespace: \"openshift-machine-api\" spec:  minReplicas: 1  maxReplicas: 4  scaleTargetRef:  apiVersion: machine.openshift.io/v1beta1  kind: MachineSet  name: matsuedatest-hclr8-worker-japaneast1 お、良く見るとクラスターコンソールの 「コンピュート」→「マシンセット」 から Machine Autoscaler が設定できるようです。レプリカの最小数と最大数を入れて保存したら、こんな yaml が生成されました。上記で外してなかった感じがしますね！\napiVersion: autoscaling.openshift.io/v1beta1 kind: MachineAutoscaler metadata:  creationTimestamp: 'XXXX-XX-XXTXX:XX:XXZ'  finalizers:  - machinetarget.autoscaling.openshift.io  generation: 1  managedFields:(略)  name: matsuedatest-hclr8-worker-japaneast1  namespace: openshift-machine-api  resourceVersion: 'XXXX'  uid: XXXX spec:  maxReplicas: 4  minReplicas: 1  scaleTargetRef:  apiVersion: machine.openshift.io/v1beta1  kind: MachineSet  name: matsuedatest-hclr8-worker-japaneast1 status:  lastTargetRef:  apiVersion: machine.openshift.io/v1beta1  kind: MachineSet  name: matsuedatest-hclr8-worker-japaneast1 MachineSet について追加で調べたこと クラウドごとに、例えば Azure の場合は Azure 用のサンプルがあるようです。\nhttps://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/creating-machineset-azure\nマニフェストファイルで ARM テンプレートや Terraform でやっていることが実現できそうに見えました。\nTerraform を運用環境に apply するのは結構勇気の要る作業なので、マニフェストファイルを適用したら自動的に環境が調整される世界は心理的にも工数的にも良さそうだなと思います。\nまとめ 実際にスケールするところまでは見れていないですが、OpenShift のクラスターコンソールを楽しみつつクラスタのオートスケールについてどのような設定ができるか確認できました。\nごちゃごちゃと書いてしまいましたが、まとめると下記のポイントになってくるかと思います。\n インフラ定義がマニフェストファイルで完結する（っぽい）ので、Terraform や ARM テンプレートのような仕組みを使わずに OpenShift と yaml ファイルさえあれば柔軟なインフラを構築できそう マニフェストファイルで詳細なカスタマイズもできるし、クラスターコンソールから簡易的なマニフェストファイルを生成することもできる AKS とは違い、クラスタのスケールダウンを詳細に定義できるので、アプリの特性に合わせたスケールダウン動作を実装できる アベイラビリティゾーン（やリージョン）の単位でオートスケール設定を組めるので、データセンターの障害に対して強い構成が組みやすい  ",
-  "wordCount" : "236",
-  "inLanguage": "en",
-  "datePublished": "2021-12-28T08:26:09+09:00",
-  "dateModified": "2021-12-28T08:26:09+09:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://hirokimatsueda.github.io/post/one-aks-user-explores-cluster-autoscale-with-openshift/"
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/blog.pokapu.jp\/",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/blog.pokapu.jp\/post\/one-aks-user-explores-cluster-autoscale-with-openshift\/",
+          "name": "Aksユーザーが open shiftでクラスタのオートスケールを調べてみる"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : ""
   },
-  "publisher": {
+  "headline": "AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる",
+  "description" : "AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。\nOpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。\nOpenShift 環境の構築トライ 実物を知らずして進めるのも良くないと思い、構築の方もトライしました。\n色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。\nサブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。\nhttps:\/\/docs.microsoft.com\/ja-jp\/azure\/openshift\/tutorial-create-cluster\n手順内で（省略可能）となっている部分については今回は省略してみました。\nクラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。\n下記を見るとクラスタへの接続方法が確認できます。\nhttps:\/\/docs.microsoft.com\/ja-jp\/azure\/openshift\/tutorial-connect-cluster#connect-to-the-cluster\nいろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。\nClusterAutoscaler の設定確認 下記を参考に、ClusterAutoscaler の設定を見てみます。\nhttps:\/\/access.redhat.com\/documentation\/ja-jp\/openshift_container_platform\/4.8\/html\/machine_management\/configuring-clusterautoscaler\nコマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。\nGPU ノードはお財布が辛いので、例えばこれくらいですかね？\napiVersion: \u0026#34;autoscaling.openshift.io\/v1\u0026#34; kind: \u0026#34;ClusterAutoscaler\u0026#34; metadata: name: \u0026#34;default\u0026#34; spec: podPriorityThreshold: -10 resourceLimits: maxNodesTotal: 24 cores: min: 8 max: 128 memory: min: 4 max: 256 scaleDown: enabled: true delayAfterAdd: 10m delayAfterDelete: 5m delayAfterFailure: 30s unneededTime: 60s resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。\n",
+  "inLanguage" : "en",
+  "wordCount":  236 ,
+  "datePublished" : "2021-12-28T08:26:09\u002b09:00",
+  "dateModified" : "2021-12-28T08:26:09\u002b09:00",
+  "image" : "https:\/\/blog.pokapu.jp\/",
+  "keywords" : [ "オートスケール, autoscale, OpenShift" ],
+  "mainEntityOfPage" : "https:\/\/blog.pokapu.jp\/post\/one-aks-user-explores-cluster-autoscale-with-openshift\/",
+  "publisher" : {
     "@type": "Organization",
-    "name": "備忘録",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    "name" : "https:\/\/blog.pokapu.jp\/",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/blog.pokapu.jp\/",
+        "height" :  60 ,
+        "width" :  60
     }
   }
 }
 </script>
-</head>
 
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
 
-</script>
+<meta property="og:title" content="AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる" />
+<meta property="og:description" content="AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
+OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
+OpenShift 環境の構築トライ
+実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
+色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。
+サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。
+https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster
+手順内で（省略可能）となっている部分については今回は省略してみました。
+クラスターが作成されるまでに通常約 35 分かかります。とのことです。気長に待ちましょう。
+下記を見るとクラスタへの接続方法が確認できます。
+https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster
+いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。
+ClusterAutoscaler の設定確認
+下記を参考に、ClusterAutoscaler の設定を見てみます。
+https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler
+コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。
+GPU ノードはお財布が辛いので、例えばこれくらいですかね？
+apiVersion: &#34;autoscaling.openshift.io/v1&#34;
+kind: &#34;ClusterAutoscaler&#34;
+metadata:
+  name: &#34;default&#34;
+spec:
+  podPriorityThreshold: -10
+  resourceLimits:
+    maxNodesTotal: 24
+    cores:
+      min: 8
+      max: 128
+    memory:
+      min: 4
+      max: 256
+  scaleDown:
+    enabled: true
+    delayAfterAdd: 10m
+    delayAfterDelete: 5m
+    delayAfterFailure: 30s
+    unneededTime: 60s
+resourceLimits で記載している値は AKS でも設定できなく無いかなと思うのですが、scaleDown の定義は気になりますね。">
+<meta property="og:url" content="https://blog.pokapu.jp/post/one-aks-user-explores-cluster-autoscale-with-openshift/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="備忘録" />
 
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
-            <span class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </span>
-        </div>
-        <ul id="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main">
+  <meta name="twitter:title" content="AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる" />
+  <meta name="twitter:description" content="AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。
+OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。
+OpenShift 環境の構築トライ
+実物を知らずして進めるのも良くないと思い、構築の方もトライしました。
+ …">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@matsueda_2022" />
+  <meta name="twitter:creator" content="@matsueda_2022" />
+  <meta name="generator" content="Hugo 0.140.1">
+  <link rel="alternate" href="https://blog.pokapu.jp/index.xml" type="application/rss+xml" title="備忘録"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" integrity="sha384-h/hnnw1Bi4nbpD6kE7nYfCXzovi622sY5WBxww8ARKwpdLj5kUWjRuyiXaD1U2JT" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.pokapu.jp/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://blog.pokapu.jp/css/syntax.css" /><link rel="stylesheet" href="https://blog.pokapu.jp/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
 
-<article class="post-single">
-  <header class="post-header">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-M6XY8HL7QN"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-M6XY8HL7QN');
+        }
+      </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://blog.pokapu.jp/">備忘録</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Privacy Policy" href="/privacy/">Privacy Policy</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
     
-    <h1 class="post-title">
-      AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる
-    </h1>
-    <div class="post-meta"><span title='2021-12-28 08:26:09 +0900 JST'>December 28, 2021</span>
 
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
 </div>
-  </header> 
-  <div class="post-content"><p>AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。</p>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>AKSユーザーがOpenShiftでクラスタのオートスケールを調べてみる</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Posted on December 28, 2021
+  
+  
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>AKS(Azure Kubernetes Services)は簡単な設定を入れるだけでクラスタのオートスケールが可能で便利ですが、あまり詳細なコントロールができない認識です。</p>
 <p>OpenShift だとマニフェストファイルでオートスケールを調整できるように見えるので、ちょっと調べてみました。</p>
-<h2 id="openshift-環境の構築トライ">OpenShift 環境の構築トライ<a hidden class="anchor" aria-hidden="true" href="#openshift-環境の構築トライ">#</a></h2>
+<h2 id="openshift-環境の構築トライ">OpenShift 環境の構築トライ</h2>
 <p>実物を知らずして進めるのも良くないと思い、構築の方もトライしました。</p>
 <p>色々試したポイントとして、OpenShift の 4 系は VM サイズが最低でも D8s_v3、最低 4 台立つようなので、サブスクリプションのクォータの調整をしてから対応を進めましょう。オートスケールを踏まえると、「Standard DSv3 ファミリ vCPUs」を 48 以上くらいにしておきたいです。「リージョンの vCPU の合計」の方もご確認を。</p>
 <p>サブスクリプションの準備が整ったら下記 URL の記事に従い、OpenShift 環境を構築します。</p>
@@ -242,7 +348,7 @@ apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#
 <p>下記を見るとクラスタへの接続方法が確認できます。</p>
 <p><a href="https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster">https://docs.microsoft.com/ja-jp/azure/openshift/tutorial-connect-cluster#connect-to-the-cluster</a></p>
 <p>いろいろなビューがあって便利そうなので、こちらの画面も見つつ、ドキュメントを追ってみることにします。</p>
-<h2 id="clusterautoscaler-の設定確認">ClusterAutoscaler の設定確認<a hidden class="anchor" aria-hidden="true" href="#clusterautoscaler-の設定確認">#</a></h2>
+<h2 id="clusterautoscaler-の設定確認">ClusterAutoscaler の設定確認</h2>
 <p>下記を参考に、ClusterAutoscaler の設定を見てみます。</p>
 <p><a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler">https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-clusterautoscaler</a></p>
 <p>コマンドで設定する手順になっていますが、クラスターコンソールの「管理」→「クラスター設定」から、「Cluster Autoscaler」のところで設定することもできそうです。</p>
@@ -271,7 +377,7 @@ apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#
 <p>例えばノードをバンバンスケールダウンしたかったら delayAfterDelete の時間を短くすれば良さそうです。</p>
 <p>enabled の設定があるので、スケールダウンしないという選択も可能に見えます。</p>
 <p>この設定は次の MachineAutoscaler の設定をしないと動かないとのこと。</p>
-<h2 id="machineautoscaler-の設定確認">MachineAutoscaler の設定確認<a hidden class="anchor" aria-hidden="true" href="#machineautoscaler-の設定確認">#</a></h2>
+<h2 id="machineautoscaler-の設定確認">MachineAutoscaler の設定確認</h2>
 <p>ClusterAutoscaler だけではスケーリングしないようで、MachineAutoscaler という定義が必要なので下記を参考に考えます。</p>
 <p><a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-machineautoscaler">https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/configuring-machineautoscaler</a></p>
 <p>ほぼコピペですがこんな感じでどうでしょうか？</p>
@@ -329,12 +435,12 @@ apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">machine.openshift.io/v1beta1</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">MachineSet</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">matsuedatest-hclr8-worker-japaneast1</span>
-</span></span></code></pre></div><h2 id="machineset-について追加で調べたこと">MachineSet について追加で調べたこと<a hidden class="anchor" aria-hidden="true" href="#machineset-について追加で調べたこと">#</a></h2>
+</span></span></code></pre></div><h2 id="machineset-について追加で調べたこと">MachineSet について追加で調べたこと</h2>
 <p>クラウドごとに、例えば Azure の場合は Azure 用のサンプルがあるようです。</p>
 <p><a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/creating-machineset-azure">https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.8/html/machine_management/creating-machineset-azure</a></p>
 <p>マニフェストファイルで ARM テンプレートや Terraform でやっていることが実現できそうに見えました。</p>
 <p>Terraform を運用環境に apply するのは結構勇気の要る作業なので、マニフェストファイルを適用したら自動的に環境が調整される世界は心理的にも工数的にも良さそうだなと思います。</p>
-<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<h2 id="まとめ">まとめ</h2>
 <p>実際にスケールするところまでは見れていないですが、OpenShift のクラスターコンソールを楽しみつつクラスタのオートスケールについてどのような設定ができるか確認できました。</p>
 <p>ごちゃごちゃと書いてしまいましたが、まとめると下記のポイントになってくるかと思います。</p>
 <ul>
@@ -345,85 +451,126 @@ apiVersion: &#34;autoscaling.openshift.io/v1&#34; kind: &#34;ClusterAutoscaler&#
 </ul>
 
 
+        
+          <div class="blog-tags">
+            
+              
+              <a href="https://blog.pokapu.jp/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/">オートスケール</a>&nbsp;
+            
+              
+              <a href="https://blog.pokapu.jp/tags/autoscale/">autoscale</a>&nbsp;
+            
+              
+              <a href="https://blog.pokapu.jp/tags/openshift/">OpenShift</a>&nbsp;
+            
+          </div>
+        
+
+        
+
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://blog.pokapu.jp/post/control-azure-resources-from-a-runbook-using-a-managed-id/" data-toggle="tooltip" data-placement="top" title="マネージドIDを使用してRunbookからAzureリソースを操作する">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://blog.pokapu.jp/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/" data-toggle="tooltip" data-placement="top" title="Static Web Appsの連携先GitHubリポジトリを変更する方法">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+
+    </div>
   </div>
+</div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://hirokimatsueda.github.io/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/">オートスケール</a></li>
-      <li><a href="https://hirokimatsueda.github.io/tags/autoscale/">autoscale</a></li>
-      <li><a href="https://hirokimatsueda.github.io/tags/openshift/">OpenShift</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
+      <footer>
+  <div class="container">
     
-<footer class="footer">
-    <span>Copyright © 2022 Hiroki Matsueda</span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-    <span>
-        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="https://github.com/hirokimatsueda" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://twitter.com/matsueda_2022" title="Twitter">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-x-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/hiroki-matsueda-3867a32b2" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function() {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2024
+          
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function(e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function() {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-</script></body>
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://blog.pokapu.jp/">備忘録</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.140.1</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha384-w5y/xIeYixWvfM+A1cEbmHPURnvyqmVg5eVENruEdDjcyRLUSNej7512JQGspFUr" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
+<script src="https://blog.pokapu.jp/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://blog.pokapu.jp/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+
+    
+  </body>
 </html>
+

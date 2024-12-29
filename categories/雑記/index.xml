@@ -1,134 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>雑記 on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/categories/%E9%9B%91%E8%A8%98/</link>
+    <link>https://blog.pokapu.jp/categories/%E9%9B%91%E8%A8%98/</link>
     <description>Recent content in 雑記 on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 13 May 2023 13:29:27 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/categories/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 May 2023 13:29:27 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/categories/%E9%9B%91%E8%A8%98/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ChatGPT が子供向けの曲を作ったらどうなる？</title>
-      <link>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</link>
+      <link>https://blog.pokapu.jp/post/what-if-chatgpt-made-a-song-for-kids/</link>
       <pubDate>Sat, 13 May 2023 13:29:27 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/what-if-chatgpt-made-a-song-for-kids/</guid>
-      <description>社内で爆発的に流行っている ChatGPT に手を出したら、とてもハマってしまいました。 信長の野望以来のマイブーム？
-隙間時間に無理難題を問いかけて、反応を楽しんでいます。 問いかけに対してうまく答えたり答えなかったりするところが、何となく子育てに近い感じがします。
-ちょっとお遊びですが、子供向けの曲を作ってもらおうとしてみました。
-まずは作詞！ すごくアバウトに振ってみましょう。
-架空の子供番組の歌を作って ↓ lyrics 1それっぽい！？
-最後の歌詞を見る限りは、オープニング曲というよりエンディング曲ですかね？
-コード進行は作れるか？ 続いて曲にするためにコード進行を決めていきましょう。
-良いね！ コード進行を教えて ↓ chord progression 1う～ん・・・流石にこれは詰まらなすぎます。
-ちょっとつまらないので、ヴァースで変化をつけて ↓ chord progression 2(ヴァースじゃなくてコーラスで変化を付けさせるべきだった気も・・・)
-いやぁ・・・これもちょっとなぁ。
-私の好きな、某イスが主役の番組の音楽とか想像すると物足りないです。
-最近の子供番組はもっと複雑な進行になる印象です。 もう少し思い切った形になりますか？ ↓ chord progression 3ちょっとやり過ぎな感じもしますが、良しとしますか！
-コードに合わせて歌詞を調整 ブリッジが追加されて歌詞との対応関係が崩れたようなので、歌詞を調整してみます。
-良いですね、このコードに沿って歌の歌詞を調整してください。 ↓ lyrics 2lyrics 2やはりエンディング曲な締めですが、弾き語りで使えそうなメモになってきました。
-メロディーラインも作れるか？ ここまで来たらメロディーラインも作ってほしいですね。
-メロディラインを作ってください ↓ melody 1途中で回答の生成を止めちゃいましたが、音楽の生成をやろうとしてたので、文字で再度書いてもらうことに。</description>
+      <guid>https://blog.pokapu.jp/post/what-if-chatgpt-made-a-song-for-kids/</guid>
+      <description>&lt;p&gt;社内で爆発的に流行っている ChatGPT に手を出したら、とてもハマってしまいました。&#xA;信長の野望以来のマイブーム？&lt;/p&gt;&#xA;&lt;p&gt;隙間時間に無理難題を問いかけて、反応を楽しんでいます。&#xA;問いかけに対してうまく答えたり答えなかったりするところが、何となく子育てに近い感じがします。&lt;/p&gt;&#xA;&lt;p&gt;ちょっとお遊びですが、子供向けの曲を作ってもらおうとしてみました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;まずは作詞&#34;&gt;まずは作詞！&lt;/h2&gt;&#xA;&lt;p&gt;すごくアバウトに振ってみましょう。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;架空の子供番組の歌を作って&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://blog.pokapu.jp/css/hugo-easy-gallery.css&#34; /&gt;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/001.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/001.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/001.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;lyrics 1&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;それっぽい！？&lt;/p&gt;&#xA;&lt;p&gt;最後の歌詞を見る限りは、オープニング曲というよりエンディング曲ですかね？&lt;/p&gt;&#xA;&lt;h2 id=&#34;コード進行は作れるか&#34;&gt;コード進行は作れるか？&lt;/h2&gt;&#xA;&lt;p&gt;続いて曲にするためにコード進行を決めていきましょう。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;良いね！&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;コード進行を教えて&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/002.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/002.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/002.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;chord progression 1&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;う～ん・・・流石にこれは詰まらなすぎます。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ちょっとつまらないので、ヴァースで変化をつけて&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/003.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/003.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/003.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;chord progression 2&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;(ヴァースじゃなくてコーラスで変化を付けさせるべきだった気も・・・)&lt;/p&gt;&#xA;&lt;p&gt;いやぁ・・・これもちょっとなぁ。&lt;/p&gt;&#xA;&lt;p&gt;私の好きな、某イスが主役の番組の音楽とか想像すると物足りないです。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;最近の子供番組はもっと複雑な進行になる印象です。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;もう少し思い切った形になりますか？&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/004.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/004.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/004.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;chord progression 3&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;ちょっとやり過ぎな感じもしますが、良しとしますか！&lt;/p&gt;&#xA;&lt;h2 id=&#34;コードに合わせて歌詞を調整&#34;&gt;コードに合わせて歌詞を調整&lt;/h2&gt;&#xA;&lt;p&gt;ブリッジが追加されて歌詞との対応関係が崩れたようなので、歌詞を調整してみます。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;良いですね、このコードに沿って歌の歌詞を調整してください。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/005.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/005.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/005.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;lyrics 2&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/006.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/006.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/006.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;lyrics 2&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;やはりエンディング曲な締めですが、弾き語りで使えそうなメモになってきました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;メロディーラインも作れるか&#34;&gt;メロディーラインも作れるか？&lt;/h2&gt;&#xA;&lt;p&gt;ここまで来たらメロディーラインも作ってほしいですね。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;メロディラインを作ってください&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/007.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/007.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/007.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;melody 1&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;途中で回答の生成を止めちゃいましたが、音楽の生成をやろうとしてたので、文字で再度書いてもらうことに。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ドレミファソの音階の文字で表現して良いですよ&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/008.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/008.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/008.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;melody 2&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;どのコードの範囲にどの音があるのか見えなくなっちゃいました。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;コードと音階との関係性が読み取りづらいので、小説単位で区切り記号「|」を入れて&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;↓&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/009.png&#34; alt=&#34;/what-if-chatgpt-made-a-song-for-kids/009.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/what-if-chatgpt-made-a-song-for-kids/009.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;melody 3&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>35歳エンジニアが使える言語の変遷</title>
-      <link>https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</link>
+      <link>https://blog.pokapu.jp/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</link>
       <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</guid>
-      <description>「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。
-35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。
-10 歳～小学生 Excel VBA を使ってました。
-ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。
-中学生 Visual Basic 6.0（VB6）を使っていました。
-「のんびりゆっくり Visual Basic」という書籍が愛読書でした。
-夏休みの自由研究で毎年ゲームを作っていました。
-中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。
-高専生 専攻科まで行ったので 7 年間ですね。
-授業で習った C 言語や Java などが使えるようになりました。
-研究で C++と OpenGL で毛筆シミュレーションを作ったり、同じく C++と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。
-ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。
-社会人（1 社目、2 社目） Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。 その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。
-チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・
-社会人になってからは C#が一番好きな言語になりました。
-社会人（3 社目） 最初の頃は C#の技術力を武器に働きました。
-その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。
-いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。</description>
+      <guid>https://blog.pokapu.jp/post/changes-in-programming-languages-that-35-year-old-engineers-can-now-use/</guid>
+      <description>&lt;p&gt;「SE の 35 歳定年説」みたいなのを気にしながら生き方を考えていたかもしれません。&lt;/p&gt;&#xA;&lt;p&gt;35 歳になってみて、プログラムを書くことに対してどうだったかな？と振り返ってみました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;10-歳小学生&#34;&gt;10 歳～小学生&lt;/h2&gt;&#xA;&lt;p&gt;Excel VBA を使ってました。&lt;/p&gt;&#xA;&lt;p&gt;ナンバープレイス（数独と言った方が伝わる？）の答え合わせツールを作ったなぁ、程度ですが・・・いや、勝手に答えを出してくれるわけではなく、別シートに書いてある回答と If 文で比較しただけです。&lt;/p&gt;&#xA;&lt;h2 id=&#34;中学生&#34;&gt;中学生&lt;/h2&gt;&#xA;&lt;p&gt;Visual Basic 6.0（VB6）を使っていました。&lt;/p&gt;&#xA;&lt;p&gt;「のんびりゆっくり Visual Basic」という書籍が愛読書でした。&lt;/p&gt;&#xA;&lt;p&gt;夏休みの自由研究で毎年ゲームを作っていました。&lt;/p&gt;&#xA;&lt;p&gt;中 2 の時にシューティングゲームを作るために Windows API にも手を出しました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;高専生&#34;&gt;高専生&lt;/h2&gt;&#xA;&lt;p&gt;専攻科まで行ったので 7 年間ですね。&lt;/p&gt;&#xA;&lt;p&gt;授業で習った C 言語や Java などが使えるようになりました。&lt;/p&gt;&#xA;&lt;p&gt;研究で C++と OpenGL で毛筆シミュレーションを作ったり、同じく C++と OpenGL で高専プロコンのために金魚すくいシミュレーターを作ったりしました。&lt;/p&gt;&#xA;&lt;p&gt;ただ趣味のプログラミングとしては相変わらず VB6 が好きでした。&lt;/p&gt;&#xA;&lt;h2 id=&#34;社会人1-社目2-社目&#34;&gt;社会人（1 社目、2 社目）&lt;/h2&gt;&#xA;&lt;p&gt;Ruby に手を出したり、古の言語に触れてみたり、幅広い言語を使うことになりました。&#xA;その中でも Java や.NET 系のオブジェクト指向言語（C#、VB.NET）が主力だったと思います。&lt;/p&gt;&#xA;&lt;p&gt;チーム開発の経験が進むにつ入れて、VB6 との距離は遠ざかっていきました・・・&lt;/p&gt;&#xA;&lt;p&gt;社会人になってからは C#が一番好きな言語になりました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;社会人3-社目&#34;&gt;社会人（3 社目）&lt;/h2&gt;&#xA;&lt;p&gt;最初の頃は C#の技術力を武器に働きました。&lt;/p&gt;&#xA;&lt;p&gt;その後、Docker や PowerShell など、言語のカテゴリで書くか微妙なところですが、次第にインフラに寄った知識が増えていきました。&lt;/p&gt;&#xA;&lt;p&gt;いつの間にか terraform を覚え、Kubernetes のマニフェストファイル(yaml)も読み書きできるようになっていきました。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>幼少期に触れ合ったパソコンたち</title>
-      <link>https://hirokimatsueda.github.io/post/computers-that-i-came-into-contact-with-in-my-childhood/</link>
+      <link>https://blog.pokapu.jp/post/computers-that-i-came-into-contact-with-in-my-childhood/</link>
       <pubDate>Tue, 21 Jun 2022 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/computers-that-i-came-into-contact-with-in-my-childhood/</guid>
-      <description>今年も非常に優秀な新卒入社社員の皆さんと出会えてうれしい限りです。 この季節になると、なんとなく自分の過去を振り返っているように思います。
-なぜ自分はエンジニアになったか？を説明する時に、「10 歳からプログラミングを始めたから」と普段答えているのですが、3 つのパソコンとの関りが大きく関係していると思っています。
-ちなみに私が小学校 1 年生くらいの時に Windows 95 が出ました。
-Windows 95 のパソコン Windows 3.1 のパソコンに Windows 95 の CD-ROM でアップグレードインストールしたものです。
-ブルースクリーンが頻発したりハードディスクがガリガリ音を立てたり、本当に不安定なパソコンでした。メモリは確か 8MB・・・GB じゃないですよ？
-ハードディスクも 700MB くらいだった記憶があります。
-メモリは後で 40MB に増設した記憶があります。
-ゲームをやるくらいでしか使っていませんでしたが、Windows という、その後爆発的に普及する OS に幼少期から触れられたのは大きいです。
-NEC PC9801（たぶん） こちらは CLI ベースで動くパソコンですね。
-フロッピーディスクでアプリケーションを読み込んだりして使えるものです。
-このパソコンで父が趣味でオセロのプログラムを書いていて、そのソースコードの LINE 文を書き替えたら、オセロの盤面の線が斜めになったのが、プログラミングを始める本当の最初の点だと思います。
-これが無ければプログラミングは始めていなかったと思います。
-当時このパソコンが大好きでした。
-画面全体の表示を全て制御できるので、パソコンを全部コントロールしているような感覚になりました。
-高専の入試面接のときに「OS を作れるようになりたいです」などと無謀なことを言ったのもこちらがきっかけです。 （結局 OS の開発には１ミリも手を出しませんでした・・・）
-SHARP MZ-731（たぶん） こちらは機械語で動くパソコンです。
-祖父がパソコンを勉強するために購入したと聞いています。
-家庭用テレビに繋ぐと画面表示ができて、メモリが確か 64KB、ハードディスクは無く、カセットテープでデータの読み書きができました。
-例えば 3 分くらいかけてカセットテープを読み込ませると BASIC が使えるようになります。
-私個人としてはあんまり活用していなかったですが、メモリ空間の一部がディスプレイの表示に繋がっていて間違えて書き換えると画面の色が変わったりとか、マシンが「暴走」して応答しなくなるとかを経験して、純粋にコンピュータがどういうものかを理解することに役立ったと思います。
-まとめ メモリ容量とか具体的な数字で覚えているのが怖いですね。
-その後、パソコンは買い替えられて Windows Me とインターネット接続を手に入れ、Visual Basic 6.</description>
+      <guid>https://blog.pokapu.jp/post/computers-that-i-came-into-contact-with-in-my-childhood/</guid>
+      <description>&lt;p&gt;今年も非常に優秀な新卒入社社員の皆さんと出会えてうれしい限りです。&#xA;この季節になると、なんとなく自分の過去を振り返っているように思います。&lt;/p&gt;&#xA;&lt;p&gt;なぜ自分はエンジニアになったか？を説明する時に、「10 歳からプログラミングを始めたから」と普段答えているのですが、3 つのパソコンとの関りが大きく関係していると思っています。&lt;/p&gt;&#xA;&lt;p&gt;ちなみに私が小学校 1 年生くらいの時に Windows 95 が出ました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;windows-95-のパソコン&#34;&gt;Windows 95 のパソコン&lt;/h2&gt;&#xA;&lt;p&gt;Windows 3.1 のパソコンに Windows 95 の CD-ROM でアップグレードインストールしたものです。&lt;/p&gt;&#xA;&lt;p&gt;ブルースクリーンが頻発したりハードディスクがガリガリ音を立てたり、本当に不安定なパソコンでした。メモリは確か 8MB・・・GB じゃないですよ？&lt;/p&gt;&#xA;&lt;p&gt;ハードディスクも 700MB くらいだった記憶があります。&lt;/p&gt;&#xA;&lt;p&gt;メモリは後で 40MB に増設した記憶があります。&lt;/p&gt;&#xA;&lt;p&gt;ゲームをやるくらいでしか使っていませんでしたが、Windows という、その後爆発的に普及する OS に幼少期から触れられたのは大きいです。&lt;/p&gt;&#xA;&lt;h2 id=&#34;nec-pc9801たぶん&#34;&gt;NEC PC9801（たぶん）&lt;/h2&gt;&#xA;&lt;p&gt;こちらは CLI ベースで動くパソコンですね。&lt;/p&gt;&#xA;&lt;p&gt;フロッピーディスクでアプリケーションを読み込んだりして使えるものです。&lt;/p&gt;&#xA;&lt;p&gt;このパソコンで父が趣味でオセロのプログラムを書いていて、そのソースコードの LINE 文を書き替えたら、オセロの盤面の線が斜めになったのが、プログラミングを始める本当の最初の点だと思います。&lt;/p&gt;&#xA;&lt;p&gt;これが無ければプログラミングは始めていなかったと思います。&lt;/p&gt;&#xA;&lt;p&gt;当時このパソコンが大好きでした。&lt;/p&gt;&#xA;&lt;p&gt;画面全体の表示を全て制御できるので、パソコンを全部コントロールしているような感覚になりました。&lt;/p&gt;&#xA;&lt;p&gt;高専の入試面接のときに「OS を作れるようになりたいです」などと無謀なことを言ったのもこちらがきっかけです。&#xA;（結局 OS の開発には１ミリも手を出しませんでした・・・）&lt;/p&gt;&#xA;&lt;h2 id=&#34;sharp-mz-731たぶん&#34;&gt;SHARP MZ-731（たぶん）&lt;/h2&gt;&#xA;&lt;p&gt;こちらは機械語で動くパソコンです。&lt;/p&gt;&#xA;&lt;p&gt;祖父がパソコンを勉強するために購入したと聞いています。&lt;/p&gt;&#xA;&lt;p&gt;家庭用テレビに繋ぐと画面表示ができて、メモリが確か 64KB、ハードディスクは無く、カセットテープでデータの読み書きができました。&lt;/p&gt;&#xA;&lt;p&gt;例えば 3 分くらいかけてカセットテープを読み込ませると BASIC が使えるようになります。&lt;/p&gt;&#xA;&lt;p&gt;私個人としてはあんまり活用していなかったですが、メモリ空間の一部がディスプレイの表示に繋がっていて間違えて書き換えると画面の色が変わったりとか、マシンが「暴走」して応答しなくなるとかを経験して、純粋にコンピュータがどういうものかを理解することに役立ったと思います。&lt;/p&gt;&#xA;&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;&#xA;&lt;p&gt;メモリ容量とか具体的な数字で覚えているのが怖いですね。&lt;/p&gt;&#xA;&lt;p&gt;その後、パソコンは買い替えられて Windows Me とインターネット接続を手に入れ、Visual Basic 6.0 を買ってもらって本格的に独学でのプログラミングを始めたのでした。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>エンジニア業務を加速しよう！</title>
-      <link>https://hirokimatsueda.github.io/post/speeding-up-engineering-work/</link>
+      <link>https://blog.pokapu.jp/post/speeding-up-engineering-work/</link>
       <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/speeding-up-engineering-work/</guid>
-      <description>スピーディーに仕事がしたい！ 先月は docker から始まるコマンドを何度も何度も実行していた気がします。
-私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。
-検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。
-検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。
-同じことをダラダラ何度も書かない ([ctrl] + [R]の活用) コマンドを実行する時のお話です。
-例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。
-docker build . -t cloudconfig/blog 上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？
-例えば、 docker を dokcer と書き間違えちゃったとして、実行する前に気付けますか？
-できれば前回実行したコマンドをそのまま書いたことを書きたいですよね。
-そんな時、[ctrl] + [R] が使えます。
-Linux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。
-そして、build とキーボードから入力すると、前に実行した docker build の履歴が表示されると思います。
-reverse-i-search とか bck-i-search とか呼ばれるみたいですね。
-使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！
-ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。
-VM を活用する 例えば、Docker を使用する時、どこで動かしていますか？
-自分の PC で動かしていませんか？
-自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。
- PC のリソースを食いつぶしてしまう ベースイメージのダウンロードに時間がかかる ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある  上記のようなリスクは、VM を使用することで改善できます。</description>
+      <guid>https://blog.pokapu.jp/post/speeding-up-engineering-work/</guid>
+      <description>&lt;h2 id=&#34;スピーディーに仕事がしたい&#34;&gt;スピーディーに仕事がしたい！&lt;/h2&gt;&#xA;&lt;p&gt;先月は &lt;code&gt;docker&lt;/code&gt; から始まるコマンドを何度も何度も実行していた気がします。&lt;/p&gt;&#xA;&lt;p&gt;私の今の仕事は検証がメインで、何度も似たようなコマンドを実行したり、何かをダウンロードしたりという作業を実施しています。&lt;/p&gt;&#xA;&lt;p&gt;検証作業は先が見えにくいので、できるだけスピーディーにやるべきことを繰り返して知見を増やしたいですよね。&lt;/p&gt;&#xA;&lt;p&gt;検証に限らずスピーディーに仕事をすることは大切だと思いますので、私が実践している仕事の高速化手法を書いてみます。&lt;/p&gt;&#xA;&lt;h2 id=&#34;同じことをダラダラ何度も書かない-ctrl--rの活用&#34;&gt;同じことをダラダラ何度も書かない ([ctrl] + [R]の活用)&lt;/h2&gt;&#xA;&lt;p&gt;コマンドを実行する時のお話です。&lt;/p&gt;&#xA;&lt;p&gt;例えば、 docker build のコマンドって何度も同じ内容で実行するのに長くなりがちですよね。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;docker build . -t cloudconfig/blog&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上記で「いや、それくらいなら短いのでは？」と思った方、書いた文字の正しさを検証する時間を無視していませんか？&lt;/p&gt;&#xA;&lt;p&gt;例えば、 &lt;code&gt;docker&lt;/code&gt; を &lt;code&gt;dokcer&lt;/code&gt; と書き間違えちゃったとして、実行する前に気付けますか？&lt;/p&gt;&#xA;&lt;p&gt;できれば前回実行したコマンドをそのまま書いたことを書きたいですよね。&lt;/p&gt;&#xA;&lt;p&gt;そんな時、[ctrl] + [R] が使えます。&lt;/p&gt;&#xA;&lt;p&gt;Linux 環境で Bash を使用している場合や、Windows 環境で PowerShell を使用している場合に押してみてください。&lt;/p&gt;&#xA;&lt;p&gt;そして、&lt;code&gt;build&lt;/code&gt; とキーボードから入力すると、前に実行した &lt;code&gt;docker build&lt;/code&gt; の履歴が表示されると思います。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;reverse-i-search&lt;/code&gt; とか &lt;code&gt;bck-i-search&lt;/code&gt; とか呼ばれるみたいですね。&lt;/p&gt;&#xA;&lt;p&gt;使いたい候補が出たら [Enter] を押してそのまま実行したり、 [→] を押すなりして一部を修正して実行したりできるので、過去に成功したコマンドラインを流用できます。とても便利ですね！&lt;/p&gt;&#xA;&lt;p&gt;ただ、失敗したコマンドも出ますし、検索文字列が短すぎたりすると意図しない実行履歴が出る場合もありますので注意してください。&lt;/p&gt;&#xA;&lt;h2 id=&#34;vm-を活用する&#34;&gt;VM を活用する&lt;/h2&gt;&#xA;&lt;p&gt;例えば、Docker を使用する時、どこで動かしていますか？&lt;/p&gt;&#xA;&lt;p&gt;自分の PC で動かしていませんか？&lt;/p&gt;&#xA;&lt;p&gt;自分の PC 上で動かすと便利なこともありますが、下記のようなリスクがあります。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;PC のリソースを食いつぶしてしまう&lt;/li&gt;&#xA;&lt;li&gt;ベースイメージのダウンロードに時間がかかる&lt;/li&gt;&#xA;&lt;li&gt;ミドルウェアの状態を把握しきれず、自分の PC でしか実行できない Dockerfile が出来上がる可能性がある&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;上記のようなリスクは、VM を使用することで改善できます。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>職業プログラマの第一歩を踏み出したあなたへ</title>
-      <link>https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/</link>
+      <link>https://blog.pokapu.jp/post/the-first-step-of-a-profession-programmer/</link>
       <pubDate>Fri, 21 Jun 2019 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/the-first-step-of-a-profession-programmer/</guid>
-      <description>10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。
-仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。
-背景（読み飛ばし推奨） 前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。 当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。
-そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。
-そこで出会ったチームリーダーさんの技術に圧倒されました。 力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。
-聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。 しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。 若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。
-人が読みやすいコードを追求する  半年後には何をやっているか分からないコードにしない 変数名は分かりやすい単語を使う  できるだけ日本語のローマ字表記ではなく英語で書きましょう。   コーディング規約を遵守する、フォーマッタを活用する  if( a== b){ c++;} とか書いてあったら、私は(心の中で)キレます。   コメントを適宜書く。ただし書きすぎない  // a を b に代入する みたいなプログラムの説明は要りません。 そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。 伝わりにくいときはきっとコードを見直したほうが良いです。   既存コードのフィーリングを尊重する  勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…   車輪の再開発を避ける  クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？    自分の理解したコードを書く  ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない 友達に直接コードを書いてもらわない  参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。    まとめ 上記をまとめると、要は「美しいコードを書いてください」ということです。 音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？</description>
+      <guid>https://blog.pokapu.jp/post/the-first-step-of-a-profession-programmer/</guid>
+      <description>&lt;p&gt;10 歳からプログラミングやってます、と、プレゼン内で笑いを取ろうと喋ったら、喋りが下手すぎてリアクションがもらえず焦った松枝です。&lt;/p&gt;&#xA;&lt;p&gt;仕事でプログラミングをするようになった新卒の人に対して伝えたいことがあります。今年の弊社の新卒の皆さんにはお伝えしたのですが、こちらのブログにも書いてみようと思います。&lt;/p&gt;&#xA;&lt;h2 id=&#34;背景読み飛ばし推奨&#34;&gt;背景（読み飛ばし推奨）&lt;/h2&gt;&#xA;&lt;p&gt;前述の通り 10 歳からプログラミングを始め、高専専攻科を卒業するまでの約 12 年間、趣味または研究でプログラミングをやっていました。&#xA;当時はまだ Windows 98 SE とかの時代で、小中学校の同級生でプログラミングができる人は皆無で、高専に入ってようやくまともに会話できる人が数人いる、というような状態でした。&lt;/p&gt;&#xA;&lt;p&gt;そんな状態の人が社会人になったので、自分の力はどこでも通用するんじゃね？という気持ちが半分、いやいや世の中にはもっとすごい人が必ずいるだろうついていけるかな？という気持ちが半分で、配属になりました。&lt;/p&gt;&#xA;&lt;p&gt;そこで出会ったチームリーダーさんの技術に圧倒されました。&#xA;力試しで与えられた課題を解いてレビューして頂いた結果、自分のコードの汚さ、詰めの甘さに気づくことができました。同時に、とても恵まれた環境に配属されたのだとワクワクしてきました。&lt;/p&gt;&#xA;&lt;p&gt;聞けばそのリーダーさんは当時 30 歳くらいで、プログラミングに初めて触れたのは大学生の頃ということでした。つまり、「プログラムを書く」というキャリア年数は私と同じくらいです。&#xA;しかし技術力は雲泥の差でした。私は間違ったものを積み重ねていたのだなという後悔の気持ちが襲ってきました。&#xA;若い人が同じような後悔を抱えずに過ごせるよう、仕事としてのプログラミングを始める人に最初に知ってほしい、いくつかのポイントを伝授します。&lt;/p&gt;&#xA;&lt;h2 id=&#34;人が読みやすいコードを追求する&#34;&gt;人が読みやすいコードを追求する&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;半年後には何をやっているか分からないコードにしない&lt;/li&gt;&#xA;&lt;li&gt;変数名は分かりやすい単語を使う&#xA;&lt;ul&gt;&#xA;&lt;li&gt;できるだけ日本語のローマ字表記ではなく英語で書きましょう。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;コーディング規約を遵守する、フォーマッタを活用する&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;if( a== b){ c++;}&lt;/code&gt; とか書いてあったら、私は(心の中で)キレます。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;コメントを適宜書く。ただし書きすぎない&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;// a を b に代入する&lt;/code&gt; みたいなプログラムの説明は要りません。&lt;/li&gt;&#xA;&lt;li&gt;そのコードで何をしたいのか伝わりにくい時にコメントを書いてください。&lt;/li&gt;&#xA;&lt;li&gt;伝わりにくいときはきっとコードを見直したほうが良いです。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;既存コードのフィーリングを尊重する&#xA;&lt;ul&gt;&#xA;&lt;li&gt;勝手にログ出力を端折ったりとかしないでください。せめてプルリクエスト上げるまでには戻して…&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;車輪の再開発を避ける&#xA;&lt;ul&gt;&#xA;&lt;li&gt;クイックソートとかを自分で作らずライブラリを活用しましょう。品質確保って大変ですよ？&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;自分の理解したコードを書く&#34;&gt;自分の理解したコードを書く&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;ネット上の Stack Overflow や teratail などに記載しているコードをそのままコピペしない&lt;/li&gt;&#xA;&lt;li&gt;友達に直接コードを書いてもらわない&#xA;&lt;ul&gt;&#xA;&lt;li&gt;参考にした、教えてもらった情報は何なのか、自分の知識に落とし込んでから、改めて今回のケースはどうすればよいのか考えて実装する。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;&#xA;&lt;p&gt;上記をまとめると、要は「美しいコードを書いてください」ということです。&#xA;音楽でいえば、例えばクラシックの音楽は何百年も昔に作られたにも関わらず、現代の私たちが聴いても良い曲だと感じますよね？&lt;/p&gt;&#xA;&lt;p&gt;コードも同じように、美しいコードを書けば長く愛されます。&#xA;バグを見つけることが容易なのですぐ直せますし、機能追加もしやすいです。&lt;/p&gt;&#xA;&lt;p&gt;最初は大変ですが、そのうち無意識に書けるようになりますので頑張りましょう。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CDN on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/cdn/</link>
+    <link>https://blog.pokapu.jp/tags/cdn/</link>
     <description>Recent content in CDN on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Tue, 06 Apr 2021 22:04:57 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/cdn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Apr 2021 22:04:57 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/cdn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>上限変更ができないクォータの存在を知る</title>
-      <link>https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/</link>
+      <link>https://blog.pokapu.jp/post/know-the-existence-of-quotas-that-cannot-be-changed/</link>
       <pubDate>Tue, 06 Apr 2021 22:04:57 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/know-the-existence-of-quotas-that-cannot-be-changed/</guid>
-      <description>Azure にはクォータ上限という概念があり、リソース作成はクォータ範囲内でしかできず、ただしクォータ上限の引き上げが要求が可能です。
-vCPU に関しては上限の引き上げが可能ですが、上限の引き上げが不可能なリソースも存在します。
-CDN プロファイルは上限の引き上げが不可能 CDN プロファイルは、サブスクリプション単位に 25 個までしか作成できません。
-https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits
-クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。 1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。
-1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。
-まとめ 大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。 特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。 必要に応じてサブスクリプションを分割するなどして対応しましょう。</description>
+      <guid>https://blog.pokapu.jp/post/know-the-existence-of-quotas-that-cannot-be-changed/</guid>
+      <description>&lt;p&gt;Azure にはクォータ上限という概念があり、リソース作成はクォータ範囲内でしかできず、ただしクォータ上限の引き上げが要求が可能です。&lt;/p&gt;&#xA;&lt;p&gt;vCPU に関しては上限の引き上げが可能ですが、上限の引き上げが不可能なリソースも存在します。&lt;/p&gt;&#xA;&lt;h2 id=&#34;cdn-プロファイルは上限の引き上げが不可能&#34;&gt;CDN プロファイルは上限の引き上げが不可能&lt;/h2&gt;&#xA;&lt;p&gt;CDN プロファイルは、&lt;strong&gt;サブスクリプション単位に 25 個&lt;/strong&gt;までしか作成できません。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits&#34;&gt;https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits#content-delivery-network-limits&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;クォータ上限の引き上げを要求したところ、上限増加はサポートされていないとのことでした。&#xA;1 つの CDN プロファイルに複数の CDN エンドポイントを作成可能なので、CDN エンドポイントを大量に作成する場合は計画的に設計する必要があります。&lt;/p&gt;&#xA;&lt;p&gt;1 つの CDN プロファイルに含められる CDN エンドポイントの数は 25 となっているので、大規模な仕組みを作る際はこちらも注意が必要です。&lt;/p&gt;&#xA;&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;&#xA;&lt;p&gt;大規模な Azure インフラを構築する際は、クォータ上限の引き上げが可能かの確認も含め、クォータ上限に関する設計が必要です。&#xA;特に同一サブスクリプションに動的にリソースを作成する場合、リソースのスケールアウトを大幅に計画する場合は要注意です。&#xA;必要に応じてサブスクリプションを分割するなどして対応しましょう。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubectl wait on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/kubectl-wait/</link>
-    <description>Recent content in kubectl wait on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Kubectl Wait on 備忘録</title>
+    <link>https://blog.pokapu.jp/tags/kubectl-wait/</link>
+    <description>Recent content in Kubectl Wait on 備忘録</description>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Wed, 18 Jan 2023 20:55:17 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/kubectl-wait/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Jan 2023 20:55:17 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/kubectl-wait/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>kubectl waitでいろいろ待ってみよう</title>
-      <link>https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/</link>
+      <link>https://blog.pokapu.jp/post/lets-wait-for-various-things-with-kubectl-wait/</link>
       <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/lets-wait-for-various-things-with-kubectl-wait/</guid>
-      <description>Kubernetes はマニフェストファイルを用いて状態を定義することで、思い描く環境を作ることができるのが便利ですよね。
-ただ、ある一定の前提を満たさないと状態が定義できない時があります。
-例えば namespace が事前に存在していないと、その名前空間にはリソースが作れません。
-namespace の場合は kubectl create namespace を実行してからほかの作業を実施するような順次実行をすることで解決できますね。
-これで解決しないとき、例えば Kubernetes Operator のインストール完了を待機したい場合はどうすると良いでしょうか？
-kubectl wait で作業完了を待機 kubectl wait というコマンドがあります。
-https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait
-このコマンドは、リソースの状態が指定した状態になるのを待機してくれます。
-分かりやすい話だと例えば、deployment が available になるのを待機するには下記のように記載します。
-kubectl wait --timeout=90s --for=condition=available deployment/name-of-deployment timeout の指定により、90 秒以内に状態が変わらなければ諦めます。
-こちらは deployment 以外にも適用できるようで、Kubernetes Operator のインストールに使われる installplan が installed になるのを待機するにはこんな風に書けば良さそうです。
-kubectl wait --timeout=90s --for=condition=installed installplan/name-of-installplan -n operators このあたりを組み合わせれば、Kubernetes Operator のインストール処理の完了を待機して後続処理を実装することができそうですね。
-まとめ 短いですが、さまざまなリソースの状態を待機できる kubectl wait についてご紹介してみました。
-特に初期セットアップの自動化に役立つコマンドなのではないでしょうか？</description>
+      <guid>https://blog.pokapu.jp/post/lets-wait-for-various-things-with-kubectl-wait/</guid>
+      <description>&lt;p&gt;Kubernetes はマニフェストファイルを用いて状態を定義することで、思い描く環境を作ることができるのが便利ですよね。&lt;/p&gt;&#xA;&lt;p&gt;ただ、ある一定の前提を満たさないと状態が定義できない時があります。&lt;/p&gt;&#xA;&lt;p&gt;例えば namespace が事前に存在していないと、その名前空間にはリソースが作れません。&lt;/p&gt;&#xA;&lt;p&gt;namespace の場合は &lt;code&gt;kubectl create namespace&lt;/code&gt; を実行してからほかの作業を実施するような順次実行をすることで解決できますね。&lt;/p&gt;&#xA;&lt;p&gt;これで解決しないとき、例えば Kubernetes Operator のインストール完了を待機したい場合はどうすると良いでしょうか？&lt;/p&gt;&#xA;&lt;h2 id=&#34;kubectl-wait-で作業完了を待機&#34;&gt;kubectl wait で作業完了を待機&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;kubectl wait&lt;/code&gt; というコマンドがあります。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait&#34;&gt;https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;このコマンドは、リソースの状態が指定した状態になるのを待機してくれます。&lt;/p&gt;&#xA;&lt;p&gt;分かりやすい話だと例えば、deployment が available になるのを待機するには下記のように記載します。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl wait --timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;90s --for&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;condition&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;available deployment/name-of-deployment&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;timeout の指定により、90 秒以内に状態が変わらなければ諦めます。&lt;/p&gt;&#xA;&lt;p&gt;こちらは deployment 以外にも適用できるようで、Kubernetes Operator のインストールに使われる installplan が installed になるのを待機するにはこんな風に書けば良さそうです。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl wait --timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;90s --for&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;condition&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;installed installplan/name-of-installplan -n operators&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;このあたりを組み合わせれば、Kubernetes Operator のインストール処理の完了を待機して後続処理を実装することができそうですね。&lt;/p&gt;&#xA;&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;&#xA;&lt;p&gt;短いですが、さまざまなリソースの状態を待機できる &lt;code&gt;kubectl wait&lt;/code&gt; についてご紹介してみました。&lt;/p&gt;&#xA;&lt;p&gt;特に初期セットアップの自動化に役立つコマンドなのではないでしょうか？&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

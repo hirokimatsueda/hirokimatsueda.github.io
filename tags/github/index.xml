@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>GitHub on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/github/</link>
+    <link>https://blog.pokapu.jp/tags/github/</link>
     <description>Recent content in GitHub on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Tue, 22 Mar 2022 14:41:42 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Mar 2022 14:41:42 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/github/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Static Web Appsの連携先GitHubリポジトリを変更する方法</title>
-      <link>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</link>
+      <link>https://blog.pokapu.jp/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</link>
       <pubDate>Tue, 22 Mar 2022 14:41:42 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</guid>
-      <description>Static Web Apps (静的 Web アプリ) って便利ですよね！ 単品のリソース構築で、CDN、Web サーバー、API サーバー、カスタムドメイン with HTTPS、アプリの自動デプロイが一気に実現できるので、これからどんどん活用したいです。
-ただ私はまだ慣れていないので、アプリを検証用の GitHub リポジトリで用意してインフラを作り、後から参照する GitHub リポジトリを差し替えたくなりました。 その手順が簡単に分からなかったので、本記事で整理したいと思います。
-概要 az staticwebapp disconnect してから az staticwebapp update しましょう。
-手順 Azure CLI で対応できました。 まずはいつも通り、Azure CLI で Azure にログインします。
-az login -t tenant-id az account set -s subscription-id 続いて、az staticwebapp disconnect を使用して Static Web Apps を GitHub リポジトリから切断します。
-az staticwebapp disconnect --name static-web-app-name この状態で Azure ポータルから Static Web Apps の概要画面を眺めると、確かに GitHub リポジトリとの関連が無くなっていることが分かります。
-最後に az staticwebapp update を実行して、目的の GitHub リポジトリと接続してあげましょう。 GitHub の Personal Access Token が必要です。 (記事執筆時点では –login-with-github のオプションは指定できませんでした)</description>
+      <guid>https://blog.pokapu.jp/post/how-to-modify-a-github-repository-that-links-to-static-web-apps/</guid>
+      <description>&lt;p&gt;Static Web Apps (静的 Web アプリ) って便利ですよね！&#xA;単品のリソース構築で、CDN、Web サーバー、API サーバー、カスタムドメイン with HTTPS、アプリの自動デプロイが一気に実現できるので、これからどんどん活用したいです。&lt;/p&gt;&#xA;&lt;p&gt;ただ私はまだ慣れていないので、アプリを検証用の GitHub リポジトリで用意してインフラを作り、後から参照する GitHub リポジトリを差し替えたくなりました。&#xA;その手順が簡単に分からなかったので、本記事で整理したいと思います。&lt;/p&gt;&#xA;&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;az staticwebapp disconnect&lt;/code&gt; してから &lt;code&gt;az staticwebapp update&lt;/code&gt; しましょう。&lt;/p&gt;&#xA;&lt;h2 id=&#34;手順&#34;&gt;手順&lt;/h2&gt;&#xA;&lt;p&gt;Azure CLI で対応できました。&#xA;まずはいつも通り、Azure CLI で Azure にログインします。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;az login -t tenant-id&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;az account set -s subscription-id&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;続いて、&lt;code&gt;az staticwebapp disconnect&lt;/code&gt; を使用して Static Web Apps を GitHub リポジトリから切断します。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;az staticwebapp disconnect --name static-web-app-name&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;この状態で Azure ポータルから Static Web Apps の概要画面を眺めると、確かに GitHub リポジトリとの関連が無くなっていることが分かります。&lt;/p&gt;&#xA;&lt;p&gt;最後に &lt;code&gt;az staticwebapp update&lt;/code&gt; を実行して、目的の GitHub リポジトリと接続してあげましょう。&#xA;GitHub の Personal Access Token が必要です。&#xA;(記事執筆時点では –login-with-github のオプションは指定できませんでした)&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

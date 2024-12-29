@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>EKS on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/eks/</link>
+    <link>https://blog.pokapu.jp/tags/eks/</link>
     <description>Recent content in EKS on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 23 Mar 2024 15:02:22 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/eks/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Mar 2024 15:02:22 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/eks/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AKS使いの私がEKS構築でハマったこと</title>
-      <link>https://hirokimatsueda.github.io/post/things-i-failed-at-building-eks-as-an-aks-user/</link>
+      <link>https://blog.pokapu.jp/post/things-i-failed-at-building-eks-as-an-aks-user/</link>
       <pubDate>Sat, 23 Mar 2024 15:02:22 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/things-i-failed-at-building-eks-as-an-aks-user/</guid>
-      <description>概要 Azure にも AWS にもマネージドな Kubernetes があり、それぞれ Azure Kubernetes Service (AKS) と Amazon Elastic Kubernetes Service (EKS) という名前です。
-AKS（に限らず Azure のサービス）は、Azure ポータルから構築を進めるとすぐに使えることが多いです。
-EKS も AKS と同じノリでポータルで構築したらなかなか動かなかったので、ハマったポイントを共有します。
-ノードグループを追加しないと動かない Kubernetes はワーカーノードが無いと Pod を動かすことができません。
-AKS の場合、ワーカーノードを動かすためにはノードプールを用意する必要があります。 Azure ポータルから AKS クラスタを構築するときはノードプールの作成がデフォルトで指定されており、更にノードプール（厳密にはシステムモードのノードプール）の作成を指定していないとそもそも AKS 自体を構築できません。
-これに対して EKS の場合は、AWS コンソールから EKS クラスタを作成しただけではワーカーノードを動かすために必要なノードグループを作成してくれません。 クラスタはできているので、EKS に対してマニフェストファイルを apply する分には実行できるのですが、待っていても永遠に Pod が立ち上がりません。
-永続ボリュームとしての EBS のマウントにはアドオンを追加する必要がある AKS の場合、永続ボリュームとしてマネージドディスクをマウントする場合、StorageClass や Persistent Volume Claim のマニフェストファイルを用意していけば使えるのでアドオンを意識することはありませんでした。 クラスタの構築時も特にアドオンの選択はさせられません。
-EKS の場合は、クラスタの構築後にアドオンで EBS CSI driver を追加しないと EBS を永続ボリュームとして利用できません。</description>
+      <guid>https://blog.pokapu.jp/post/things-i-failed-at-building-eks-as-an-aks-user/</guid>
+      <description>&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;&#xA;&lt;p&gt;Azure にも AWS にもマネージドな Kubernetes があり、それぞれ Azure Kubernetes Service (AKS) と Amazon Elastic Kubernetes Service (EKS) という名前です。&lt;/p&gt;&#xA;&lt;p&gt;AKS（に限らず Azure のサービス）は、Azure ポータルから構築を進めるとすぐに使えることが多いです。&lt;/p&gt;&#xA;&lt;p&gt;EKS も AKS と同じノリでポータルで構築したらなかなか動かなかったので、ハマったポイントを共有します。&lt;/p&gt;&#xA;&lt;h2 id=&#34;ノードグループを追加しないと動かない&#34;&gt;ノードグループを追加しないと動かない&lt;/h2&gt;&#xA;&lt;p&gt;Kubernetes はワーカーノードが無いと Pod を動かすことができません。&lt;/p&gt;&#xA;&lt;p&gt;AKS の場合、ワーカーノードを動かすためにはノードプールを用意する必要があります。&#xA;Azure ポータルから AKS クラスタを構築するときはノードプールの作成がデフォルトで指定されており、更にノードプール（厳密にはシステムモードのノードプール）の作成を指定していないとそもそも AKS 自体を構築できません。&lt;/p&gt;&#xA;&lt;p&gt;これに対して EKS の場合は、AWS コンソールから EKS クラスタを作成しただけではワーカーノードを動かすために必要なノードグループを作成してくれません。&#xA;クラスタはできているので、EKS に対してマニフェストファイルを apply する分には実行できるのですが、待っていても永遠に Pod が立ち上がりません。&lt;/p&gt;&#xA;&lt;h2 id=&#34;永続ボリュームとしての-ebs-のマウントにはアドオンを追加する必要がある&#34;&gt;永続ボリュームとしての EBS のマウントにはアドオンを追加する必要がある&lt;/h2&gt;&#xA;&lt;p&gt;AKS の場合、永続ボリュームとしてマネージドディスクをマウントする場合、StorageClass や Persistent Volume Claim のマニフェストファイルを用意していけば使えるのでアドオンを意識することはありませんでした。&#xA;クラスタの構築時も特にアドオンの選択はさせられません。&lt;/p&gt;&#xA;&lt;p&gt;EKS の場合は、クラスタの構築後にアドオンで EBS CSI driver を追加しないと EBS を永続ボリュームとして利用できません。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Runbook on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/runbook/</link>
+    <link>https://blog.pokapu.jp/tags/runbook/</link>
     <description>Recent content in Runbook on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sun, 12 Dec 2021 12:06:20 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/runbook/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Dec 2021 12:06:20 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/runbook/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>マネージドIDを使用してRunbookからAzureリソースを操作する</title>
-      <link>https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/</link>
+      <link>https://blog.pokapu.jp/post/control-azure-resources-from-a-runbook-using-a-managed-id/</link>
       <pubDate>Sun, 12 Dec 2021 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/control-azure-resources-from-a-runbook-using-a-managed-id/</guid>
-      <description>マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。 Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。 料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。
-操作対象のリソース（プライベート DNS ゾーン）の用意 Azure ポータルから DNS ゾーンを作成します。 DNS ゾーンの名前は private.example.com 、リソースグループ名は blog で作成してみました。
-Screenshotこのまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。
-Runbook の用意 Azure ポータルから Automation アカウントを作成します。 名前は blogaccount とか、任意で大丈夫です。
-作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。 （Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）
-ScreenshotAutomation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。
-Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.</description>
+      <guid>https://blog.pokapu.jp/post/control-azure-resources-from-a-runbook-using-a-managed-id/</guid>
+      <description>&lt;p&gt;マネージド ID というものを使うと、サービスプリンシパルを用意せずに Azure リソースから Azure リソースの操作を実施することができます。&#xA;Runbook を用いてプライベート DNS ゾーンの操作を自動化を実施することを想定してその手順を用意してみました。&#xA;料金的にもリーズナブルで、すべて Azure ポータル上の作業で完結するので、一度やってみましょう。&lt;/p&gt;&#xA;&lt;h2 id=&#34;操作対象のリソースプライベート-dns-ゾーンの用意&#34;&gt;操作対象のリソース（プライベート DNS ゾーン）の用意&lt;/h2&gt;&#xA;&lt;p&gt;Azure ポータルから DNS ゾーンを作成します。&#xA;DNS ゾーンの名前は &lt;code&gt;private.example.com&lt;/code&gt; 、リソースグループ名は &lt;code&gt;blog&lt;/code&gt; で作成してみました。&lt;/p&gt;&#xA;&#xA;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://blog.pokapu.jp/css/hugo-easy-gallery.css&#34; /&gt;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/control-azure-resources-from-a-runbook-using-a-managed-id/001.png&#34; alt=&#34;/control-azure-resources-from-a-runbook-using-a-managed-id/001.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/control-azure-resources-from-a-runbook-using-a-managed-id/001.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;Screenshot&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;このまま VNET に接続しなければ宝の持ち腐れですが、今回は説明用ということで。&lt;/p&gt;&#xA;&lt;h2 id=&#34;runbook-の用意&#34;&gt;Runbook の用意&lt;/h2&gt;&#xA;&lt;p&gt;Azure ポータルから Automation アカウントを作成します。&#xA;名前は &lt;code&gt;blogaccount&lt;/code&gt; とか、任意で大丈夫です。&lt;/p&gt;&#xA;&lt;p&gt;作成時に詳細設定でマネージド ID の設定ができるので、デフォルトの通り「システム割り当て」をオンにしておいてください。&#xA;（Automation アカウントの作成後、アカウント設定 – ID から、システム割り当てマネージド ID を「オン」にしても大丈夫です）&lt;/p&gt;&#xA;&#xA;&#xA;&lt;div class=&#34;box&#34; &gt;&#xA;  &lt;figure class=&#34;center&#34; itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;&#xA;    &lt;div class=&#34;img&#34;&gt;&#xA;      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://blog.pokapu.jp/control-azure-resources-from-a-runbook-using-a-managed-id/002.png&#34; alt=&#34;/control-azure-resources-from-a-runbook-using-a-managed-id/002.png&#34;/&gt;&#xA;    &lt;/div&gt;&#xA;    &lt;a href=&#34;https://blog.pokapu.jp/control-azure-resources-from-a-runbook-using-a-managed-id/002.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;&#xA;      &lt;figcaption&gt;&lt;h4&gt;Screenshot&lt;/h4&gt;&#xA;      &lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;Automation アカウントが作成されたら、Automation アカウントのポータル画面から プロセス オートメーション – Runbook を開き、＋ Runbook を作成を選択します。&lt;/p&gt;&#xA;&lt;p&gt;Runbook の種類に PowerShell を選び、ランタイムバージョンは 5.1 を選んで作成します。&#xA;Runbook 名は &lt;code&gt;Add-PrivateDnsRecord&lt;/code&gt; にしましょうか。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,32 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HTTP監視 on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/http%E7%9B%A3%E8%A6%96/</link>
+    <link>https://blog.pokapu.jp/tags/http%E7%9B%A3%E8%A6%96/</link>
     <description>Recent content in HTTP監視 on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Sat, 19 Aug 2023 09:27:34 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/http%E7%9B%A3%E8%A6%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Aug 2023 09:27:34 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/http%E7%9B%A3%E8%A6%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Application Insightsでお手軽にお安く？HTTP監視しよう</title>
-      <link>https://hirokimatsueda.github.io/post/easy-http-monitoring-with-application-insights/</link>
+      <link>https://blog.pokapu.jp/post/easy-http-monitoring-with-application-insights/</link>
       <pubDate>Sat, 19 Aug 2023 09:27:34 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/post/easy-http-monitoring-with-application-insights/</guid>
-      <description>皆さんはパブリックに公開したシステムの正常稼働をどのように監視していますか？
-私は趣味でレンタルサーバーを常時動かしているのですが、HTTP 監視を行い不具合の検出をすぐに行えるようにしています。
-監視には Azure の Application Insights を利用しており、利用料金も私の使い方であれば格安ですので、こちらをご紹介したいと思います。
-HTTP 監視とは？ HTTP 監視とは、監視対象に対して定期的に HTTP のリクエストを送信し、その応答（200 応答するか？など）を確認する監視方法です。
-サーバー内部の不具合までは見られませんが、サーバーが落ちていないなど、ある程度の正常稼働を認識することができます。
-Application Insights による HTTP 監視 Azure の Application Insights を利用すると、お手軽に HTTP 監視を構成できます。
-可用性テストという名称です。
-Application Insights を構築し、Azure ポータルから「可用性」の画面を開くと設定を追加できます。
-「クラシックテスト」と「標準テスト」が存在しますが、「標準テスト」で実現することになります。
-（Azure で「クラシック」と名の付くものは廃止されていく運命にあることが多いです）
-標準テストのドキュメントに沿って設定してみましょう。
-Application Insights の構築・設定時のポイント  Application Insights の構築時に 2023/08/19 現在は「リソース モード」の選択がありますが、「クラシック」ではなく「ワークスペースベース」を選択します。クラシックは廃止予定の構成です。 URL にはポート番号の指定も可能ですので、通常のポート（HTTPS なら 443 とか）以外に対してもテストできます 東日本リージョンの Application Insights の場合、テスト 1 回につき $0.0008 のコストなので、要件に合わせて「テストの頻度」と「テストの場所」の数を調整しましょう 警告を「有効」にして追加の設定を入れ込むことで、HTTP 応答に問題があった際にメール通知等ができます  趣味程度の使い方の場合の料金は？ 趣味程度のサーバーなので、テストの頻度を 15 分毎、テストの場所を Japan East にしていますが、1 日当たり 8.</description>
+      <guid>https://blog.pokapu.jp/post/easy-http-monitoring-with-application-insights/</guid>
+      <description>&lt;p&gt;皆さんはパブリックに公開したシステムの正常稼働をどのように監視していますか？&lt;/p&gt;&#xA;&lt;p&gt;私は趣味でレンタルサーバーを常時動かしているのですが、HTTP 監視を行い不具合の検出をすぐに行えるようにしています。&lt;/p&gt;&#xA;&lt;p&gt;監視には Azure の Application Insights を利用しており、利用料金も私の使い方であれば格安ですので、こちらをご紹介したいと思います。&lt;/p&gt;&#xA;&lt;h2 id=&#34;http-監視とは&#34;&gt;HTTP 監視とは？&lt;/h2&gt;&#xA;&lt;p&gt;HTTP 監視とは、監視対象に対して定期的に HTTP のリクエストを送信し、その応答（200 応答するか？など）を確認する監視方法です。&lt;/p&gt;&#xA;&lt;p&gt;サーバー内部の不具合までは見られませんが、サーバーが落ちていないなど、ある程度の正常稼働を認識することができます。&lt;/p&gt;&#xA;&lt;h2 id=&#34;application-insights-による-http-監視&#34;&gt;Application Insights による HTTP 監視&lt;/h2&gt;&#xA;&lt;p&gt;Azure の Application Insights を利用すると、お手軽に HTTP 監視を構成できます。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/availability-overview&#34;&gt;可用性テスト&lt;/a&gt;という名称です。&lt;/p&gt;&#xA;&lt;p&gt;Application Insights を構築し、Azure ポータルから「可用性」の画面を開くと設定を追加できます。&lt;/p&gt;&#xA;&lt;p&gt;「クラシックテスト」と「標準テスト」が存在しますが、「標準テスト」で実現することになります。&lt;/p&gt;&#xA;&lt;p&gt;（Azure で「クラシック」と名の付くものは廃止されていく運命にあることが多いです）&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/availability-standard-tests&#34;&gt;標準テストのドキュメント&lt;/a&gt;に沿って設定してみましょう。&lt;/p&gt;&#xA;&lt;h2 id=&#34;application-insights-の構築設定時のポイント&#34;&gt;Application Insights の構築・設定時のポイント&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Application Insights の構築時に 2023/08/19 現在は「リソース モード」の選択がありますが、「クラシック」ではなく「ワークスペースベース」を選択します。クラシックは廃止予定の構成です。&lt;/li&gt;&#xA;&lt;li&gt;URL にはポート番号の指定も可能ですので、通常のポート（HTTPS なら 443 とか）以外に対してもテストできます&lt;/li&gt;&#xA;&lt;li&gt;東日本リージョンの Application Insights の場合、&lt;a href=&#34;https://azure.microsoft.com/ja-jp/pricing/details/monitor/#pricing&#34;&gt;テスト 1 回につき &lt;code&gt;$0.0008&lt;/code&gt; のコスト&lt;/a&gt;なので、要件に合わせて「テストの頻度」と「テストの場所」の数を調整しましょう&lt;/li&gt;&#xA;&lt;li&gt;警告を「有効」にして&lt;a href=&#34;https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/availability-alerts&#34;&gt;追加の設定&lt;/a&gt;を入れ込むことで、HTTP 応答に問題があった際にメール通知等ができます&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;趣味程度の使い方の場合の料金は&#34;&gt;趣味程度の使い方の場合の料金は？&lt;/h2&gt;&#xA;&lt;p&gt;趣味程度のサーバーなので、テストの頻度を 15 分毎、テストの場所を Japan East にしていますが、1 日当たり &lt;code&gt;8.90円&lt;/code&gt; (2023/07 実績)となっていました。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

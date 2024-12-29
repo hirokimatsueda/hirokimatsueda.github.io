@@ -1,209 +1,397 @@
+
+
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Keycloakとtraefikを使って認証環境を作る練習 | 備忘録</title>
-<meta name="keywords" content="Keycloak, Traefik, アクセストークン, exp" />
-<meta name="description" content="個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+ 
+
+
+      <title>Keycloakとtraefikを使って認証環境を作る練習 - </title>
+
+  <meta name="description" content="個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
 ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
 【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。
-検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。
-minikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
-apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay.">
-<meta name="author" content="">
-<link rel="canonical" href="https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.48a18943c2fc15c38a372b8dde1f5e5dc0bc64fa6cb90f5a817d2f8c76b7f3ae.css" integrity="sha256-SKGJQ8L8FcOKNyuN3h9eXcC8ZPpsuQ9agX0vjHa3864=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
-    onload="hljs.initHighlightingOnLoad();"></script>
-<link rel="icon" href="https://hirokimatsueda.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://hirokimatsueda.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://hirokimatsueda.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://hirokimatsueda.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://hirokimatsueda.github.io/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
+検証した各ミドルウェアのバージョン
 
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
+minikube: v1.33.1
+Keycloak: 24.0.4
+Traefik: 2.11.2
 
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript> 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCXXXXXXXX"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-M6XY8HL7QN');
-</script> <meta property="og:title" content="Keycloakとtraefikを使って認証環境を作る練習" />
-<meta property="og:description" content="個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
-ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
-【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。
-検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。
-minikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
-apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2024-05-30T13:37:20&#43;09:00" />
-<meta property="article:modified_time" content="2024-05-30T13:37:20&#43;09:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Keycloakとtraefikを使って認証環境を作る練習"/>
-<meta name="twitter:description" content="個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
-ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
-【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。
-検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。
-minikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
-apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay."/>
+traefik-jwt-plugin: v0.7.1
 
 
-<script type="application/ld+json">
+
+前提条件
+
+Minikube がインストールされている
+kubectl がインストールされている
+Helm がインストールされている
+
+ステップ 1: Minikube のセットアップ
+まず、Minikube を起動します。
+minikube start
+ステップ 2: Keycloak のデプロイ
+Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:24.0.4
+          args: [&#34;start-dev&#34;]
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: admin
+            - name: KC_PROXY
+              value: &#34;edge&#34;
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: keycloak
+次に、Keycloak のデプロイメントとサービスを作成します。"><script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://hirokimatsueda.github.io/post/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Keycloakとtraefikを使って認証環境を作る練習",
-      "item": "https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/"
-    }
-  ]
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "備忘録",
+    
+    "url": "https:\/\/blog.pokapu.jp\/"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/blog.pokapu.jp\/"
+  
+  
+  
+  
 }
 </script>
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Keycloakとtraefikを使って認証環境を作る練習",
-  "name": "Keycloakとtraefikを使って認証環境を作る練習",
-  "description": "個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。\nちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。\n【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。\n検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。\nminikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。\napiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay.",
-  "keywords": [
-    "Keycloak", "Traefik", "アクセストークン", "exp"
-  ],
-  "articleBody": "個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。\nちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。\n【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。\n検証した各ミドルウェアのバージョン  minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2  traefik-jwt-plugin: v0.7.1    前提条件  Minikube がインストールされている kubectl がインストールされている Helm がインストールされている  ステップ 1: Minikube のセットアップ まず、Minikube を起動します。\nminikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。\napiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: keycloak spec:  replicas: 1  selector:  matchLabels:  app: keycloak  template:  metadata:  labels:  app: keycloak  spec:  containers:  - name: keycloak  image: quay.io/keycloak/keycloak:24.0.4  args: [\"start-dev\"]  env:  - name: KEYCLOAK_ADMIN  value: admin  - name: KEYCLOAK_ADMIN_PASSWORD  value: admin  - name: KC_PROXY  value: \"edge\"  ports:  - containerPort: 8080 --- apiVersion: v1 kind: Service metadata:  name: keycloak spec:  ports:  - port: 8080  targetPort: 8080  selector:  app: keycloak 次に、Keycloak のデプロイメントとサービスを作成します。\nkubectl apply -f keycloak-deployment.yaml これで、管理者ユーザー名が admin、パスワードが admin で構成された Keycloak の環境が立ち上がりました。\nKeycloak には CLUSTER-IP 経由で接続できました。CLUSTER-IP の取得には kubectl get svc keycloak を使用します。\n得られた CLUSTER-IP の値はメモして把握しておきます。\nステップ 3: Traefik のデプロイ Helm を使用して traefik-jwt-plugin を使用できる Traefik v2.11 をインストールしていきます。\nまずは下記で Helm のリポジトリの準備をします。\nhelm repo add traefik https://helm.traefik.io/traefik helm repo update 続いて以下の内容で traefik-values.yaml というファイルを作成します。\nadditionalArguments:  - \"--log.level=DEBUG\"  - \"--api.insecure=true\" # ダッシュボードを有効にする  - \"--entrypoints.web.address=:80\"  - \"--entrypoints.websecure.address=:443\"  - \"--providers.kubernetescrd\"  - \"--providers.kubernetesingress\"  - \"--experimental.plugins.jwt.moduleName=github.com/traefik-plugins/traefik-jwt-plugin\"  - \"--experimental.plugins.jwt.version=v0.7.1\" service:  type: LoadBalancer rbac:  enabled: true experimental:  plugins:  jwt:  moduleName: github.com/traefik-plugins/traefik-jwt-plugin  version: v0.7.1 次に、バージョン 27.0.2 のチャートを使用することで Traefik v2.11 をインストールします。\nhelm install traefik traefik/traefik --version 27.0.2 -f traefik-values.yaml ステップ 4: Whoami アプリのデプロイ アクセストークンが無いと使用できないアプリケーションのサンプルとして、Whoami アプリを利用します。\nWhoami アプリをデプロイするために、以下の Kubernetes マニフェストファイルを作成します。whoami-deployment.yamlという名前で保存してください。\napiVersion: apps/v1 kind: Deployment metadata:  name: whoami  labels:  app: whoami spec:  replicas: 1  selector:  matchLabels:  app: whoami  template:  metadata:  labels:  app: whoami  spec:  containers:  - name: whoami  image: containous/whoami  ports:  - containerPort: 80 --- apiVersion: v1 kind: Service metadata:  name: whoami spec:  ports:  - name: web  port: 80  targetPort: 80  selector:  app: whoami 次に、Whoami アプリのデプロイメントとサービスを作成します。\nkubectl apply -f whoami-deployment.yaml ステップ 5: Traefik の Ingress と Middleware の設定 Keycloak から発行されたトークンを検証するための Middleware と Whoami アプリへの Ingress を設定します。traefik-config.yamlという名前で以下の内容を保存してください。\napiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata:  name: jwt spec:  plugin:  jwt:  PayloadFields:  - exp  Keys:  - http://:8080/realms/myrealm/protocol/openid-connect/certs  Alg: RS256  Required: true --- apiVersion: networking.k8s.io/v1 kind: Ingress metadata:  name: whoami  annotations:  traefik.ingress.kubernetes.io/router.middlewares: default-jwt@kubernetescrd spec:  rules:  - http:  paths:  - path: /  pathType: Prefix  backend:  service:  name: whoami  port:  number: 80 次に、この設定を適用します。\nkubectl apply -f traefik-config.yaml ステップ 6: Keycloak の設定 ブラウザで Keycloak の管理コンソールにアクセスします。URL は次の通りです。\nhttp://:8080 ここで、デフォルトの管理者アカウント（ユーザー名: admin, パスワード: admin）を使用してログインします。\nレルムとクライアントの作成 ※ Keycloak はデータの永続化をしていないので、ここからの作業は minikube を落とさないように進めましょう…\n 新しいレルムを作成します（myrealm）。 myrealm にクライアントを追加します（whoami-client）。  General settings  Client type: OpenID Connect Client ID: whoami-client   Capability config  Client authentication: On   Login settings  Valid redirect URIs: http://127.0.0.1:8080      ユーザーの作成  myrealm にユーザーを追加します。  ユーザー名: testuser パスワード: password    クライアントシークレットの把握  whoami-client クライアントの設定画面を開き、Credentials タブで、Client Secret の値をコピーします。  動作確認 動作確認の準備 Traefik のアプリへのアクセスは、ポートフォワーディングで動作しました（その想定で上記を設定しています）。\nkubectl port-forward deployment/traefik 8080:80 アクセストークンの取得 認可コードフローで取得してみます。\nまずはブラウザ(シークレットウィンドウを利用)で下記にアクセスします。\nhttp://:8080/realms/myrealm/protocol/openid-connect/auth?response_type=code\u0026client_id=whoami-client\u0026redirect_uri=http://127.0.0.1:8080\u0026scope=openid ログイン画面が出るので、myrealm に追加しておいた下記のユーザーでログインします。\n ユーザー名: testuser パスワード: password  ログインすると authorization header missing とエラー画面が出ますが Traefik の設定によるもので正常です。\nそのままブラウザは閉じずに・・・ブラウザの URL 部分に code= で認証コードが出力されるので、これをコピーします。\nコピーした認証コードを用いて、下記の curl を実行します。\ncurl -X POST \"http://:8080/realms/myrealm/protocol/openid-connect/token\" \\  -H \"Content-Type: application/x-www-form-urlencoded\" \\  -d \"code=\" \\  -d \"redirect_uri=http://127.0.0.1:8080\" \\  -d \"grant_type=authorization_code\" \\  -d \"client_id=whoami-client\" \\  -d \"client_secret=\" | jq . 成功すると、Open ID Connect のトークンが得られ、access_token の値がアクセストークンになります。\nアプリへのアクセス アクセストークンが無いとエラーになります。\n$ curl http://127.0.0.1:8080 authorization header missing 有効期限内のアクセストークンがあれば whoami アプリの応答を返します。\n$ curl -H \"Authorization: Bearer \" http://127.0.0.1:8080 Hostname: whoami-b577bd888-2hbtd IP: 127.0.0.1 IP: ::1 IP: 10.244.0.4 IP: fe80::(略) RemoteAddr: 10.244.0.10:(ポート番号) GET / HTTP/1.1 Host: 127.0.0.1:8080 User-Agent: curl/7.47.0 Accept: */* Accept-Encoding: gzip Authorization: Bearer  X-Forwarded-For: 127.0.0.1 X-Forwarded-Host: 127.0.0.1:8080 X-Forwarded-Port: 8080 X-Forwarded-Proto: http X-Forwarded-Server: traefik-(略) X-Real-Ip: 127.0.0.1 有効期限が切れたアクセストークンが渡されると期限切れのエラーになります。\n$ curl -H \"Authorization: Bearer \" http://127.0.0.1:8080 token is expired 終わりに この記事では、Minikube 上に Keycloak と Traefik、Whoami アプリをデプロイし、Traefik で Whoami アプリへのアクセスに Keycloak 発行のアクセストークンを必須とする方法を示しました。\n繰り返しになりますが、セキュリティのために本番環境では TLS の設定やその他のセキュリティ対策を講じることが必須です。\n",
-  "wordCount" : "554",
-  "inLanguage": "en",
-  "datePublished": "2024-05-30T13:37:20+09:00",
-  "dateModified": "2024-05-30T13:37:20+09:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://hirokimatsueda.github.io/post/practice-building-an-authentication-environment/"
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/blog.pokapu.jp\/",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/blog.pokapu.jp\/post\/practice-building-an-authentication-environment\/",
+          "name": "Keycloakとtraefikを使って認証環境を作る練習"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : ""
   },
-  "publisher": {
+  "headline": "Keycloakとtraefikを使って認証環境を作る練習",
+  "description" : "個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。\nちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。\n【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。\n検証した各ミドルウェアのバージョン minikube: v1.33.1 Keycloak: 24.0.4 Traefik: 2.11.2 traefik-jwt-plugin: v0.7.1 前提条件 Minikube がインストールされている kubectl がインストールされている Helm がインストールされている ステップ 1: Minikube のセットアップ まず、Minikube を起動します。\nminikube start ステップ 2: Keycloak のデプロイ Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。\napiVersion: apps\/v1 kind: Deployment metadata: name: keycloak labels: app: keycloak spec: replicas: 1 selector: matchLabels: app: keycloak template: metadata: labels: app: keycloak spec: containers: - name: keycloak image: quay.io\/keycloak\/keycloak:24.0.4 args: [\u0026#34;start-dev\u0026#34;] env: - name: KEYCLOAK_ADMIN value: admin - name: KEYCLOAK_ADMIN_PASSWORD value: admin - name: KC_PROXY value: \u0026#34;edge\u0026#34; ports: - containerPort: 8080 --- apiVersion: v1 kind: Service metadata: name: keycloak spec: ports: - port: 8080 targetPort: 8080 selector: app: keycloak 次に、Keycloak のデプロイメントとサービスを作成します。\n",
+  "inLanguage" : "en",
+  "wordCount":  554 ,
+  "datePublished" : "2024-05-30T13:37:20\u002b09:00",
+  "dateModified" : "2024-05-30T13:37:20\u002b09:00",
+  "image" : "https:\/\/blog.pokapu.jp\/",
+  "keywords" : [ "Keycloak, Traefik, アクセストークン, exp" ],
+  "mainEntityOfPage" : "https:\/\/blog.pokapu.jp\/post\/practice-building-an-authentication-environment\/",
+  "publisher" : {
     "@type": "Organization",
-    "name": "備忘録",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://hirokimatsueda.github.io/favicon.ico"
+    "name" : "https:\/\/blog.pokapu.jp\/",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/blog.pokapu.jp\/",
+        "height" :  60 ,
+        "width" :  60
     }
   }
 }
 </script>
-</head>
 
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
 
-</script>
+<meta property="og:title" content="Keycloakとtraefikを使って認証環境を作る練習" />
+<meta property="og:description" content="個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
+ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
+【要注意】 この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。
+検証した各ミドルウェアのバージョン
 
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://hirokimatsueda.github.io/" accesskey="h" title="備忘録 (Alt + H)">備忘録</a>
-            <span class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </span>
-        </div>
-        <ul id="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main">
+minikube: v1.33.1
+Keycloak: 24.0.4
+Traefik: 2.11.2
 
-<article class="post-single">
-  <header class="post-header">
+traefik-jwt-plugin: v0.7.1
+
+
+
+前提条件
+
+Minikube がインストールされている
+kubectl がインストールされている
+Helm がインストールされている
+
+ステップ 1: Minikube のセットアップ
+まず、Minikube を起動します。
+minikube start
+ステップ 2: Keycloak のデプロイ
+Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。keycloak-deployment.yamlという名前で保存してください。
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:24.0.4
+          args: [&#34;start-dev&#34;]
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: admin
+            - name: KC_PROXY
+              value: &#34;edge&#34;
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: keycloak
+次に、Keycloak のデプロイメントとサービスを作成します。">
+<meta property="og:url" content="https://blog.pokapu.jp/post/practice-building-an-authentication-environment/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="備忘録" />
+
+  <meta name="twitter:title" content="Keycloakとtraefikを使って認証環境を作る練習" />
+  <meta name="twitter:description" content="個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。
+ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。
+【要注意】 この手順に従って構成した環境は本番利用するにはセキュ …">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@matsueda_2022" />
+  <meta name="twitter:creator" content="@matsueda_2022" />
+  <meta name="generator" content="Hugo 0.140.1">
+  <link rel="alternate" href="https://blog.pokapu.jp/index.xml" type="application/rss+xml" title="備忘録"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" integrity="sha384-h/hnnw1Bi4nbpD6kE7nYfCXzovi622sY5WBxww8ARKwpdLj5kUWjRuyiXaD1U2JT" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"><link rel="stylesheet" href="https://blog.pokapu.jp/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://blog.pokapu.jp/css/syntax.css" /><link rel="stylesheet" href="https://blog.pokapu.jp/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-M6XY8HL7QN"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-M6XY8HL7QN');
+        }
+      </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://blog.pokapu.jp/">備忘録</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Privacy Policy" href="/privacy/">Privacy Policy</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
     
-    <h1 class="post-title">
-      Keycloakとtraefikを使って認証環境を作る練習
-    </h1>
-    <div class="post-meta"><span title='2024-05-30 13:37:20 +0900 JST'>May 30, 2024</span>
 
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
 </div>
-  </header> 
-  <div class="post-content"><p>個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。</p>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Keycloakとtraefikを使って認証環境を作る練習</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Posted on May 30, 2024
+  
+  
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>個人的に知識があいまいな認証回りの最小限の知見整理として、Traefik を用いて Keycloak で発行したアクセストークンが無いとアプリケーションにアクセスできないようにする最小限の設定を考えてみました。</p>
 <p>ちなみに GPT-4o にフォローしてもらって大枠を整理し、動作に不具合が起きた部分を再度調べて…という流れで進めました。</p>
 <p><strong>【要注意】</strong> この手順に従って構成した環境は本番利用するにはセキュリティ面で問題があるので、あくまで Keycloak や Traefik の設定ポイントの参考としてください。</p>
-<h2 id="検証した各ミドルウェアのバージョン">検証した各ミドルウェアのバージョン<a hidden class="anchor" aria-hidden="true" href="#検証した各ミドルウェアのバージョン">#</a></h2>
+<h2 id="検証した各ミドルウェアのバージョン">検証した各ミドルウェアのバージョン</h2>
 <ul>
 <li>minikube: v1.33.1</li>
 <li>Keycloak: 24.0.4</li>
@@ -213,16 +401,16 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </ul>
 </li>
 </ul>
-<h2 id="前提条件">前提条件<a hidden class="anchor" aria-hidden="true" href="#前提条件">#</a></h2>
+<h2 id="前提条件">前提条件</h2>
 <ol>
 <li><strong>Minikube</strong> がインストールされている</li>
 <li><strong>kubectl</strong> がインストールされている</li>
 <li><strong>Helm</strong> がインストールされている</li>
 </ol>
-<h2 id="ステップ-1-minikube-のセットアップ">ステップ 1: Minikube のセットアップ<a hidden class="anchor" aria-hidden="true" href="#ステップ-1-minikube-のセットアップ">#</a></h2>
+<h2 id="ステップ-1-minikube-のセットアップ">ステップ 1: Minikube のセットアップ</h2>
 <p>まず、Minikube を起動します。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube start
-</span></span></code></pre></div><h2 id="ステップ-2-keycloak-のデプロイ">ステップ 2: Keycloak のデプロイ<a hidden class="anchor" aria-hidden="true" href="#ステップ-2-keycloak-のデプロイ">#</a></h2>
+</span></span></code></pre></div><h2 id="ステップ-2-keycloak-のデプロイ">ステップ 2: Keycloak のデプロイ</h2>
 <p>Keycloak を最低限の構成でデプロイするために、以下の Kubernetes マニフェストファイルを作成します。<code>keycloak-deployment.yaml</code>という名前で保存してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
@@ -269,7 +457,7 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </span></span></code></pre></div><p>これで、管理者ユーザー名が admin、パスワードが admin で構成された Keycloak の環境が立ち上がりました。</p>
 <p>Keycloak には CLUSTER-IP 経由で接続できました。CLUSTER-IP の取得には <code>kubectl get svc keycloak</code> を使用します。</p>
 <p>得られた CLUSTER-IP の値はメモして把握しておきます。</p>
-<h2 id="ステップ-3-traefik-のデプロイ">ステップ 3: Traefik のデプロイ<a hidden class="anchor" aria-hidden="true" href="#ステップ-3-traefik-のデプロイ">#</a></h2>
+<h2 id="ステップ-3-traefik-のデプロイ">ステップ 3: Traefik のデプロイ</h2>
 <p>Helm を使用して traefik-jwt-plugin を使用できる Traefik v2.11 をインストールしていきます。</p>
 <p>まずは下記で Helm のリポジトリの準備をします。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add traefik https://helm.traefik.io/traefik
@@ -295,7 +483,7 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v0.7.1</span>
 </span></span></code></pre></div><p>次に、バージョン 27.0.2 のチャートを使用することで Traefik v2.11 をインストールします。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install traefik traefik/traefik --version 27.0.2 -f traefik-values.yaml
-</span></span></code></pre></div><h2 id="ステップ-4-whoami-アプリのデプロイ">ステップ 4: Whoami アプリのデプロイ<a hidden class="anchor" aria-hidden="true" href="#ステップ-4-whoami-アプリのデプロイ">#</a></h2>
+</span></span></code></pre></div><h2 id="ステップ-4-whoami-アプリのデプロイ">ステップ 4: Whoami アプリのデプロイ</h2>
 <p>アクセストークンが無いと使用できないアプリケーションのサンプルとして、Whoami アプリを利用します。</p>
 <p>Whoami アプリをデプロイするために、以下の Kubernetes マニフェストファイルを作成します。<code>whoami-deployment.yaml</code>という名前で保存してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
@@ -333,7 +521,7 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">whoami</span>
 </span></span></code></pre></div><p>次に、Whoami アプリのデプロイメントとサービスを作成します。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f whoami-deployment.yaml
-</span></span></code></pre></div><h2 id="ステップ-5-traefik-の-ingress-と-middleware-の設定">ステップ 5: Traefik の Ingress と Middleware の設定<a hidden class="anchor" aria-hidden="true" href="#ステップ-5-traefik-の-ingress-と-middleware-の設定">#</a></h2>
+</span></span></code></pre></div><h2 id="ステップ-5-traefik-の-ingress-と-middleware-の設定">ステップ 5: Traefik の Ingress と Middleware の設定</h2>
 <p>Keycloak から発行されたトークンを検証するための Middleware と Whoami アプリへの Ingress を設定します。<code>traefik-config.yaml</code>という名前で以下の内容を保存してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">traefik.containo.us/v1alpha1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Middleware</span>
@@ -368,11 +556,11 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </span></span><span style="display:flex;"><span>                  <span style="color:#f92672">number</span>: <span style="color:#ae81ff">80</span>
 </span></span></code></pre></div><p>次に、この設定を適用します。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f traefik-config.yaml
-</span></span></code></pre></div><h2 id="ステップ-6-keycloak-の設定">ステップ 6: Keycloak の設定<a hidden class="anchor" aria-hidden="true" href="#ステップ-6-keycloak-の設定">#</a></h2>
+</span></span></code></pre></div><h2 id="ステップ-6-keycloak-の設定">ステップ 6: Keycloak の設定</h2>
 <p>ブラウザで Keycloak の管理コンソールにアクセスします。URL は次の通りです。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>http://&lt;Keycloak の CLUSTER-IP の値&gt;:8080
 </span></span></code></pre></div><p>ここで、デフォルトの管理者アカウント（ユーザー名: <code>admin</code>, パスワード: <code>admin</code>）を使用してログインします。</p>
-<h3 id="レルムとクライアントの作成">レルムとクライアントの作成<a hidden class="anchor" aria-hidden="true" href="#レルムとクライアントの作成">#</a></h3>
+<h3 id="レルムとクライアントの作成">レルムとクライアントの作成</h3>
 <p>※ Keycloak はデータの永続化をしていないので、ここからの作業は minikube を落とさないように進めましょう…</p>
 <ol>
 <li>新しいレルムを作成します（<code>myrealm</code>）。</li>
@@ -397,7 +585,7 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </ul>
 </li>
 </ol>
-<h3 id="ユーザーの作成">ユーザーの作成<a hidden class="anchor" aria-hidden="true" href="#ユーザーの作成">#</a></h3>
+<h3 id="ユーザーの作成">ユーザーの作成</h3>
 <ol>
 <li>myrealm にユーザーを追加します。
 <ul>
@@ -406,15 +594,15 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </ul>
 </li>
 </ol>
-<h3 id="クライアントシークレットの把握">クライアントシークレットの把握<a hidden class="anchor" aria-hidden="true" href="#クライアントシークレットの把握">#</a></h3>
+<h3 id="クライアントシークレットの把握">クライアントシークレットの把握</h3>
 <ol>
 <li>whoami-client クライアントの設定画面を開き、Credentials タブで、Client Secret の値をコピーします。</li>
 </ol>
-<h2 id="動作確認">動作確認<a hidden class="anchor" aria-hidden="true" href="#動作確認">#</a></h2>
-<h3 id="動作確認の準備">動作確認の準備<a hidden class="anchor" aria-hidden="true" href="#動作確認の準備">#</a></h3>
+<h2 id="動作確認">動作確認</h2>
+<h3 id="動作確認の準備">動作確認の準備</h3>
 <p>Traefik のアプリへのアクセスは、ポートフォワーディングで動作しました（その想定で上記を設定しています）。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl port-forward deployment/traefik 8080:80
-</span></span></code></pre></div><h3 id="アクセストークンの取得">アクセストークンの取得<a hidden class="anchor" aria-hidden="true" href="#アクセストークンの取得">#</a></h3>
+</span></span></code></pre></div><h3 id="アクセストークンの取得">アクセストークンの取得</h3>
 <p>認可コードフローで取得してみます。</p>
 <p>まずはブラウザ(シークレットウィンドウを利用)で下記にアクセスします。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>http://&lt;Keycloak の CLUSTER-IP&gt;:8080/realms/myrealm/protocol/openid-connect/auth?response_type=code&amp;client_id=whoami-client&amp;redirect_uri=http://127.0.0.1:8080&amp;scope=openid
@@ -434,7 +622,7 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -d <span style="color:#e6db74">&#34;client_id=whoami-client&#34;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -d <span style="color:#e6db74">&#34;client_secret=&lt;whoami-clientのクライアントシークレット&gt;&#34;</span> | jq .
 </span></span></code></pre></div><p>成功すると、Open ID Connect のトークンが得られ、<code>access_token</code> の値がアクセストークンになります。</p>
-<h3 id="アプリへのアクセス">アプリへのアクセス<a hidden class="anchor" aria-hidden="true" href="#アプリへのアクセス">#</a></h3>
+<h3 id="アプリへのアクセス">アプリへのアクセス</h3>
 <p>アクセストークンが無いとエラーになります。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl http://127.0.0.1:8080
 </span></span><span style="display:flex;"><span>authorization header missing
@@ -461,91 +649,130 @@ apiVersion: apps/v1 kind: Deployment metadata:  name: keycloak  labels:  app: ke
 </span></span></code></pre></div><p>有効期限が切れたアクセストークンが渡されると期限切れのエラーになります。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl -H <span style="color:#e6db74">&#34;Authorization: Bearer &lt;期限切れのアクセストークン&gt;&#34;</span> http://127.0.0.1:8080
 </span></span><span style="display:flex;"><span>token is expired
-</span></span></code></pre></div><h2 id="終わりに">終わりに<a hidden class="anchor" aria-hidden="true" href="#終わりに">#</a></h2>
+</span></span></code></pre></div><h2 id="終わりに">終わりに</h2>
 <p>この記事では、Minikube 上に Keycloak と Traefik、Whoami アプリをデプロイし、Traefik で Whoami アプリへのアクセスに Keycloak 発行のアクセストークンを必須とする方法を示しました。</p>
 <p>繰り返しになりますが、セキュリティのために本番環境では TLS の設定やその他のセキュリティ対策を講じることが必須です。</p>
 
 
+        
+          <div class="blog-tags">
+            
+              
+              <a href="https://blog.pokapu.jp/tags/keycloak/">Keycloak</a>&nbsp;
+            
+              
+              <a href="https://blog.pokapu.jp/tags/traefik/">Traefik</a>&nbsp;
+            
+              
+              <a href="https://blog.pokapu.jp/tags/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">アクセストークン</a>&nbsp;
+            
+              
+              <a href="https://blog.pokapu.jp/tags/exp/">exp</a>&nbsp;
+            
+          </div>
+        
+
+        
+
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://blog.pokapu.jp/post/difference-between-azure-disk-and-amazon-ebs-as-i-interpreted-it/" data-toggle="tooltip" data-placement="top" title="Azure Managed DiskとAmazon EBSの性能差">&larr; Previous Post</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+
+    </div>
   </div>
+</div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://hirokimatsueda.github.io/tags/keycloak/">Keycloak</a></li>
-      <li><a href="https://hirokimatsueda.github.io/tags/traefik/">Traefik</a></li>
-      <li><a href="https://hirokimatsueda.github.io/tags/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">アクセストークン</a></li>
-      <li><a href="https://hirokimatsueda.github.io/tags/exp/">exp</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
+      <footer>
+  <div class="container">
     
-<footer class="footer">
-    <span>Copyright © 2022 Hiroki Matsueda</span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-    <span>
-        <a href="/privacy/" rel="noopener" target="_blank">プライバシーポリシー</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="https://github.com/hirokimatsueda" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://twitter.com/matsueda_2022" title="Twitter">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-x-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/hiroki-matsueda-3867a32b2" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function() {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2024
+          
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function(e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function() {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-</script></body>
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://blog.pokapu.jp/">備忘録</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.140.1</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha384-w5y/xIeYixWvfM+A1cEbmHPURnvyqmVg5eVENruEdDjcyRLUSNej7512JQGspFUr" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
+<script src="https://blog.pokapu.jp/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://blog.pokapu.jp/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+
+    
+  </body>
 </html>
+

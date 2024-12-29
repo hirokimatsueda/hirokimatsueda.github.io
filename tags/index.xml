@@ -1,588 +1,461 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 備忘録</title>
-    <link>https://hirokimatsueda.github.io/tags/</link>
+    <link>https://blog.pokapu.jp/tags/</link>
     <description>Recent content in Tags on 備忘録</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ja-jp</language>
     <copyright>Copyright © 2022 Hiroki Matsueda</copyright>
-    <lastBuildDate>Thu, 30 May 2024 13:37:20 +0900</lastBuildDate><atom:link href="https://hirokimatsueda.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 May 2024 13:37:20 +0900</lastBuildDate>
+    <atom:link href="https://blog.pokapu.jp/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>exp</title>
-      <link>https://hirokimatsueda.github.io/tags/exp/</link>
+      <title>Exp</title>
+      <link>https://blog.pokapu.jp/tags/exp/</link>
       <pubDate>Thu, 30 May 2024 13:37:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/exp/</guid>
+      <guid>https://blog.pokapu.jp/tags/exp/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Keycloak</title>
-      <link>https://hirokimatsueda.github.io/tags/keycloak/</link>
+      <link>https://blog.pokapu.jp/tags/keycloak/</link>
       <pubDate>Thu, 30 May 2024 13:37:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/keycloak/</guid>
+      <guid>https://blog.pokapu.jp/tags/keycloak/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Traefik</title>
-      <link>https://hirokimatsueda.github.io/tags/traefik/</link>
+      <link>https://blog.pokapu.jp/tags/traefik/</link>
       <pubDate>Thu, 30 May 2024 13:37:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/traefik/</guid>
+      <guid>https://blog.pokapu.jp/tags/traefik/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>アクセストークン</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/</link>
       <pubDate>Thu, 30 May 2024 13:37:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Amazon Elastic Kubernetes Service</title>
-      <link>https://hirokimatsueda.github.io/tags/amazon-elastic-kubernetes-service/</link>
+      <link>https://blog.pokapu.jp/tags/amazon-elastic-kubernetes-service/</link>
       <pubDate>Sat, 23 Mar 2024 15:02:22 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/amazon-elastic-kubernetes-service/</guid>
+      <guid>https://blog.pokapu.jp/tags/amazon-elastic-kubernetes-service/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>EBS</title>
-      <link>https://hirokimatsueda.github.io/tags/ebs/</link>
+      <link>https://blog.pokapu.jp/tags/ebs/</link>
       <pubDate>Sat, 23 Mar 2024 15:02:22 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/ebs/</guid>
+      <guid>https://blog.pokapu.jp/tags/ebs/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>EKS</title>
-      <link>https://hirokimatsueda.github.io/tags/eks/</link>
+      <link>https://blog.pokapu.jp/tags/eks/</link>
       <pubDate>Sat, 23 Mar 2024 15:02:22 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/eks/</guid>
+      <guid>https://blog.pokapu.jp/tags/eks/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ノードグループ</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%89%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%83%8E%E3%83%BC%E3%83%89%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97/</link>
       <pubDate>Sat, 23 Mar 2024 15:02:22 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%89%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%83%8E%E3%83%BC%E3%83%89%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Application Insights</title>
-      <link>https://hirokimatsueda.github.io/tags/application-insights/</link>
+      <link>https://blog.pokapu.jp/tags/application-insights/</link>
       <pubDate>Sat, 19 Aug 2023 09:27:34 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/application-insights/</guid>
+      <guid>https://blog.pokapu.jp/tags/application-insights/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>HTTP監視</title>
-      <link>https://hirokimatsueda.github.io/tags/http%E7%9B%A3%E8%A6%96/</link>
+      <link>https://blog.pokapu.jp/tags/http%E7%9B%A3%E8%A6%96/</link>
       <pubDate>Sat, 19 Aug 2023 09:27:34 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/http%E7%9B%A3%E8%A6%96/</guid>
+      <guid>https://blog.pokapu.jp/tags/http%E7%9B%A3%E8%A6%96/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>監視</title>
-      <link>https://hirokimatsueda.github.io/tags/%E7%9B%A3%E8%A6%96/</link>
+      <link>https://blog.pokapu.jp/tags/%E7%9B%A3%E8%A6%96/</link>
       <pubDate>Sat, 19 Aug 2023 09:27:34 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E7%9B%A3%E8%A6%96/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E7%9B%A3%E8%A6%96/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Blob</title>
-      <link>https://hirokimatsueda.github.io/tags/blob/</link>
+      <link>https://blog.pokapu.jp/tags/blob/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/blob/</guid>
+      <guid>https://blog.pokapu.jp/tags/blob/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>File Share</title>
-      <link>https://hirokimatsueda.github.io/tags/file-share/</link>
+      <link>https://blog.pokapu.jp/tags/file-share/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/file-share/</guid>
+      <guid>https://blog.pokapu.jp/tags/file-share/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Premium</title>
-      <link>https://hirokimatsueda.github.io/tags/premium/</link>
+      <link>https://blog.pokapu.jp/tags/premium/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/premium/</guid>
+      <guid>https://blog.pokapu.jp/tags/premium/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Storage Account</title>
-      <link>https://hirokimatsueda.github.io/tags/storage-account/</link>
+      <link>https://blog.pokapu.jp/tags/storage-account/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/storage-account/</guid>
+      <guid>https://blog.pokapu.jp/tags/storage-account/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ストレージアカウント</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%82%B9%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B8%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ファイル共有</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</link>
       <pubDate>Fri, 28 Jul 2023 09:31:03 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%85%B1%E6%9C%89/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>AKS</title>
-      <link>https://hirokimatsueda.github.io/tags/aks/</link>
+      <link>https://blog.pokapu.jp/tags/aks/</link>
       <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/aks/</guid>
+      <guid>https://blog.pokapu.jp/tags/aks/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Azure Kubernetes Services</title>
-      <link>https://hirokimatsueda.github.io/tags/azure-kubernetes-services/</link>
+      <link>https://blog.pokapu.jp/tags/azure-kubernetes-services/</link>
       <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/azure-kubernetes-services/</guid>
+      <guid>https://blog.pokapu.jp/tags/azure-kubernetes-services/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Flux</title>
-      <link>https://hirokimatsueda.github.io/tags/flux/</link>
+      <link>https://blog.pokapu.jp/tags/flux/</link>
       <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/flux/</guid>
+      <guid>https://blog.pokapu.jp/tags/flux/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>GitOps</title>
-      <link>https://hirokimatsueda.github.io/tags/gitops/</link>
+      <link>https://blog.pokapu.jp/tags/gitops/</link>
       <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/gitops/</guid>
+      <guid>https://blog.pokapu.jp/tags/gitops/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Terraform</title>
-      <link>https://hirokimatsueda.github.io/tags/terraform/</link>
+      <link>https://blog.pokapu.jp/tags/terraform/</link>
       <pubDate>Thu, 06 Jul 2023 09:36:15 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/terraform/</guid>
+      <guid>https://blog.pokapu.jp/tags/terraform/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ChatGPT</title>
-      <link>https://hirokimatsueda.github.io/tags/chatgpt/</link>
+      <link>https://blog.pokapu.jp/tags/chatgpt/</link>
       <pubDate>Sat, 13 May 2023 13:29:27 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/chatgpt/</guid>
+      <guid>https://blog.pokapu.jp/tags/chatgpt/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>kubectl wait</title>
-      <link>https://hirokimatsueda.github.io/tags/kubectl-wait/</link>
+      <title>Kubectl Wait</title>
+      <link>https://blog.pokapu.jp/tags/kubectl-wait/</link>
       <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/kubectl-wait/</guid>
+      <guid>https://blog.pokapu.jp/tags/kubectl-wait/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>待機</title>
-      <link>https://hirokimatsueda.github.io/tags/%E5%BE%85%E6%A9%9F/</link>
+      <link>https://blog.pokapu.jp/tags/%E5%BE%85%E6%A9%9F/</link>
       <pubDate>Wed, 18 Jan 2023 20:55:17 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E5%BE%85%E6%A9%9F/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E5%BE%85%E6%A9%9F/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>C#</title>
-      <link>https://hirokimatsueda.github.io/tags/c#/</link>
+      <link>https://blog.pokapu.jp/tags/c%23/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/c#/</guid>
+      <guid>https://blog.pokapu.jp/tags/c%23/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Cosmos DB</title>
-      <link>https://hirokimatsueda.github.io/tags/cosmos-db/</link>
+      <link>https://blog.pokapu.jp/tags/cosmos-db/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/cosmos-db/</guid>
+      <guid>https://blog.pokapu.jp/tags/cosmos-db/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Function App</title>
-      <link>https://hirokimatsueda.github.io/tags/function-app/</link>
+      <link>https://blog.pokapu.jp/tags/function-app/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/function-app/</guid>
+      <guid>https://blog.pokapu.jp/tags/function-app/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Functions</title>
-      <link>https://hirokimatsueda.github.io/tags/functions/</link>
+      <link>https://blog.pokapu.jp/tags/functions/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/functions/</guid>
+      <guid>https://blog.pokapu.jp/tags/functions/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>Managed Id</title>
-      <link>https://hirokimatsueda.github.io/tags/managed-id/</link>
+      <title>Managed ID</title>
+      <link>https://blog.pokapu.jp/tags/managed-id/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/managed-id/</guid>
+      <guid>https://blog.pokapu.jp/tags/managed-id/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>マネージドID</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</link>
       <pubDate>Fri, 02 Dec 2022 10:00:00 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89id/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>使用言語</title>
-      <link>https://hirokimatsueda.github.io/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</link>
+      <link>https://blog.pokapu.jp/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</link>
       <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E4%BD%BF%E7%94%A8%E8%A8%80%E8%AA%9E/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>自己紹介</title>
-      <link>https://hirokimatsueda.github.io/tags/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B/</link>
+      <link>https://blog.pokapu.jp/tags/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B/</link>
       <pubDate>Mon, 05 Sep 2022 21:01:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E8%87%AA%E5%B7%B1%E7%B4%B9%E4%BB%8B/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>パソコン</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/</link>
       <pubDate>Tue, 21 Jun 2022 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>API</title>
-      <link>https://hirokimatsueda.github.io/tags/api/</link>
+      <link>https://blog.pokapu.jp/tags/api/</link>
       <pubDate>Tue, 12 Apr 2022 11:34:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/api/</guid>
+      <guid>https://blog.pokapu.jp/tags/api/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Static Web Apps</title>
-      <link>https://hirokimatsueda.github.io/tags/static-web-apps/</link>
+      <link>https://blog.pokapu.jp/tags/static-web-apps/</link>
       <pubDate>Tue, 12 Apr 2022 11:34:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/static-web-apps/</guid>
+      <guid>https://blog.pokapu.jp/tags/static-web-apps/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>静的Webサイト</title>
-      <link>https://hirokimatsueda.github.io/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/</link>
+      <link>https://blog.pokapu.jp/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/</link>
       <pubDate>Tue, 12 Apr 2022 11:34:24 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E9%9D%99%E7%9A%84web%E3%82%B5%E3%82%A4%E3%83%88/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>GitHub</title>
-      <link>https://hirokimatsueda.github.io/tags/github/</link>
+      <link>https://blog.pokapu.jp/tags/github/</link>
       <pubDate>Tue, 22 Mar 2022 14:41:42 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/github/</guid>
+      <guid>https://blog.pokapu.jp/tags/github/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>autoscale</title>
-      <link>https://hirokimatsueda.github.io/tags/autoscale/</link>
+      <title>Autoscale</title>
+      <link>https://blog.pokapu.jp/tags/autoscale/</link>
       <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/autoscale/</guid>
+      <guid>https://blog.pokapu.jp/tags/autoscale/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>OpenShift</title>
-      <link>https://hirokimatsueda.github.io/tags/openshift/</link>
+      <link>https://blog.pokapu.jp/tags/openshift/</link>
       <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/openshift/</guid>
+      <guid>https://blog.pokapu.jp/tags/openshift/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>オートスケール</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/</link>
       <pubDate>Tue, 28 Dec 2021 08:26:09 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%82%AA%E3%83%BC%E3%83%88%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%AB/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Runbook</title>
-      <link>https://hirokimatsueda.github.io/tags/runbook/</link>
+      <link>https://blog.pokapu.jp/tags/runbook/</link>
       <pubDate>Sun, 12 Dec 2021 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/runbook/</guid>
+      <guid>https://blog.pokapu.jp/tags/runbook/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>drain</title>
-      <link>https://hirokimatsueda.github.io/tags/drain/</link>
+      <title>Drain</title>
+      <link>https://blog.pokapu.jp/tags/drain/</link>
       <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/drain/</guid>
+      <guid>https://blog.pokapu.jp/tags/drain/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Kubernetes</title>
-      <link>https://hirokimatsueda.github.io/tags/kubernetes/</link>
+      <link>https://blog.pokapu.jp/tags/kubernetes/</link>
       <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/kubernetes/</guid>
+      <guid>https://blog.pokapu.jp/tags/kubernetes/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>taint</title>
-      <link>https://hirokimatsueda.github.io/tags/taint/</link>
+      <title>Taint</title>
+      <link>https://blog.pokapu.jp/tags/taint/</link>
       <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/taint/</guid>
+      <guid>https://blog.pokapu.jp/tags/taint/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>toleration</title>
-      <link>https://hirokimatsueda.github.io/tags/toleration/</link>
+      <title>Toleration</title>
+      <link>https://blog.pokapu.jp/tags/toleration/</link>
       <pubDate>Fri, 15 Oct 2021 08:35:01 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/toleration/</guid>
+      <guid>https://blog.pokapu.jp/tags/toleration/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>CDN</title>
-      <link>https://hirokimatsueda.github.io/tags/cdn/</link>
+      <link>https://blog.pokapu.jp/tags/cdn/</link>
       <pubDate>Tue, 06 Apr 2021 22:04:57 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/cdn/</guid>
+      <guid>https://blog.pokapu.jp/tags/cdn/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>quota</title>
-      <link>https://hirokimatsueda.github.io/tags/quota/</link>
+      <title>Quota</title>
+      <link>https://blog.pokapu.jp/tags/quota/</link>
       <pubDate>Tue, 06 Apr 2021 22:04:57 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/quota/</guid>
+      <guid>https://blog.pokapu.jp/tags/quota/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>クォータ</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF/</link>
       <pubDate>Tue, 06 Apr 2021 22:04:57 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>クォータ制限</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E5%88%B6%E9%99%90/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E5%88%B6%E9%99%90/</link>
       <pubDate>Tue, 06 Apr 2021 22:04:57 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E5%88%B6%E9%99%90/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E5%88%B6%E9%99%90/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>go</title>
-      <link>https://hirokimatsueda.github.io/tags/go/</link>
+      <title>Go</title>
+      <link>https://blog.pokapu.jp/tags/go/</link>
       <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/go/</guid>
+      <guid>https://blog.pokapu.jp/tags/go/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>golang</title>
-      <link>https://hirokimatsueda.github.io/tags/golang/</link>
+      <title>Golang</title>
+      <link>https://blog.pokapu.jp/tags/golang/</link>
       <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/golang/</guid>
+      <guid>https://blog.pokapu.jp/tags/golang/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>go言語</title>
-      <link>https://hirokimatsueda.github.io/tags/go%E8%A8%80%E8%AA%9E/</link>
+      <title>Go言語</title>
+      <link>https://blog.pokapu.jp/tags/go%E8%A8%80%E8%AA%9E/</link>
       <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/go%E8%A8%80%E8%AA%9E/</guid>
+      <guid>https://blog.pokapu.jp/tags/go%E8%A8%80%E8%AA%9E/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>json</title>
-      <link>https://hirokimatsueda.github.io/tags/json/</link>
+      <title>Json</title>
+      <link>https://blog.pokapu.jp/tags/json/</link>
       <pubDate>Fri, 10 Jul 2020 08:40:25 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/json/</guid>
+      <guid>https://blog.pokapu.jp/tags/json/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Windowsコンテナ</title>
-      <link>https://hirokimatsueda.github.io/tags/windows%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/</link>
+      <link>https://blog.pokapu.jp/tags/windows%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/</link>
       <pubDate>Wed, 08 Apr 2020 21:07:42 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/windows%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/</guid>
+      <guid>https://blog.pokapu.jp/tags/windows%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Docker</title>
-      <link>https://hirokimatsueda.github.io/tags/docker/</link>
+      <link>https://blog.pokapu.jp/tags/docker/</link>
       <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/docker/</guid>
+      <guid>https://blog.pokapu.jp/tags/docker/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Dockerfile</title>
-      <link>https://hirokimatsueda.github.io/tags/dockerfile/</link>
+      <link>https://blog.pokapu.jp/tags/dockerfile/</link>
       <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/dockerfile/</guid>
+      <guid>https://blog.pokapu.jp/tags/dockerfile/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ENTRYPOINT</title>
-      <link>https://hirokimatsueda.github.io/tags/entrypoint/</link>
+      <link>https://blog.pokapu.jp/tags/entrypoint/</link>
       <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/entrypoint/</guid>
+      <guid>https://blog.pokapu.jp/tags/entrypoint/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>IIS</title>
-      <link>https://hirokimatsueda.github.io/tags/iis/</link>
+      <link>https://blog.pokapu.jp/tags/iis/</link>
       <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/iis/</guid>
+      <guid>https://blog.pokapu.jp/tags/iis/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ServiceMonitor</title>
-      <link>https://hirokimatsueda.github.io/tags/servicemonitor/</link>
+      <link>https://blog.pokapu.jp/tags/servicemonitor/</link>
       <pubDate>Mon, 03 Feb 2020 21:29:12 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/servicemonitor/</guid>
+      <guid>https://blog.pokapu.jp/tags/servicemonitor/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>bck-i-search</title>
-      <link>https://hirokimatsueda.github.io/tags/bck-i-search/</link>
+      <title>Bck-I-Search</title>
+      <link>https://blog.pokapu.jp/tags/bck-i-search/</link>
       <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/bck-i-search/</guid>
+      <guid>https://blog.pokapu.jp/tags/bck-i-search/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>reverse-i-search</title>
-      <link>https://hirokimatsueda.github.io/tags/reverse-i-search/</link>
+      <title>Reverse-I-Search</title>
+      <link>https://blog.pokapu.jp/tags/reverse-i-search/</link>
       <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/reverse-i-search/</guid>
+      <guid>https://blog.pokapu.jp/tags/reverse-i-search/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Slack</title>
-      <link>https://hirokimatsueda.github.io/tags/slack/</link>
+      <link>https://blog.pokapu.jp/tags/slack/</link>
       <pubDate>Tue, 03 Dec 2019 08:22:49 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/slack/</guid>
+      <guid>https://blog.pokapu.jp/tags/slack/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>プログラミング</title>
-      <link>https://hirokimatsueda.github.io/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</link>
+      <link>https://blog.pokapu.jp/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</link>
       <pubDate>Fri, 21 Jun 2019 12:06:20 +0900</pubDate>
-      
-      <guid>https://hirokimatsueda.github.io/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</guid>
+      <guid>https://blog.pokapu.jp/tags/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>
